@@ -1,0 +1,64 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    padding-top: 30px;
+    width: 500px;
+    margin: auto;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.header {
+    margin-bottom: 20px;
+}
+.brandheader {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+.brandlogo {
+    margin-right: 10px;
+}
+.logoName {
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: black;
+}
+.form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.logo {
+    width: 40px;
+    border-radius: 30px;
+    margin-left: 5px;
+}
+.valueEmail {
+    text-align: right;
+}
+
+.button {
+    height: 30px;
+    margin-top: 14px;
+    box-shadow:inset 0px 1px 0px 0px #fce2c1;
+    background: #ffc477 linear-gradient(to bottom, #ffc477 5%, #fb9e25 100%);
+    border-radius:3px;
+    border:1px solid #eeb44f;
+    cursor:pointer;
+    text-shadow:0 1px 0 #cc9f52;
+}
+.button:hover {
+    background: #fb9e25 linear-gradient(to bottom, #fb9e25 5%, #ffc477 100%);
+}
+.button:active {
+    position:relative;
+    top:1px;
+}
