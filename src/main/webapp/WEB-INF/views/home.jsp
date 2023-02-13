@@ -1,14 +1,55 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!doctype html>
-<html lang="ko">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+    <link href="css/App.css" rel="stylesheet" type="text/css">
+    <link href="css/tape.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-테스트
+<div class="App">
+    <div class="Appbar">
+        <div class="right">
+            <div class="brandName">
+                <a href="/" class="link"><img class="brandlogo" src="/img/logo.png" alt="로고"/><span class="logoName">북 허브</span></a>
+            </div>
+            <div class="menuName">북 허브</div>
+            <div class="menuName">요금제</div>
+        </div>
+        <div class="left">
+            <div class="menuName">문의하기</div>
+            <div class="menuName">
+                <span class="menu"><a class="link" href="/signin">로그인</a></span>
+            </div>
+            <button class="button">
+                <a class="link" href="/docs">무료체험</a>
+            </button>
+        </div>
+    </div>
+    <div class="main">
+        <div class="ExploreSite">
+            <h1>번거로운 교정, 교열작업은 그만, 북허브와 함께하세요.</h1>
+            <div class="paperboard">
+                <p>글이 머무는 곳에 생기를 불어넣는 당신에게, 북허브는 최고의 서비스를 제공하겠습니다.</p>
+                <a href="/signin" class="link">
+                    <div class="paper blue">
+                        <div class="top-tape"></div>
+                        북허브 사용하기
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="imageContainer">
+            <img class="image" src="/img/image.png"/>
+        </div>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </body>
 </html>
