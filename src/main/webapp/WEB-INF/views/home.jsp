@@ -20,7 +20,8 @@
             <div class="menuName">요금제</div>
         </div>
         <div class="left">
-            <div class="menuName">문의하기</div>
+            <div class="menuName">
+                <span class="menu"><a class="link" href="/guest/qna">문의하기</a></span></div>
             <div class="menuName">
                 <span class="menu"><a class="link" href="/signin">로그인</a></span>
             </div>
@@ -34,12 +35,7 @@
             <h1>번거로운 교정, 교열작업은 그만, 북허브와 함께하세요.</h1>
             <div class="paperboard">
                 <p>글이 머무는 곳에 생기를 불어넣는 당신에게, 북허브는 최고의 서비스를 제공하겠습니다.</p>
-                <a href="/signin" class="link">
-                    <div class="paper blue">
-                        <div class="top-tape"></div>
-                        북허브 사용하기
-                    </div>
-                </a>
+                <button class="button2"><a class="link" href="/signin">시작하기</a></button>
             </div>
         </div>
         <div class="imageContainer">
