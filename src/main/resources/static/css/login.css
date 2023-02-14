@@ -2,10 +2,7 @@
     display: flex;
     flex-direction: column;
     text-align: left;
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-bottom: 50px;
-    padding-top: 30px;
+    padding: 30px 50px 20px;
     width: 500px;
     margin: auto;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -16,9 +13,7 @@
 .brandheader {
     display: flex;
     flex-direction: row;
-    margin: auto;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 15px auto;
     padding: 5px;
 }
 .brandlogo {
@@ -61,4 +56,22 @@
 .button:active {
     position:relative;
     top:1px;
+}
+
+.returnIcon {
+    text-align: right;
+}
+.returnText {
+    margin-bottom: 5px;
+}
+.Icon {
+    margin-top: 5px;
+}
+.verify {
+    width: 157px;
+}
+
+input:hover {
+    border: 1px solid black;
+    transition: border 2s ease-out 100ms;
 }

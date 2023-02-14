@@ -17,8 +17,9 @@
     font-style: normal;
 }
 .App{
-    font-family: 'MapoFlowerIsland';
+    font-family: 'MapoFlowerIsland', serif;
     width: 1440px;
+    height: auto;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -26,4 +27,8 @@
 .link {
     text-decoration: none;
     color: black;
+}
+input[type]:hover {
+    border: 1px solid black;
+    transition: border 2s ease-out 100ms;
 }
