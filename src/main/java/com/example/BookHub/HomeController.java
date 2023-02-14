@@ -16,6 +16,7 @@ public class HomeController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
+
     public String Home(Model model) {
 
         UserDTO userDTO = (UserDTO)  httpSession.getAttribute(SessionConst.LOGIN_USER);
@@ -27,6 +28,23 @@ public class HomeController {
         return "home";
     }
 
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/signin")
+    public String signIn() {return "signin";}
+
     @GetMapping("/signup")
-    public String Register() {return "signup";}
+    public String signUp() {return "signup";}
+
+    @GetMapping("/guest/qna")
+    public String QnA() {
+        return "/qna";
+    }
+
+    @GetMapping("/docs")
+    public String myPage() {
+        return "docs";
+    }
 }
