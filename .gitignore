@@ -7,7 +7,7 @@
 
 # properties
 application-oauth.properties
-
+application-oauth.yml
 # User-specific stuff
 .jar
 gradle/wrapper/**
