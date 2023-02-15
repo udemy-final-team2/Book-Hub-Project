@@ -4,17 +4,17 @@
 
 <mapper namespace="com.example.BookHub.User.UserRepository">
 
+    <!--소셜 로그인 유저 데이터 저장-->
     <insert id="insertUserBySocial" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO users (name, email, role, socialname)
-        VALUES (#{name}, #{email}, #{role}, #{socialname})
+        INSERT INTO user (name, email, role, social_name)
+        VALUES (#{name}, #{email}, #{role}, #{socialName})
     </insert>
 
-
-    <select id="findUserByEmailAndSocialname" resultType="userdto">
+    <!--소셜 로그인 유저 데이터 저장-->
+    <select id="findUserByEmailAndSocialName" resultType="userdto">
         SELECT *
-        FROM users
-        WHERE email = #{email} AND socialname=#{socialname}
+        FROM user
+        WHERE email = #{email} AND social_name=#{socialName}
     </select>
-
 
 </mapper>

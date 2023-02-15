@@ -17,26 +17,26 @@ public class OAuthAttributes {
     @Builder
     public OAuthAttributes(Map<String, Object> attributes,
                            String nameAttributeKey,
-                           String name, String email){
+                           String name, String email) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
     }
 
-    public static OAuthAttributes of(String socialname, String userNameAttributeName,
-                                     Map<String, Object> attributes){
+    public static OAuthAttributes of(String socialName, String userNameAttributeName,
+                                     Map<String, Object> attributes) {
 
-        if("naver".equals(socialname)){
+        if ("naver".equals(socialName)) {
             return ofNaver("id", attributes);
         }
-        if("kakao".equals(socialname))
+        if ("kakao".equals(socialName))
             return ofKakao("id", attributes);
         return ofGoogle(userNameAttributeName, attributes);
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName,
-                                            Map<String,Object> attributes){
+                                            Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
@@ -44,7 +44,8 @@ public class OAuthAttributes {
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
-    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes){
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuthAttributes.builder()
@@ -56,8 +57,7 @@ public class OAuthAttributes {
     }
 
 
-
-    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes){
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
 
@@ -69,13 +69,13 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public UserDTO toEntity(String socialname){
+    public UserDTO toEntity(String socialName) {
 
         return UserDTO.builder()
                 .name(name)
                 .email(email)
-                .role("사용자")
-                .socialname(socialname)
+                .role("USER")
+                .socialName(socialName)
                 .build();
     }
 }

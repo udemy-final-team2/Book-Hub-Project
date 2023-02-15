@@ -9,9 +9,9 @@ import java.util.Optional;
 @Repository("userrepository")
 public interface UserRepository {
 
-    //로그인 & 회원가입
-    Optional<UserDTO> findUserByEmailAndSocialname(String email, String socialname);
+    /*소셜 로그인 가입 여부 확인*/
+    Optional<UserDTO> findUserByEmailAndSocialName(String email, String socialName);
 
+    /*소셜 로그인 유저 데이터 저장*/
     void insertUserBySocial(UserDTO user);
-
 }
