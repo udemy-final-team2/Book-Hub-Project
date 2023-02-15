@@ -75,9 +75,9 @@
             <form>
                 <h5>다른 이메일로 로그인하기</h5>
                 <hr/>
-                <img class="logo" src="/img/google.png" alt="google"/>
-                <img class="logo" src="/img/kakao.png" alt="kakao"/>
-                <img class="logo" src="/img/naver.png" alt="naver"/>
+                <a href="/oauth2/authorization/google"><img class="logo" src="/img/google.png" alt="google"/></a>
+                <a href="/oauth2/authorization/kakao"><img class="logo" src="/img/kakao.png" alt="kakao"/></a>
+                <a href="/oauth2/authorization/naver"><img class="logo" src="/img/naver.png" alt="naver"/></a>
             </form>
             <div class="returnIcon">
                 <a href="/" class="link">
