@@ -6,18 +6,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service("userservice")
+@Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
 
-    public Optional<UserDTO> findUserByEmailAndSocialname(String email, String socialname) {
-        return userRepository.findUserByEmailAndSocialname(email, socialname);
+    public Optional<UserDTO> findUserByEmailAndSocialName(String email, String socialName) {
+        return userRepository.findUserByEmailAndSocialName(email, socialName);
     }
 
     public UserDTO insertUserBySocial(UserDTO user) {
-        if(findUserByEmailAndSocialname(user.getEmail(), user.getSocialname()).isEmpty())
+        if(findUserByEmailAndSocialName(user.getEmail(), user.getSocialName()).isEmpty())
             userRepository.insertUserBySocial(user);
         return user;
     }
