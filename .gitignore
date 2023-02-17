@@ -6,8 +6,8 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # properties
-application-oauth.properties
-application-oauth.yml
+application-*.properties
+application-*.yml
 # User-specific stuff
 .jar
 gradle/wrapper/**
