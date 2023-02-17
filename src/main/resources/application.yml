@@ -17,4 +17,6 @@ spring:
             prefix: /WEB-INF/views/
             suffix: .jsp
     profiles:
-        include: oauth
+        include:
+        - oauth
+        - aws
