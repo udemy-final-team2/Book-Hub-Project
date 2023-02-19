@@ -49,7 +49,7 @@
         <a href="/" class="logoName">북 허브</a>
     </div>
     <div class="formContainer">
-        <form>
+        <form action="/docs" method="post">
             <div class="row mb-3">
                 <h4 class="header">로그인</h4>
                 <hr/>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <p><a href="/signup">회원가입이 필요하신가요?</a></p>
-            <button id="button" class="btn btn-primary" disabled>로그인</button>
+            <button id="submit" class="btn btn-primary" >로그인</button>
         </form>
         <div class="form">
             <form>
