@@ -1,7 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Collections" %>
-<%@ page import="java.util.Comparator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,6 +13,29 @@
     <link href="css/index.css" rel="stylesheet" type="text/css">
     <link href="css/docs.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
+        function searchDocs() {
+            const searchTerm = document.querySelector('#searchInput').value.toLowerCase();
+            const docsTable = document.querySelector('#docsList');
+
+            for (let i = 0; i < docsTable.rows.length; i++) {
+                const title = docsTable.rows[i].cells[1].textContent.toLowerCase();
+                const description = docsTable.rows[i].cells[2].textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    docsTable.rows[i].style.display = '';
+                } else {
+                    docsTable.rows[i].style.display = 'none';
+                }
+            }
+        }
+        function searchClear() {
+            const searchInput = document.querySelector('#searchInput');
+            const docsTable = document.querySelector('#docsList');
+            searchInput.value = '';
+            for (let i = 0; i < docsTable.rows.length; i++) {
+                docsTable.rows[i].style.display = '';
+            }
+        }
 
         function editFolderTitle(button) {
             const parent = button.parentElement.parentElement;
@@ -52,11 +74,6 @@
         function closeModal() {
             document.getElementById("modal").style.display = "none";
         }
-        function modifyModal() {
-            const modal = document.getElementById("modal-content");
-            modal.innerHTML = `<input type="text" value="${content}">`;
-            modal.querySelector("input").focus();
-        }
     </script>
 </head>
 <body>
@@ -68,8 +85,10 @@
             </div>
         </div>
         <div class="search">
-            <div>
-                <input id="search" class="searchin" type="text" placeholder="문서 검색하기...">
+            <div class="inputWrap">
+                <input id="searchInput" oninput="searchDocs()" class="searchin" type="text"
+                       placeholder="문서 검색하기...">
+                <button class="material-symbols-outlined" id="clearSearch" onclick="searchClear()">close</button>
             </div>
         </div>
         <div class="left">
@@ -141,7 +160,7 @@
                         <th scope="col">메모</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="docsList">
                     <%
                         int pageSize = 10;
                         int currentPage = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
@@ -165,7 +184,7 @@
                         docs.sort((o1, o2) -> o1[2].compareTo(o2[2]));
                         Collections.reverse(docs);
                     %>
-                    <% for (int i = startIndex; i < endIndex; i++) { %>
+                    <% for (int i = startIndex; i < endIndex; i++) {%>
                     <tr>
                         <td style="text-align: center" class="checkbox"><input type="checkbox"></td>
                         <td style="text-align: center"><%= i + 1 %>
@@ -182,8 +201,9 @@
                                         <p id="modal-content"></p>
                                     </div>
                                     <div>
-                                        <button id="modify-btn" onclick="modifyModal()" class="btn btn-outline-primary">수정</button>
-                                        <button id="close-btn" class="btn btn-outline-secondary" onclick="closeModal()">닫기</button>
+                                        <button id="close-btn" class="btn btn-outline-secondary" onclick="closeModal()">
+                                            닫기
+                                        </button>
                                     </div>
                                 </div>
                             </div>
