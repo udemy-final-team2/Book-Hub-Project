@@ -12,9 +12,4 @@ public class HomeController {
 
     @GetMapping("/signup")
     public String signUp() {return "signup";}
-
-    @GetMapping("/docs")
-    public String myPage() {
-        return "docs";
-    }
 }
