@@ -12,69 +12,7 @@
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <link href="css/index.css" rel="stylesheet" type="text/css">
     <link href="css/docs.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-        function searchDocs() {
-            const searchTerm = document.querySelector('#searchInput').value.toLowerCase();
-            const docsTable = document.querySelector('#docsList');
-
-            for (let i = 0; i < docsTable.rows.length; i++) {
-                const title = docsTable.rows[i].cells[1].textContent.toLowerCase();
-                const description = docsTable.rows[i].cells[2].textContent.toLowerCase();
-
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    docsTable.rows[i].style.display = '';
-                } else {
-                    docsTable.rows[i].style.display = 'none';
-                }
-            }
-        }
-        function searchClear() {
-            const searchInput = document.querySelector('#searchInput');
-            const docsTable = document.querySelector('#docsList');
-            searchInput.value = '';
-            for (let i = 0; i < docsTable.rows.length; i++) {
-                docsTable.rows[i].style.display = '';
-            }
-        }
-
-        function editFolderTitle(button) {
-            const parent = button.parentElement.parentElement;
-            const title = parent.querySelector('.folder-title');
-            const titleText = title.innerText;
-            const input = document.createElement('input');
-            input.value = titleText;
-            input.classList.add('folder-title-input');
-            parent.replaceChild(input, title);
-
-            input.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    const newTitleText = input.value.trim();
-                    if (newTitleText !== '') {
-                        const newTitle = document.createElement('p');
-                        newTitle.classList.add('folder-title');
-                        newTitle.innerText = newTitleText;
-                        parent.replaceChild(newTitle, input);
-                    } else {
-                        const originalTitle = document.createElement('p');
-                        originalTitle.classList.add('folder-title');
-                        originalTitle.innerText = titleText;
-                        parent.replaceChild(originalTitle, input);
-                    }
-                }
-            });
-            input.focus(); // Set focus on the input field
-        }
-
-        function openModal(content) {
-            let modalContent = document.getElementById("modal-content");
-            modalContent.innerText = content;
-            document.getElementById("modal").style.display = "block";
-        }
-
-        function closeModal() {
-            document.getElementById("modal").style.display = "none";
-        }
-    </script>
+    <script type="text/javascript" src="js/docs.js"></script>
 </head>
 <body>
 <div class="App">
@@ -145,10 +83,20 @@
                         <button class="comp-btn">비교하기</button>
                     </li>
                     <li>
-                        <button class="del-btn">삭제</button>
+                        <button id="delete-button" class="del-btn" onclick="openDeleteModal()">삭제</button>
                     </li>
                 </ul>
+                <div id="delete-modal" class="modal">
+                    <div class="modal-content">
+                        <p>선택한 문서를 삭제하시겠습니까?</p>
+                        <div>
+                            <button class="btn btn-danger" onclick="deleteSelectedDocuments()">삭제</button>
+                            <button class="btn btn-secondary" onclick="closeDeleteModal()">취소</button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="tableStyle">
                 <table class="table table-hover">
                     <thead>
@@ -164,7 +112,6 @@
                     <%
                         int pageSize = 10;
                         int currentPage = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
-
                         List<String[]> docs = new ArrayList<>();
                         docs.add(new String[]{"1", "세이노의 가르침_번역 ", "2023-02-12 09:12", "10:30분까지 보내달라 하셨음."});
                         docs.add(new String[]{"2", "세이노의 가르침_번역 (1)", "2023-02-17 09:12", "이걸로 작가님 보내드리기"});
@@ -186,7 +133,7 @@
                     %>
                     <% for (int i = startIndex; i < endIndex; i++) {%>
                     <tr>
-                        <td style="text-align: center" class="checkbox"><input type="checkbox"></td>
+                        <td style="text-align: center" class="checkbox"><input type="checkbox" class="document-checkbox" data-document-id="<%= docs.get(i)[0] %>"></td>
                         <td style="text-align: center"><%= i + 1 %>
                         </td>
                         <td><%= docs.get(i)[1] %>
@@ -246,9 +193,11 @@
                                 <% } %>
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
