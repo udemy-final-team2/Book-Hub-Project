@@ -127,7 +127,7 @@
                         </td>
                         <td><%= docs.get(i).getTitle() %>
                         </td>
-                        <td><%= docs.get(i).getSave_at() %>
+                        <td><%= docs.get(i).getSaveAt() %>
                         </td>
                         <td><a href="#" id="memo" onclick="openModal(`<%= docs.get(i).getMemo() %>`)"><%= docs.get(i).getMemo() %>
                         </a>

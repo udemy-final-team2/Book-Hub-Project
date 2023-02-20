@@ -1,6 +1,7 @@
 package com.example.BookHub.Docs;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +25,12 @@ public class DocsController {
     // 문서 작성
     @PostMapping("/docs/write")
     public String writeDocument(DocsDTO dto, MultipartFile file) throws IOException {
-        String url = docsService.upload(file);
+        String s3Key = docsService.upload(file);
         DocsDTO saveDoc = DocsDTO.builder()
-                .folder_id(dto.getFolder_id())
+                .folderId(dto.getFolderId())
                 .title(dto.getTitle())
                 .memo(dto.getMemo())
-                .url(url)
+                .s3Key(s3Key)
                 .build();
         docsService.writeDocument(saveDoc);
         return "redirect:/docs/write";
