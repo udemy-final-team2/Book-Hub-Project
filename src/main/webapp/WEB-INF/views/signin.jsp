@@ -38,6 +38,7 @@
                 button.disabled = true;
             }
         }
+	
     </script>
 </head>
 <body>
@@ -49,14 +50,14 @@
         <a href="/" class="logoName">북 허브</a>
     </div>
     <div class="formContainer">
-        <form action="/docs" method="post">
+        <form action="login" method="post">
             <div class="row mb-3">
                 <h4 class="header">로그인</h4>
                 <hr/>
                 <label for="email" class="col-sm-4 col-form-label">이메일</label>
                 <div class="col-sm-8">
                     <input type="email" id="email" value="${email}" oninput='validateForm()'
-                           class="form-control" placeholder="이메일을 입력하세요." required>
+                           class="form-control" placeholder="이메일을 입력하세요."  name="email" required>
                     <span id="mailError" style="color: red;">${mailError}</span>
                 </div>
             </div>
@@ -64,12 +65,13 @@
                 <label for="password" class="col-sm-4 col-form-label">패스워드</label>
                 <div class="col-sm-8">
                     <input type="password" id="password" value="${password}" oninput='validateForm()'
-                           class="form-control" placeholder="패스워드를 입력하세요." required>
+                           class="form-control" placeholder="패스워드를 입력하세요." name="password" required>
                     <span id="pwError" style="color: red;">${pwError}</span>
                 </div>
             </div>
             <p><a href="/signup">회원가입이 필요하신가요?</a></p>
-            <button id="submit" class="btn btn-primary" >로그인</button>
+<!--             <button id="button" class="btn btn-primary" disabled >로그인</button> -->
+            <input type="submit" class="btn btn-primary" value="로그인" >
         </form>
         <div class="form">
             <form>
@@ -92,3 +94,4 @@
 
 </body>
 </html>
+
