@@ -9,6 +9,6 @@
     <typeAliases>
         <typeAlias type="com.example.BookHub.User.UserDTO" alias="userdto"/>
         <typeAlias type="com.example.BookHub.Docs.DocsDTO" alias="docsdto"/>
-        <typeAlias type="com.example.BookHub.Storage.StorageDTO" alias="storagedto"/>
+        <typeAlias type="com.example.BookHub.Folder.FolderDTO" alias="folderdto"/>
     </typeAliases>
 </configuration>
