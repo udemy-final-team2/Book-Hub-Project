@@ -1,0 +1,9 @@
+.diff-line-left{
+    background-color: #ffaaaa;
+    display: block;
+}
+
+.diff-line-right{
+    background-color: #aaffaa;
+    display: block;
+}
