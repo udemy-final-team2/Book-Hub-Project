@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,9 +23,18 @@
         <div class="left">
             <div class="menuName">
                 <span class="menu"><a class="link" href="/guest/qna">문의하기</a></span></div>
+            <c:if test="${not empty sessionScope.loginid}">
+            	<div class="menuName"><a class="link" href="/user/<%= session.getAttribute("loginid")%>">마이페이지</a></div>
+            </c:if>
             <div class="menuName">
-                <span class="menu"><a class="link" href="/signin">로그인</a></span>
+                <c:if test="${not empty sessionScope.loginid}">
+             	   <span class="menu"><a class="link" href="/logout">로그아웃</a></span>
+            	</c:if>
+            	<c:if test="${empty sessionScope.loginid}">
+               	 <span class="menu"><a class="link" href="/signin">로그인</a></span>
+               	 </c:if>
             </div>
+            
             <button class="button">
                 <a class="link" href="/docs">무료체험</a>
             </button>
