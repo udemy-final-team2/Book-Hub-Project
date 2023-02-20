@@ -1,45 +1,58 @@
 package com.example.BookHub.Docs;
 
-import com.example.BookHub.Storage.StorageDTO;
-import com.example.BookHub.Storage.StorageService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Controller("docscontroller")
+@Controller
 @RequiredArgsConstructor
-@Slf4j
+@RequestMapping("/docs")
 public class DocsController {
 
     private final DocsService docsService;
-    private final StorageService storageService;
 
     // 문서 작성폼
-    @GetMapping("docs/write")
-    public String insertDocs() {
-        return "insertform";
+    @GetMapping("/write")
+    public String writeDocument() {
+        return "writeform";
     }
 
     // 문서 작성
-    @PostMapping("docs/write")
-    public String insertDocs(String title, String memo,
-                             MultipartFile file) throws IOException {
-        DocsDTO dto = new DocsDTO();
-        dto.setTitle(title);
-        dto.setMemo(memo);
-        int insetId = docsService.insertDocs(dto);
-        log.info("multipartFile={}", file);
+    @PostMapping("/write")
+    public String writeDocument(DocsDTO dto, MultipartFile file) throws IOException {
+        String url = docsService.upload(file);
+        DocsDTO saveDoc = DocsDTO.builder()
+                .folder_id(dto.getFolder_id())
+                .title(dto.getTitle())
+                .memo(dto.getMemo())
+                .url(url)
+                .build();
+        docsService.writeDocument(saveDoc);
+        return "redirect:/docs/write";
+    }
 
-        StorageDTO storageDTO = new StorageDTO();
-        String url = storageService.upload(file);
-        storageDTO.setUrl(url);
-        storageDTO.setDocument_id(insetId);
-        storageService.insertStorage(storageDTO);
+    // 문서 조회
+    @GetMapping("/read/{documentId}")
+    public String readDocument(@PathVariable Long documentId, Model model) {
+        DocsDTO document = docsService.readDocument(documentId);
+        model.addAttribute("document", document);
+        return "document";
+    }
+
+    // 문서 리스트
+    @GetMapping("/list")
+    public String getDocumentList() {
         return "docs";
+    }
+
+    // 문서 삭제
+    @PostMapping("/delete")
+    public String deleteDocument(@RequestParam Long documentId) {
+        docsService.deleteDocument(documentId);
+        return "redirect:/docs/list";
     }
 }
