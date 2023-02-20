@@ -8,6 +8,20 @@
 # properties
 application-*.properties
 application-*.yml
+
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
 # User-specific stuff
 .jar
 gradle/wrapper/**
