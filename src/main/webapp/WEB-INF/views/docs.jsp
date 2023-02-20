@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Collections" %>
+<%@ page import="com.example.BookHub.Docs.DocsDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,9 +11,9 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-    <link href="css/index.css" rel="stylesheet" type="text/css">
-    <link href="css/docs.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="js/docs.js"></script>
+    <link href="/css/index.css" rel="stylesheet" type="text/css">
+    <link href="/css/docs.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="/js/docs.js"></script>
 </head>
 <body>
 <div class="App">
@@ -48,7 +49,6 @@
         <div class="sidebar">
             <ul class="folder-list">
                 <%
-
                     List<String[]> folders = new ArrayList<>();
                     folders.add(new String[]{"folder_open", "제목 없음"});
                     folders.add(new String[]{"folder", "탕짜면을 먹고나서 용사로 환생했습니다."});
@@ -112,35 +112,24 @@
                     <%
                         int pageSize = 10;
                         int currentPage = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
-                        List<String[]> docs = new ArrayList<>();
-                        docs.add(new String[]{"1", "세이노의 가르침_번역 ", "2023-02-12 09:12", "10:30분까지 보내달라 하셨음."});
-                        docs.add(new String[]{"2", "세이노의 가르침_번역 (1)", "2023-02-17 09:12", "이걸로 작가님 보내드리기"});
-                        docs.add(new String[]{"3", "정세현의 통찰 (2)", "2023-02-18 09:12", ""});
-                        docs.add(new String[]{"4", "정세현의 통찰 (3)", "2023-02-19 09:12", "최종본"});
-                        docs.add(new String[]{"5", "사이토 히토리의 1퍼센트 부자의법칙_번역중", "2023-02-20 10:12", ""});
-                        docs.add(new String[]{"6", "사이토 히토리의 1퍼센트 부자의법칙_번역중(1)", "2023-02-22 04:12", "팀장님께 검수받기"});
-                        docs.add(new String[]{"7", "사이토 히토리의 1퍼센트 부자의법칙_번역중(2)", "2023-02-27 15:20", "번역 외주 맡기기"});
-                        docs.add(new String[]{"8", "사이토 히토리의 1퍼센트 부자의법칙_번역중(3)", "2023-03-01 18:12", ""});
-                        docs.add(new String[]{"9", "사이토 히토리의 1퍼센트 부자의법칙_번역중(4)", "2023-03-03 09:12", ""});
-                        docs.add(new String[]{"10", "미스터 프레지던트", "2023-03-05 15:20", "원본"});
-                        docs.add(new String[]{"11", "미스터 프레지던트 1차 교정", "2023-03-01 18:12", ""});
-                        docs.add(new String[]{"12", "미스터 프레지던트_작가님", "2023-03-03 09:12", "작가님께 넘겨받았음."});
-                        int startIndex = (currentPage - 1) * pageSize;
-                        int endIndex = Math.min(startIndex + pageSize, docs.size());
-
-                        docs.sort((o1, o2) -> o1[2].compareTo(o2[2]));
-                        Collections.reverse(docs);
+                        List<DocsDTO> docs = (List<DocsDTO>) request.getAttribute("documentList");
+                        int startIndex = 0;
+                        int endIndex = 0;
+                        if (docs != null) {
+                            startIndex = (currentPage - 1) * pageSize;
+                            endIndex = Math.min(startIndex + pageSize, docs.size());
+                        }
                     %>
                     <% for (int i = startIndex; i < endIndex; i++) {%>
                     <tr>
-                        <td style="text-align: center" class="checkbox"><input type="checkbox" class="document-checkbox" data-document-id="<%= docs.get(i)[0] %>"></td>
+                        <td style="text-align: center" class="checkbox"><input type="checkbox" class="document-checkbox" data-document-id="<%= docs.get(i).getId() %>"></td>
                         <td style="text-align: center"><%= i + 1 %>
                         </td>
-                        <td><%= docs.get(i)[1] %>
+                        <td><%= docs.get(i).getTitle() %>
                         </td>
-                        <td><%= docs.get(i)[2] %>
+                        <td><%= docs.get(i).getSave_at() %>
                         </td>
-                        <td><a href="#" id="memo" onclick="openModal(`<%= docs.get(i)[3] %>`)"><%= docs.get(i)[3] %>
+                        <td><a href="#" id="memo" onclick="openModal(`<%= docs.get(i).getMemo() %>`)"><%= docs.get(i).getMemo() %>
                         </a>
                             <div id="modal">
                                 <div id="modal-window">
