@@ -59,9 +59,8 @@ public class DocsService {
     }
 
     public String upload(File uploadFile) {
-        String fileUrl = putS3(uploadFile, uploadFile.getName());
         //removeNewFile(uploadFile);
-        return fileUrl;
+        return putS3(uploadFile, uploadFile.getName());
     }
 
     private void removeNewFile(File targetFile) {
@@ -89,7 +88,7 @@ public class DocsService {
         fileName = createFileName(fileName);
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        return fileName;
     }
 
     // 파일명을 난수화(UUID)
