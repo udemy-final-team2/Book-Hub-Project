@@ -85,7 +85,7 @@
     </div>
     <div class="main">
         <div class="formContainer">
-            <form>
+            <form action="signupuser" method="post">
                 <div class="row mb-3">
                     <h4 class="header">회원가입</h4>
                     <hr/>
@@ -94,22 +94,22 @@
                     </label>
                     <div class="col-sm-8">
                         <input type="email" id="email" value="${email}" oninput='validateForm()'
-                               class="form-control" placeholder="이메일을 입력하세요.">
+                               class="form-control" placeholder="이메일을 입력하세요." name="email">
                         <span id="mailError" style="color: red;">${mailError}</span>
                     </div>
-                    <div class="valueEmail">
-                        <span id="timerDisplay"></span>
-                        <input type="text" id="verificationCode" class="verify" name="verificationCode" disabled>
-                        <button id="emailButton" class="button" onclick="startTimer()" disabled>이메일 인증</button>
-                    </div>
+<!--                     <div class="valueEmail"> -->
+<!--                         <span id="timerDisplay"></span> -->
+<!--                         <input type="text" id="verificationCode" class="verify" name="verificationCode" disabled> -->
+<!--                         <button id="emailButton" class="button" onclick="startTimer()" disabled>이메일 인증</button> -->
+<!--                     </div> -->
                 </div>
                 <div class="row mb-3">
                     <label for="password" class="col-sm-4 col-form-label">
                         패스워드
                     </label>
                     <div class="col-sm-8">
-                        <input type="password" id="password" class="form-control"
-                               placeholder="패스워드를 입력하세요." oninput='validateForm()'>
+                        <input type="password" id="password"  class="form-control"
+                               placeholder="패스워드를 입력하세요."  name="password" oninput='validateForm()'>
                         <span id="pwError" style="color: red;">${pwError}</span>
                     </div>
                 </div>
@@ -118,13 +118,16 @@
                         닉네임
                     </label>
                     <div class="col-sm-8">
-                        <input type="text" id="inputNickname" class="form-control" placeholder="닉네임을 입력하세요."></input>
+                        <input type="text" id="inputNickname" class="form-control" name="name" placeholder="닉네임을 입력하세요." ㅜ></input>
                     </div>
                 </div>
                 <p><a href="/signin">이미 계정이 있으신가요?</a></p>
-                <button id="button" class="btn btn-primary" disabled>
-                    회원가입
-                </button>
+<!--                 <button id="button" class="btn btn-primary" disabled> -->
+<!--                     회원가입 -->
+<!--                 </button> -->
+			<input type="submit" id="button" class="btn btn-primary">
+			<input type="hidden" name="role" value="사용자">
+			<input type="hidden" name="socialName" value="일반">
             </form>
             <div class="returnIcon">
                 <a href="/" class="link">
