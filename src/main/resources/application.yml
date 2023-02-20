@@ -18,5 +18,5 @@ spring:
             suffix: .jsp
     profiles:
         include:
-        - oauth
-        - aws
+            - oauth
+            - aws
