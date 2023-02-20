@@ -16,5 +16,74 @@
         FROM user
         WHERE email = #{email} AND social_name=#{socialName}
     </select>
+    
+	<insert id="insertuser" parameterType="userdto">
+		/* 회원 가입 */ 
+		INSERT 
+			INTO user 
+		( email, password, name, role, socialName ) values ( #{email}, #{password}, #{name}, #{role}, #{socialName})
+	</insert>
+
+	<select id="loginuser" resultType="userdto">
+		/* 일반 로그인 */ 
+		SELECT	
+			*		
+			FROM USER
+		WHERE email = #{email}
+	</select>
+	
+	<select id="userinfo" resultType="userdto">
+		/* 회원 정보 조회 */ 
+		SELECT * 
+			FROM USER
+		WHERE id = #{id}
+	</select>
+
+	<update id="updateuser">
+		/* 회원 정보 수정 */ 
+		UPDATE USER SET
+		<if test="!name.equals('') and name != null">
+			NAME = #{name},
+		</if>
+		<if test="!password.equals('') and password != null">
+			PASSWORD = #{password}
+		</if>
+		WHERE ID = #{id}
+	</update>
+	
+	<delete id="deleteuser">
+		/*회원 정보 삭제*/
+		DELETE 
+			FROM USER
+		WHERE ID = #{id}
+	</delete>
+	
+<!-- 	<select id="selectUserList" parameterType="int" resultType="userdto"> -->
+<!-- 		/*회원 리스트 조회*/ -->
+<!-- 		SELECT * -->
+<!-- 			FROM USER -->
+<!-- 		ORDER BY ID DESC -->
+<!-- 		LIMIT #{limit},3 -->
+<!-- 	</select> -->
+
+	<select id="totalUser" resultType="int">
+		/*회원 리스트 총갯수*/
+		SELECT COUNT(*)
+			FROM USER
+	</select>
+
+	<select id="selectUserList" resultType="userdto">
+		/*회원 리스트 조회 */
+		SELECT *
+			FROM USER
+<!-- 		<if test="!keyword.equals('') and keyword != null"> -->
+<!-- 			WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%') -->
+<!-- 		</if> -->
+		ORDER BY ID DESC
+	</select>
+	
+	
+	
+	
 
 </mapper>
