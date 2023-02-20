@@ -41,38 +41,6 @@
                 button.disabled = true;
             }
         }
-
-        function startTimer() {
-            event.preventDefault();
-            let codeForm = document.querySelector("#verificationCode");
-            codeForm.disabled = false;
-
-            const timerDisplay = document.querySelector('#timerDisplay');
-
-            const timerDuration = 180;
-
-            let timerInterval = null;
-            let timerRemaining = timerDuration;
-            timerDisplay.innerHTML = `남은시간: ${timerRemaining} 초`;
-
-            timerInterval = setInterval(() => {
-                timerRemaining--;
-                timerDisplay.innerHTML = `남은시간: ${timerRemaining} 초`;
-
-                if (timerRemaining === 0) {
-                    clearInterval(timerInterval);
-                    timerDisplay.innerHTML = "제한시간 초과";
-
-                }
-            }, 1000);
-        }
-
-        function emailAuth() {
-            event.preventDefault();
-            let codeForm = document.querySelector("#verificationCode");
-            codeForm.disabled = false;
-            startTimer();
-        }
     </script>
 </head>
 <body>
@@ -90,22 +58,17 @@
                     <h4 class="header">회원가입</h4>
                     <hr/>
                     <label for="email" class="col-sm-4 col-form-label">
-                        이메일
+                        이메일 <span style="color: #fe1a00">*</span>
                     </label>
                     <div class="col-sm-8">
                         <input type="email" id="email" value="${email}" oninput='validateForm()'
                                class="form-control" placeholder="이메일을 입력하세요.">
                         <span id="mailError" style="color: red;">${mailError}</span>
                     </div>
-                    <div class="valueEmail">
-                        <span id="timerDisplay"></span>
-                        <input type="text" id="verificationCode" class="verify" name="verificationCode" disabled>
-                        <button id="emailButton" class="button" onclick="startTimer()" disabled>이메일 인증</button>
-                    </div>
                 </div>
                 <div class="row mb-3">
                     <label for="password" class="col-sm-4 col-form-label">
-                        패스워드
+                        패스워드<span style="color: #fe1a00">*</span>
                     </label>
                     <div class="col-sm-8">
                         <input type="password" id="password" class="form-control"
@@ -126,10 +89,8 @@
                     회원가입
                 </button>
             </form>
-            <div class="returnIcon">
-                <a href="/" class="link">
-                    <p class="returnText">뒤로가기</p><span class="material-symbols-outlined">west</span>
-                </a>
+            <div class="redirect">
+                <div class="returnText"><a href="/" class="link"><p>로그인 화면으로</p><span class="material-symbols-outlined">west</span></a></p>
             </div>
         </div>
     </div>
