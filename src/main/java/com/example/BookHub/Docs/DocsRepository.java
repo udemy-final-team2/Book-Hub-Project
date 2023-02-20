@@ -10,7 +10,7 @@ import java.util.List;
 public interface DocsRepository {
 
     void writeDocument(DocsDTO dto);
-    List<DocsDTO> readDocumentList();
+    List<DocsDTO> readDocumentList(Long folder_id);
     DocsDTO readDocument(Long id);
     void deleteDocument(Long id);
 }

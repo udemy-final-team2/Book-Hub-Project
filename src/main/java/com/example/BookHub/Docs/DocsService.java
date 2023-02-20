@@ -37,8 +37,8 @@ public class DocsService {
     }
 
     // 문서 목록 조회
-    List<DocsDTO> readDocumentList() {
-        return repository.readDocumentList();
+    List<DocsDTO> readDocumentList(Long folder_id) {
+        return repository.readDocumentList(folder_id);
     }
 
     // 문서 조회
@@ -58,9 +58,9 @@ public class DocsService {
         return upload(uploadFile);
     }
 
-    private String upload(File uploadFile) {
+    public String upload(File uploadFile) {
         String fileUrl = putS3(uploadFile, uploadFile.getName());
-        removeNewFile(uploadFile);
+        //removeNewFile(uploadFile);
         return fileUrl;
     }
 
