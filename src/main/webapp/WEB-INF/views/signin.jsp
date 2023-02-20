@@ -38,7 +38,6 @@
                 button.disabled = true;
             }
         }
-	
     </script>
 </head>
 <body>
@@ -50,14 +49,14 @@
         <a href="/" class="logoName">북 허브</a>
     </div>
     <div class="formContainer">
-        <form action="login" method="post">
+        <form>
             <div class="row mb-3">
                 <h4 class="header">로그인</h4>
                 <hr/>
                 <label for="email" class="col-sm-4 col-form-label">이메일</label>
                 <div class="col-sm-8">
                     <input type="email" id="email" value="${email}" oninput='validateForm()'
-                           class="form-control" placeholder="이메일을 입력하세요."  name="email" required>
+                           class="form-control" placeholder="이메일을 입력하세요." required>
                     <span id="mailError" style="color: red;">${mailError}</span>
                 </div>
             </div>
@@ -65,26 +64,23 @@
                 <label for="password" class="col-sm-4 col-form-label">패스워드</label>
                 <div class="col-sm-8">
                     <input type="password" id="password" value="${password}" oninput='validateForm()'
-                           class="form-control" placeholder="패스워드를 입력하세요." name="password" required>
+                           class="form-control" placeholder="패스워드를 입력하세요." required>
                     <span id="pwError" style="color: red;">${pwError}</span>
                 </div>
             </div>
             <p><a href="/signup">회원가입이 필요하신가요?</a></p>
-<!--             <button id="button" class="btn btn-primary" disabled >로그인</button> -->
-            <input type="submit" class="btn btn-primary" value="로그인" >
+            <button id="button" type="submit" class="btn btn-primary" disabled>로그인</button>
         </form>
         <div class="form">
             <form>
-                <h5>다른 이메일로 로그인하기</h5>
+                <h5>간편 로그인</h5>
                 <hr/>
                 <a href="/oauth2/authorization/google"><img class="logo" src="/img/google.png" alt="google"/></a>
                 <a href="/oauth2/authorization/kakao"><img class="logo" src="/img/kakao.png" alt="kakao"/></a>
                 <a href="/oauth2/authorization/naver"><img class="logo" src="/img/naver.png" alt="naver"/></a>
             </form>
-            <div class="returnIcon">
-                <a href="/" class="link">
-                    <p class="returnText">뒤로가기</p><span class="material-symbols-outlined">west</span>
-                </a>
+            <div class="redirect">
+                    <div class="returnText"><a href="/" class="link"><p>뒤로가기</p></p><span class="material-symbols-outlined">west</span></a>
             </div>
         </div>
     </div>
@@ -94,4 +90,3 @@
 
 </body>
 </html>
-
