@@ -58,19 +58,22 @@
     top:1px;
 }
 
-.returnIcon {
+.redirect {
     text-align: right;
+    margin-left: auto;
+    margin-bottom: 5px;
+}
+.redirect p{
+    margin-bottom: 0px;
 }
 .returnText {
-    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 120px;
 }
 .Icon {
     margin-top: 5px;
 }
-.verify {
-    width: 157px;
-}
-
 input:hover {
     border: 1px solid black;
     transition: border 2s ease-out 100ms;
