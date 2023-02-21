@@ -3,9 +3,11 @@ package com.example.BookHub.Docs;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Getter
+@Setter
 @NoArgsConstructor
-@ToString
 @Component("docsdto")
 public class DocsDTO {
 
