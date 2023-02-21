@@ -121,7 +121,7 @@ public class DocsService {
         fileName = createFileName(fileName);
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        return fileName;
     }
 
     // 파일명을 난수화(UUID)
