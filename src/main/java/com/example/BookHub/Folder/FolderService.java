@@ -16,17 +16,17 @@ public class FolderService {
     private final FolderRepository repository;
 
     // 폴더 목록 조회
-    List<String[]> selectFolderList(long id){
-        return repository.selectFolderList(id);
+    List<FolderDTO> readFolderList(Long id){
+        return repository.readFolderList(id);
     }
 
     // 폴더 이름 수정
-    void updateFolderName(String name, long id){
+    void updateFolderName(String name, Long id){
         repository.updateFolderName(name, id);
     }
 
     // 폴더 삭제
-    void deleteFolder(long id){
+    void deleteFolder(Long id){
         repository.deleteFolder(id);
     }
 
@@ -36,7 +36,7 @@ public class FolderService {
     }
 
     // 폴더 조회
-    int selectFolder(long id) {
+    int selectFolder(Long id) {
         return repository.selectFolder(id);
     }
 }
