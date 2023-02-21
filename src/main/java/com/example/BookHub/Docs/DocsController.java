@@ -26,12 +26,12 @@ public class DocsController {
     // 문서 작성
     @PostMapping("/docs/write")
     public String writeDocument(DocsDTO dto, MultipartFile file) throws IOException {
-        String url = docsService.upload(file);
+        String s3Key = docsService.upload(file);
         DocsDTO saveDoc = DocsDTO.builder()
                 .folderId(dto.getFolderId())
                 .title(dto.getTitle())
                 .memo(dto.getMemo())
-                .s3Key(dto.getS3Key())
+                .s3Key(s3Key)
                 .build();
         docsService.writeDocument(saveDoc);
         return "redirect:/docs/write";
