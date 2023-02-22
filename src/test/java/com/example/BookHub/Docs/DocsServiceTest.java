@@ -17,7 +17,7 @@ class DocsServiceTest {
     @Test
     void testUpload() {
         try {
-            String filePath = "/Users/사용자/Downloads/파일명";
+            String filePath = "";
             String uploadName = docsService.upload(new File(filePath));
             log.info(uploadName);
         } catch (Exception e) {
