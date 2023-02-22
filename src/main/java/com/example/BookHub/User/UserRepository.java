@@ -42,5 +42,5 @@ public interface UserRepository {
 	
 	/*회원리스트 조회 - 검색*/
 	List<UserDTO> selectUserList(String keyword);
-	
+	 
 }
