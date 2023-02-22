@@ -23,6 +23,7 @@
     <div class="buttonContainer">
       <button id="export" onclick="printEditorContent()">내보내기</button>
       <button id="save" onclick="saveEditorContent()">저장</button>
+      <button id="cancel" onclick="cancelWrite()">취소</button>
     </div>
 
     <!-- 모달창 추가 -->
@@ -94,6 +95,16 @@
         let closeButton = document.getElementsByClassName("close")[0];
         closeButton.onclick = function() {
           modal.style.display = "none";
+        }
+      }
+
+      function cancelWrite() {
+        if (confirm("작성중인 내용이 초기화됩니다. 진행하시겠습니까?")) {
+          // 작성중인 내용 초기화
+          tinymce.activeEditor.setContent('');
+
+          // 문서 리스트 화면으로 이동
+          location.href = '/document/list';
         }
       }
     </script>
