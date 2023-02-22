@@ -10,6 +10,15 @@ public class HomeController {
     @GetMapping("/")
     public String Home() {return "home";}
 
+    @GetMapping("/signin")
+    public String signIn() {
+        return "signin";
+    }
     @GetMapping("/signup")
     public String signUp() {return "signup";}
+
+    @GetMapping("/docs/view")
+    public String viewer() {
+        return "compareview";
+    }
 }
