@@ -1,3 +1,6 @@
+<%@ page import="com.example.BookHub.Util.SessionConst" %>
+<%@ page import="static com.example.BookHub.Util.SessionConst.LOGIN_USER" %>
+<%@ page import="com.example.BookHub.User.UserDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -22,17 +25,20 @@
         </div>
         <div class="left">
             <div class="menuName">
-                <span class="menu"><a class="link" href="/guest/qna">문의하기</a></span></div>
-            <c:if test="${not empty sessionScope.loginid}">
-            	<div class="menuName"><a class="link" href="/user/<%= session.getAttribute("loginid")%>">마이페이지</a></div>
+                <span class="menu"><a class="link" href="/guest/qna">문의하기</a></span>
+            </div>
+            <c:if test="${not empty sessionScope.get(SessionConst.LOGIN_USER)}">
+            <div class="menuName">
+                <span class="menu"><a class="link" href="/user/<%= ((UserDTO)(session.getAttribute(LOGIN_USER))).getId()%>">마이페이지</a></span>
+            </div>
             </c:if>
             <div class="menuName">
-                <c:if test="${not empty sessionScope.loginid}">
-             	   <span class="menu"><a class="link" href="/logout">로그아웃</a></span>
-            	</c:if>
-            	<c:if test="${empty sessionScope.loginid}">
-               	 <span class="menu"><a class="link" href="/signin">로그인</a></span>
-               	 </c:if>
+                <c:if test="${not empty sessionScope.get(SessionConst.LOGIN_USER)}">
+                    <span class="menu"><a class="link" href="/logout">로그아웃</a></span>
+                </c:if>
+                <c:if test="${empty sessionScope.get(SessionConst.LOGIN_USER)}">
+                    <span class="menu"><a class="link" href="/signin">로그인</a></span>
+                </c:if>
             </div>
             
             <button class="button">

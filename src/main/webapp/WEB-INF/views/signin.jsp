@@ -49,14 +49,14 @@
         <a href="/" class="logoName">북 허브</a>
     </div>
     <div class="formContainer">
-        <form>
+        <form action="${pageContext.request.contextPath}/login" method="post">
             <div class="row mb-3">
                 <h4 class="header">로그인</h4>
                 <hr/>
                 <label for="email" class="col-sm-4 col-form-label">이메일</label>
                 <div class="col-sm-8">
                     <input type="email" id="email" value="${email}" oninput='validateForm()'
-                           class="form-control" placeholder="이메일을 입력하세요." required>
+                           class="form-control" name="email" placeholder="이메일을 입력하세요." required>
                     <span id="mailError" style="color: red;">${mailError}</span>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 <label for="password" class="col-sm-4 col-form-label">패스워드</label>
                 <div class="col-sm-8">
                     <input type="password" id="password" value="${password}" oninput='validateForm()'
-                           class="form-control" placeholder="패스워드를 입력하세요." required>
+                           class="form-control" name="password" placeholder="패스워드를 입력하세요." required>
                     <span id="pwError" style="color: red;">${pwError}</span>
                 </div>
             </div>
