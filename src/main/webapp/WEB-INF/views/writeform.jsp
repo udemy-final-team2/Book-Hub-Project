@@ -22,6 +22,19 @@
 
     <div class="buttonContainer">
       <button id="export" onclick="printEditorContent()">내보내기</button>
+      <button id="save" onclick="saveEditorContent()">저장</button>
+    </div>
+
+    <!-- 모달창 추가 -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <h2>Title</h2>
+        <input type="text" id="modal-title">
+        <h2>Memo</h2>
+        <textarea id="modal-memo"></textarea>
+        <button id="save-button">저장</button>
+        <button class="close">취소</button>
+      </div>
     </div>
 
   </div>
@@ -42,6 +55,46 @@
         printFrame.contentWindow.print();
         // iframe 제거
         document.body.removeChild(printFrame);
+      }
+
+      function saveEditorContent() {
+        let editorContent = tinymce.activeEditor.getContent();
+        console.log(editorContent);
+
+        // 모달창 띄우기
+        let modal = document.getElementById("myModal");
+        modal.style.display = "block";
+
+        // 모달창 안에 저장 버튼에 이벤트 추가
+        let saveButton = document.getElementById("save-button");
+        saveButton.onclick = function() {
+          let title = document.getElementById("modal-title").value;
+          let memo = document.getElementById("modal-memo").value;
+          $.ajax({
+            type: "POST",
+            url: "/save",
+            data: {
+              editorContent: editorContent,
+              title: title,
+              memo: memo
+            },
+            success: function(response) {
+              console.log(response);
+            },
+            error: function(xhr, status, error) {
+              console.error(error);
+            }
+          });
+
+          // 모달창 닫기
+          modal.style.display = "none";
+        }
+
+        // 모달창의 X 버튼을 누르면 모달창 닫기
+        let closeButton = document.getElementsByClassName("close")[0];
+        closeButton.onclick = function() {
+          modal.style.display = "none";
+        }
       }
     </script>
   </body>
