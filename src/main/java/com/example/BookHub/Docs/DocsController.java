@@ -1,5 +1,6 @@
 package com.example.BookHub.Docs;
 
+import com.example.BookHub.S3.S3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
 public class DocsController {
 
     private final DocsService docsService;
+    private final S3Service s3Service;
 
     // 문서 작성폼
     @GetMapping("/docs/write")
@@ -26,7 +28,7 @@ public class DocsController {
     // 문서 작성
     @PostMapping("/docs/write")
     public String writeDocument(DocsDTO dto, MultipartFile file) throws IOException {
-        String s3Key = docsService.upload(file);
+        String s3Key = s3Service.upload(file);
         DocsDTO saveDoc = DocsDTO.builder()
                 .folderId(dto.getFolderId())
                 .title(dto.getTitle())
@@ -65,6 +67,6 @@ public class DocsController {
     public String[] compareDocument(@RequestParam Long documentId1, @RequestParam Long documentId2) {
         DocsDTO document1 = docsService.readDocument(documentId1);
         DocsDTO document2 = docsService.readDocument(documentId2);
-        return docsService.compareDocument(document1.getS3Key(), document2.getS3Key());
+        return s3Service.compareDocument(document1.getS3Key(), document2.getS3Key());
     }
 }
