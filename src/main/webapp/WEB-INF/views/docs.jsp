@@ -80,7 +80,7 @@
                         <button class="add-btn">새 문서</button>
                     </li>
                     <li>
-                        <button class="comp-btn">비교하기</button>
+                        <a href="/docs/view"><button class="comp-btn">비교하기</button></a>
                     </li>
                     <li>
                         <button id="delete-button" class="del-btn" onclick="openDeleteModal()">삭제</button>
@@ -104,7 +104,7 @@
                         <th scope="col-2" style="text-align: center;" width="50">선택</th>
                         <th scope="col" style="text-align: center;" width="50">번호</th>
                         <th scope="col">제목</th>
-                        <th scope="col" width="160">작성일자</th>
+                        <th scope="col" width="165">작성일자</th>
                         <th scope="col">메모</th>
                     </tr>
                     </thead>

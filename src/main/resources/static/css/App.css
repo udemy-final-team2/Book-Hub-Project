@@ -1,7 +1,9 @@
 .Appbar {
     display: flex;
-    width: 100%;
-    height: 70px;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 1440px;
+    height: 65px;
     font-size: 100%;
 }
 .right {
@@ -9,6 +11,7 @@
     flex-direction: row;
     width: 50%;
     text-align: left;
+    margin-left: 5px;
 }
 .brandName{
     padding-left: 5px;
@@ -23,7 +26,7 @@
 }
 .brandlogo {
     width: 50px;
-    margin-right: 8px;
+    margin-right: 10px;
 }
 .left {
     display: flex;

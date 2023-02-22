@@ -18,9 +18,15 @@ class S3ServiceTest {
     @Test
     void testUpload() {
         try {
+<<<<<<< HEAD:src/test/java/com/example/BookHub/Docs/S3ServiceTest.java
             String filePath = "/파일경로/파일명";
             String uploadName = s3Service.upload(new File(filePath));
             log.info("업로드 파일명 = {} ", uploadName);
+=======
+            String filePath = "";
+            String uploadName = docsService.upload(new File(filePath));
+            log.info(uploadName);
+>>>>>>> #31-docs-compare-page:src/test/java/com/example/BookHub/Docs/DocsServiceTest.java
         } catch (Exception e) {
             log.error(e.getMessage());
         }
