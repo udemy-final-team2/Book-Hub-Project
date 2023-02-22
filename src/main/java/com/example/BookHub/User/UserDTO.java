@@ -49,5 +49,5 @@ public class UserDTO {
 		return "UserDTO [id=" + id + ", name=" + name + ", email=" + email + ",  role=" + role
 				+ ", socialName=" + socialName + "]";
 	}
-    
+     
 }
