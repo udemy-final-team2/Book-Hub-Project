@@ -20,11 +20,29 @@
       <textarea id="editor"></textarea>
     </div>
 
+    <div class="buttonContainer">
+      <button id="export" onclick="printEditorContent()">내보내기</button>
+    </div>
+
   </div>
     <script>
       tinymce.init({
         selector: '#editor',
       });
+
+      function printEditorContent() {
+        let editorContent = tinymce.activeEditor.getContent();
+
+        let printFrame = document.createElement('iframe');
+        printFrame.style.display = 'none';
+        document.body.appendChild(printFrame);
+        // iframe에 에디터 내용 로드
+        printFrame.contentDocument.write(editorContent);
+        // 출력 실행
+        printFrame.contentWindow.print();
+        // iframe 제거
+        document.body.removeChild(printFrame);
+      }
     </script>
   </body>
 </html>
