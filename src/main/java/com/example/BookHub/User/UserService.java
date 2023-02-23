@@ -2,6 +2,7 @@ package com.example.BookHub.User;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class UserService {
 		return userRepository.loginuser(email);
 	}
 
-	public UserDTO userinfo(int id) {
+	public UserDTO userinfo(Long id) {
 		return userRepository.userinfo(id);
 	}
 
@@ -40,25 +41,22 @@ public class UserService {
 		return userRepository.updateuser(dto);
 	}
 	
-	public int deleteuser(int id) {
+	public int deleteuser(Long id) {
 		return userRepository.deleteuser(id);
+	}
+
+	public List<UserDTO> selectUserList(Map<String, Object> map) {
+		return userRepository.selectUserkeywordList(map);
+	}
+
+	public int totalUser() {
+		System.out.println(userRepository.totalUser());
+		return userRepository.totalUser();
 	}
 
 	public List<UserDTO> selectUserList(int limit) {
 		return userRepository.selectUserList(limit);
 	}
 
-	public int totalUser() {
-		return userRepository.totalUser();
-	}
-
-	public List<UserDTO> selectUserList() {
-		return userRepository.selectUserList();
-	}
-
-	public List<UserDTO> selectUserList(String keyword) {
-		return userRepository.selectUserList(keyword);
-	}
-	  
     
 }

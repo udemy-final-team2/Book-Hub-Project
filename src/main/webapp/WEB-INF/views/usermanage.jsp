@@ -6,73 +6,55 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>북허브 - 문서</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-    <link href="css/index.css" rel="stylesheet" type="text/css">
-    <link href="css/docs.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-        function editFolderTitle(button) {
-            const parent = button.parentElement.parentElement;
-            const title = parent.querySelector('.folder-title');
-            const titleText = title.innerText;
-            const input = document.createElement('input');
-            input.value = titleText;
-            input.classList.add('folder-title-input');
-            parent.replaceChild(input, title);
-            input.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    const newTitleText = input.value.trim();
-                    if (newTitleText !== '') {
-                        const newTitle = document.createElement('p');
-                        newTitle.classList.add('folder-title');
-                        newTitle.innerText = newTitleText;
-                        parent.replaceChild(newTitle, input);
-                    } else {
-                        const originalTitle = document.createElement('p');
-                        originalTitle.classList.add('folder-title');
-                        originalTitle.innerText = titleText;
-                        parent.replaceChild(originalTitle, input);
-                    }
-                }
-            });
-            input.focus(); // Set focus on the input field
-        }
-        
-       	        
-//         function btn(){
-//         	confirm("정말 탈퇴하시겠습니까");
-//         }	
-        
-
-
-    </script>
-     <script type="text/javaScript">
-        $(document).ready(function() {
-        	alert("??");
-        	
-        });
-        </script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>북허브 - 문서</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
+<link href="css/index.css" rel="stylesheet" type="text/css">
+<link href="css/docs.css" rel="stylesheet" type="text/css">
+<script type="text/javaScript">
+//      $(document).ready(function(){
+//      function search(){
+//     	 //테스트중입니다
+//     	alert("클릭");
+//     	alert(Document.querySelector("#search").value);
+//      	let keyword = Document.querySelector("#search").value;
+//      	let page = 1;
+//      	$.ajax({
+//      		type:"GET",
+//      		url:"/usermanage",
+//      		data:{"page": page , "keyword": keyword},
+//      		sucess: function(data){
+//      			console.log("data :"+ data)
+//      		}
+//      	});
+//       }
+//      }) 
+</script>
 <style type="text/css">
-	.side {
-	    font-size: 20px;
-	    width: 95%;
-	    height: 49px;
-	    padding: 10px 10px 10px 10px;
-	    border-radius: 10px;
-	    box-shadow: rgb(0 0 0 / 10%) 0px 1px 3px 0px, rgb(0 0 0 / 6%) 0px 1px 2px 0px;
-	    border: 0px;
-	    margin: 1px auto 20px 1px;
-	}
-	
-	.table>:not(caption)>*>* {
-    padding: 0.5rem 2.5rem;
-    background-color: var(--bs-table-bg);
-    border-bottom-width: var(--bs-border-width);
-    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+.side {
+	font-size: 20px;
+	width: 95%;
+	height: 49px;
+	padding: 10px 10px 10px 10px;
+	border-radius: 10px;
+	box-shadow: rgb(0 0 0/ 10%) 0px 1px 3px 0px, rgb(0 0 0/ 6%) 0px 1px 2px
+		0px;
+	border: 0px;
+	margin: 1px auto 20px 1px;
+}
+
+.table>:not(caption)>*>* {
+	padding: 0.5rem 2.5rem;
+	background-color: var(- -bs-table-bg);
+	border-bottom-width: var(- -bs-border-width);
+	box-shadow: inset 0 0 0 9999px var(- -bs-table-accent-bg);
+}
+
+#withdraw {
+	text-decoration: none;
+	color: black;
 }
 </style>
 </head>
@@ -87,14 +69,14 @@
         <div class="search">
             <div>
                 <input type="text" id="search" class="searchin" name="keyword" placeholder="유저 검색">
-                <button class="button" id="search()">검색</button>
+                <button class="button" onclick="search()" style="display:none">검색</button>
             </div>
         </div>
         <div class="left">
             <div class="dropdown">
                 <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                 ${dto.role}
+                 ${dto.name}
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
@@ -146,15 +128,29 @@
 							<td>${userList.email}</td>
 							<td>${userList.name}</td>
 							<td>${userList.socialName}</td>
-							<td><button class="button" id="btn()"><a href="/user/withdraw/${userList.id}">탈퇴</a></button></td>
+							<td><button class="btn btn-outline-dark"><a href="/user/withdraw/${userList.id}" id="withdraw">탈퇴</a></button></td>
 						</tr>
                     </c:forEach>
                     </c:otherwise>
                     </c:choose>
                     </tbody>
                 </table>
-                </form>
-            </div>
+               </form>
+				<%
+				int totalcount = (Integer) request.getAttribute("totalUser");
+							int totalpage = 0;
+							if (totalcount % 10 == 0) {
+								totalpage = totalcount / 10;
+							} else {
+								totalpage = totalcount / 10 + 1;
+							}
+							for (int i = 1; i <= totalpage; i++) {
+				%>
+				<a href="usermanage?page=<%=i%>"><%=i%>페이지</a>
+				<%
+				}
+				%>
+				</div>
         </div>
     </div>
 </div>
