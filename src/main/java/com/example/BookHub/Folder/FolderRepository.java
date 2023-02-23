@@ -1,5 +1,6 @@
 package com.example.BookHub.Folder;
 
+import com.example.BookHub.Docs.DocsDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -11,11 +12,11 @@ public interface FolderRepository {
     // 폴더 생성
     void createFolder(FolderDTO dto);
     // 폴더 삭제
-    void deleteFolder(Long id);
+    void deleteFolder(Long userId, Long folderId);
     // 폴더 이름 수정
-    void updateFolderName(String name, Long id);
-    // 폴더 이름 목록 조회
-    List<FolderDTO> readFolderList(Long id);
-    // 폴더 조회
-    int selectFolder(Long id);
+    void updateFolderName(Long userId, Long folderId, String name);
+    // 폴더 목록 조회
+    List<FolderDTO> readFolderList(Long userId);
+    // 폴더 속 문서 목록 조회
+    List<DocsDTO> readDocumentList(Long userId, Long folderId);
 }

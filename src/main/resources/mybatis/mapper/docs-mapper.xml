@@ -4,49 +4,31 @@
 
 <mapper namespace="com.example.BookHub.Docs.DocsRepository">
 
-    <!-- 문서 저장 -->
+    <!-- 문서 작성 -->
     <insert id="writeDocument" useGeneratedKeys="true" keyProperty="id" parameterType="docsdto">
-        INSERT INTO document (folder_id, title, memo, url, save_at)
-        VALUES (#{folder_id}, #{title}, #{memo}, #{url}, NOW())
+        INSERT INTO document (folder_id, title, memo, s3_key, save_at)
+        VALUES (#{folderId}, #{title}, #{memo}, #{s3Key}, NOW())
     </insert>
 
-    <!-- 문서 리스트 조회  -->
-    <select id="readDocumentList" resultType="docsdto">
-        SELECT *
-        FROM document
-        WHERE folder_id = #{folder_id}
-        ORDER BY id DESC
-    </select>
-
-    <!-- 문서 리스트 검색 -->
-    <!--
-    <select id="findDocumentList" resultType="docsdto">
-        SELECT * FROM document
-        <where>
-            <if test="folder_id != null">
-                folder_id = #{folder_id}
-            </if>
-            <if test="title != null">
-                AND title LIKE #{title}
-            </if>
-        </where>
-        ORDER BY id DESC LIMIT #{page}, 10
-    </select>
-    -->
-
-    <!-- 문서 조회 -->
+    <!-- 문서 단건 조회 -->
     <select id="readDocument" resultType="docsdto" parameterType="int">
-        SELECT title, memo, url, save_at
-        FROM document WHERE id = #{id}
+        SELECT title, memo, save_at
+        FROM document d
+                 JOIN folder f ON f.id = d.folder_id
+                 JOIN user u ON u.id = f.user_id
+        WHERE u.id = #{userId} AND d.id = #{documentId};
     </select>
 
     <!-- 문서 단일 삭제 -->
     <delete id="deleteDocument" parameterType="int">
-        DELETE FROM document WHERE id = #{id}
+        DELETE FROM document
+        WHERE id = (
+            SELECT d.id
+            FROM document d
+                     JOIN folder f ON f.id = d.folder_id
+                     JOIN user u ON u.id = f.user_id
+            WHERE u.id = #{userId} AND d.id = #{documentId}
+        );
     </delete>
 
-    <!-- 폴더 하위 문서 모두 삭제 -->
-    <delete id="deleteDocumentList" parameterType="int">
-        DELETE FROM document WHERE folder_id = #{folder_id}
-    </delete>
 </mapper>
