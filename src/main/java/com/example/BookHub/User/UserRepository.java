@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mapper
@@ -23,24 +24,22 @@ public interface UserRepository {
 	UserDTO loginuser(String email);
 	
 	/*마이페이지*/
-	UserDTO userinfo(int id);
+	UserDTO userinfo(Long id);
 	
 	/*회원정보 수정*/
 	int updateuser(UserDTO dto);
 	
 	/*회원정보 삭제*/
-	int deleteuser(int id);
+	int deleteuser(Long id);
 
+	/*회원리스트 조회- 페이징, 검색어 - 수정중*/
+	List<UserDTO> selectUserkeywordList(Map<String, Object> map);
+	
 	/*회원리스트 조회 -페이징*/
 	List<UserDTO> selectUserList(int limit);
 	
-	/*회원수 조회*/
+	/*회원수 조회 -페이징 */
 	int totalUser();
 	
-	/*회원리스트 조회*/
-	List<UserDTO> selectUserList();
-	
-	/*회원리스트 조회 - 검색*/
-	List<UserDTO> selectUserList(String keyword);
 	 
 }

@@ -58,29 +58,32 @@
 		WHERE ID = #{id}
 	</delete>
 	
-<!-- 	<select id="selectUserList" parameterType="int" resultType="userdto"> -->
-<!-- 		/*회원 리스트 조회*/ -->
-<!-- 		SELECT * -->
-<!-- 			FROM USER -->
-<!-- 		ORDER BY ID DESC -->
-<!-- 		LIMIT #{limit},3 -->
-<!-- 	</select> -->
+	<select id="selectUserList" parameterType="int" resultType="userdto">
+		/*회원 리스트 조회*/
+		SELECT *
+			FROM USER
+		ORDER BY ID DESC
+		LIMIT #{limit},10
+	</select>
 
 	<select id="totalUser" resultType="int">
 		/*회원 리스트 총갯수*/
 		SELECT COUNT(*)
 			FROM USER
 	</select>
-
-	<select id="selectUserList" resultType="userdto">
+	
+	<select id="selectUserkeywordList" parameterType="HashMap"  resultType="userdto">
 		/*회원 리스트 조회 */
 		SELECT *
 			FROM USER
-<!-- 		<if test="!keyword.equals('') and keyword != null"> -->
-<!-- 			WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%') -->
-<!-- 		</if> -->
+		<if test="!keyword.equals('') and keyword != null">
+			WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%')
+		</if>
 		ORDER BY ID DESC
+		LIMIT #{limit},10
 	</select>
+
+
 	
 	
 	

@@ -17,8 +17,9 @@ public class UserDTO {
     private String password;
     private String role;
     private String socialName;
+    
     private String keyword;
-
+   
     @Builder
     public UserDTO(String name, String email, String role, String socialName) {
         this.name = name;

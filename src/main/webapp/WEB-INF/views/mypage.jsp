@@ -6,13 +6,12 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>마이페이지</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link href="/css/index.css" rel="stylesheet" type="text/css">
-    <link href="/css/docs.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-    <script type="text/javascript">
+<link href="/css/index.css" rel="stylesheet" type="text/css">
+<link href="/css/docs.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
+<script type="text/javascript">
         function validateForm() {
             let email = document.querySelector('#email').value;
             let emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -21,7 +20,6 @@
             let pwError = document.querySelector('#pwError');
             let button = document.querySelector('#button');
             let emailButton = document.querySelector('#emailButton');
-
             if (emailRegex.test(email) && email !== "" && password !== "") {
                 mailError.textContent = "";
                 pwError.textContent = "";
@@ -44,42 +42,9 @@
             }
         }
 
-        function startTimer() {
-            event.preventDefault();
-            let codeForm = document.querySelector("#verificationCode");
-            codeForm.disabled = false;
-
-            const timerDisplay = document.querySelector('#timerDisplay');
-
-            const timerDuration = 180;
-
-            let timerInterval = null;
-            let timerRemaining = timerDuration;
-            timerDisplay.innerHTML = `남은시간: ${timerRemaining} 초`;
-
-            timerInterval = setInterval(() => {
-                timerRemaining--;
-                timerDisplay.innerHTML = `남은시간: ${timerRemaining} 초`;
-
-                if (timerRemaining === 0) {
-                    clearInterval(timerInterval);
-                    timerDisplay.innerHTML = "제한시간 초과";
-
-                }
-            }, 1000);
         }
-
-        function emailAuth() {
-            event.preventDefault();
-            let codeForm = document.querySelector("#verificationCode");
-            codeForm.disabled = false;
-            startTimer();
-        }
-        
-        
-        
-    </script>
-    <style type="text/css">
+</script>
+<style type="text/css">
     	.formContainer {
     	    display: flex;
 		    flex-direction: column;
@@ -107,7 +72,7 @@
 	    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 	}    	
     
-    </style>
+</style>
 </head>
 <body>
 <div class="App">
@@ -117,13 +82,7 @@
 	                <a href="/" class="link"><img class="brandlogo" src="/img/logo.png" alt="로고"/><span class="logoName">북 허브</span></a>
 	            </div>
 	        </div>
-	        <div class="search">
-	            <div class="inputWrap">
-	                <input id="searchInput" oninput="searchDocs()" class="searchin" type="text"
-	                       placeholder="문서 검색하기...">
-	                <button class="material-symbols-outlined" id="clearSearch" onclick="searchClear()">close</button>
-	            </div>
-	        </div>
+	        <div class="search"></div>
 	        <div class="left">
 	            <div class="dropdown">
 	                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -132,9 +91,10 @@
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
-	                    <li><a class="dropdown-item" href="/insertpost">문의글작성</a></li>
-	                    <li><a class="dropdown-item" href="/postlist">문의리스트</a></li>
+	                    <li><a class="dropdown-item" href="/folderList">내 문서</a></li>
+	                    <li><a class="dropdown-item" href="/postlist">내 문의</a></li>
 	                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+	                    
 	                </ul>
 	            </div>
 	        </div>
@@ -143,16 +103,17 @@
 	        <div class="sidebar">
 	            <ul class="folder-list">
 	                <li class="folder-name">
-	                    <span class="side" onclick="location.href='/mypage'">내정보</span>
+	                    <span class="side" onclick="location.href='/mypage'">내 정보</span>
 	                </li>
 	                <li class="folder-name">
-	                    <span class="side" onclick="location.href='/postlist'">문의리스트</span>
+	                    <span class="side" onclick="location.href='/postlist'">내 문의</span>
 	                </li>
 	                <li class="folder-name">
 	                    <span class="side" onclick="location.href='/post/insert'">문의글작성</span>
 	                </li>
 	                <li class="folder-name">
 	                    <span class="side">자주묻는질문</span>
+	                    
 	                </li>
 	            </ul>
 	        </div>

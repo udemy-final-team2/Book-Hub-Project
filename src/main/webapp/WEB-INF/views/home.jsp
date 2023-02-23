@@ -29,7 +29,7 @@
             </div>
             <c:if test="${not empty sessionScope.get(SessionConst.LOGIN_USER)}">
             <div class="menuName">
-                <span class="menu"><a class="link" href="/user/<%= ((UserDTO)(session.getAttribute(LOGIN_USER))).getId()%>">마이페이지</a></span>
+                <span class="menu"><a class="link" href="/mypage">마이페이지</a></span>
             </div>
             </c:if>
             <div class="menuName">
