@@ -1,6 +1,8 @@
 package com.example.BookHub.Docs;
 
 import com.example.BookHub.S3.S3Service;
+import com.example.BookHub.User.UserDTO;
+import com.example.BookHub.Util.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -8,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+
+import static com.example.BookHub.Util.SessionConst.LOGIN_USER;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,34 +44,36 @@ public class DocsController {
         return "redirect:/docs/write";
     }
 
-    // 문서 조회
+    // 문서 단건 조회
     @GetMapping("/docs/read/{documentId}")
-    public String readDocument(@PathVariable Long documentId, Model model) {
-        DocsDTO document = docsService.readDocument(documentId);
+    public String readDocument(HttpSession session,
+                               @PathVariable Long documentId,
+                               Model model) {
+        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+        DocsDTO document = docsService.readDocument(userId, documentId);
         model.addAttribute("document", document);
         return "document";
     }
 
-    // 폴더 문서 리스트 조회
-    @GetMapping("/docs/{folderId}")
-    public String getDocumentList(@PathVariable Long folderId, Model model) {
-        List<DocsDTO> documentList = docsService.readDocumentList(folderId);
-        model.addAttribute("documentList", documentList);
-        return "docs";
-    }
-
-    // 문서 삭제
-    @PostMapping("/docs/delete")
-    public String deleteDocument(@RequestParam Long documentId) {
-        docsService.deleteDocument(documentId);
-        return "redirect:/docs/list";
+    // 문서 단일 삭제
+    @PostMapping("/docs/delete/{documentId}")
+    public String deleteDocument(HttpSession session, @PathVariable Long documentId) {
+        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+        docsService.deleteDocument(userId, documentId);
+        return "redirect:/folder/list";
     }
 
     // 문서 비교
     @PostMapping("/docs/compare")
-    public String[] compareDocument(@RequestParam Long documentId1, @RequestParam Long documentId2) {
-        DocsDTO document1 = docsService.readDocument(documentId1);
-        DocsDTO document2 = docsService.readDocument(documentId2);
-        return s3Service.compareDocument(document1.getS3Key(), document2.getS3Key());
+    public String compareDocument(HttpSession session,
+                                  @RequestParam Long documentId1,
+                                  @RequestParam Long documentId2,
+                                  Model model) {
+        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+        DocsDTO document1 = docsService.readDocument(userId, documentId1);
+        DocsDTO document2 = docsService.readDocument(userId, documentId2);
+        String[] documentList = s3Service.compareDocument(document1.getS3Key(), document2.getS3Key());
+        model.addAttribute("documentList", documentList);
+        return "compareview";
     }
 }

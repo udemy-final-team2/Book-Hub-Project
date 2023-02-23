@@ -11,10 +11,9 @@ public interface DocsRepository {
 
     // 문서 작성
     void writeDocument(DocsDTO dto);
-    // 문서 목록 조회
-    List<DocsDTO> readDocumentList(Long folder_id);
-    // 문서 조회
-    DocsDTO readDocument(Long id);
-    // 문서 삭제
-    void deleteDocument(Long id);
+    // 문서 단건 조회
+    DocsDTO readDocument(Long userId, Long id);
+    // 문서 단일 삭제
+    void deleteDocument(Long userId, Long id);
+
 }
