@@ -9,8 +9,18 @@ import org.springframework.stereotype.Repository;
 @Repository("postrepository")
 public interface PostRepository {
 
-	List<PostDTO> postList();
+	List<PostDTO> postList(int limit);
 
-	PostDTO selectpost(int id);
+	PostDTO selectpost(long id);
+
+	int totalPost();
+
+	int insertMyPost(PostDTO postdto);
+
+	int insertComment(CommentDTO commentdto);
+
+	int updatePost(long postid);
+
+
 
 }

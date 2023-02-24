@@ -14,37 +14,9 @@
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <link href="css/index.css" rel="stylesheet" type="text/css">
     <link href="css/docs.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
-        function editFolderTitle(button) {
-            const parent = button.parentElement.parentElement;
-            const title = parent.querySelector('.folder-title');
-            const titleText = title.innerText;
-            const input = document.createElement('input');
-            input.value = titleText;
-            input.classList.add('folder-title-input');
-            parent.replaceChild(input, title);
-            input.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    const newTitleText = input.value.trim();
-                    if (newTitleText !== '') {
-                        const newTitle = document.createElement('p');
-                        newTitle.classList.add('folder-title');
-                        newTitle.innerText = newTitleText;
-                        parent.replaceChild(newTitle, input);
-                    } else {
-                        const originalTitle = document.createElement('p');
-                        originalTitle.classList.add('folder-title');
-                        originalTitle.innerText = titleText;
-                        parent.replaceChild(originalTitle, input);
-                    }
-                }
-            });
-            input.focus(); // Set focus on the input field
-        }
-        
-       	        
-
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 <style type="text/css">
 	.side {
 	    font-size: 20px;
@@ -58,11 +30,16 @@
 	}
 	
 	.table>:not(caption)>*>* {
-    padding: 0.5rem 2.5rem;
-    background-color: var(--bs-table-bg);
-    border-bottom-width: var(--bs-border-width);
-    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
-}
+	    padding: 0.5rem 2.5rem;
+	    background-color: var(--bs-table-bg);
+	    border-bottom-width: var(--bs-border-width);
+	    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+	}
+	
+	#title{
+		text-decoration: none;
+		color: black;
+	}
 </style>
 </head>
 <body>
@@ -76,14 +53,14 @@
         <div class="search">
             <div>
                 <input type="text" id="search" class="searchin" name="keyword" placeholder="검색">
-                <button class="button" id="search()">검색</button>
+                <button class="button" id="search()" style="display:none">검색</button>
             </div>
         </div>
         <div class="left">
             <div class="dropdown">
                 <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                 ${dto.name}
+                    ${name}
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
@@ -103,7 +80,7 @@
             </ul>
         </div>
         <div class="main">
-            <h2 class="folder-header">문의 관리</span>
+            <h2 class="folder-header"><span>문의 관리</span>
             </h2>
             <div class="menuBar">
                 <h5 class="menuBar-header"></h5>
@@ -114,41 +91,52 @@
                 <table class="table table-striped table-hover" id="usertable">
                     <thead>
                     <tr>
-                        <th scope="col">번호</th>
-                        <th scope="col">닉네임</th>
-                        <th scope="col">카테고리</th>
-                        <th scope="col">제 목</th>
-                        <th scope="col">상태</th>
+                        <th class="col-sm"scope="col">번호</th>
+                        <th class="col-sm"scope="col">닉네임</th>
+                        <th class="col-sm"scope="col">카테고리</th>
+                        <th class="col-sm-4" scope="col">제 목</th>
+                        <th class="col-sm" scope="col">상태</th>
                     </tr>
                     </thead>
-                    <tbody> 
-                    <c:choose>
-						<c:when test="${empty postList}">
-							<tr>
-								<td colspan="5" class="text-center">조회된 목록이 없습니다.</td>
-							</tr>
-						</c:when>
-						<c:otherwise>
-                    <c:forEach items="${postList}" var="postList">
-						<tr>
-							<td>${postList.id}</td>
-							<td>${postList.name}</td>
-							<td>${postList.category}</td>
-							<td><a href="/post/${postList.id}">${postList.title}</a></td>
-							<td>${postList.status}</td>
-						</tr>
-                    </c:forEach>
-                    </c:otherwise>
-                    </c:choose>
-                    </tbody>
+                    <tbody>
+						<c:choose>
+							<c:when test="${empty postList}">
+								<tr>
+									<td colspan="5" class="text-center">조회된 목록이 없습니다.</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${postList}" var="postList">
+									<tr>
+										<td>${postList.id}</td>
+										<td>${postList.name}</td>
+										<td>${postList.category}</td>
+										<td><a href="/post/${postList.id}" id="title">${postList.title}</a></td>
+										<td>${postList.status}</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
                 </table>
                 </form>
-            </div>
+                <%
+				int totalcount = (Integer) request.getAttribute("totalPost");
+							int totalpage = 0;
+							if (totalcount % 10 == 0) {
+								totalpage = totalcount / 10;
+							} else {
+								totalpage = totalcount / 10 + 1;
+							}
+							for (int i = 1; i <= totalpage; i++) {
+				%>
+				<a href="postlist?page=<%=i%>"><%=i%>페이지</a>
+				<%
+				}
+				%>
+			</div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <mapper namespace="com.example.BookHub.Post.PostRepository">
 
 	<select id="postList" resultType="postdto">
-		/*고객문의 리스트 조회 */
+		/*문의리스트 조회 */
 		SELECT ID,
 		USER_ID, TITLE, CATEGORY, CONTENT,
 		(
@@ -18,19 +18,40 @@
 		(SELECT NAME FROM USER U WHERE U.ID = P.USER_ID) NAME
 		FROM POST P
 		ORDER BY ID DESC
+		LIMIT #{limit},10
+	</select>
+	
+	<select id="totalPost" resultType="int">
+		/*문의리스트 총갯수*/
+		SELECT COUNT(*)
+			FROM POST
 	</select>
 	
 	<select id="selectpost" resultType="postdto">
 		/*고객문의 상세*/
 		SELECT 
 		ID, USER_ID, TITLE, CATEGORY, CONTENT, CREATED_AT, STATUS,
-		(SELECT NAME FROM USER U WHERE U.ID = P.USER_ID) NAME
+		(SELECT NAME FROM USER U WHERE U.ID = P.USER_ID) NAME,
+		(SELECT CONTENT FROM COMMENT C WHERE C.POST_ID = P.ID )COMMENT
 			FROM POST P
 		WHERE ID =#{id}
 	</select>
 	
+	<insert id="insertMyPost" parameterType="postdto">
+	/*내문의 작성*/
+		INSERT INTO POST (user_id, title, category, content,created_at,status)
+		VALUES (#{userid}, #{title},#{category},#{content},now(),1)
+	</insert>
 	
+	<insert id="insertComment">
+	/*코멘트 작성 */
+	INSERT INTO COMMENT (post_id ,user_id,content,created_at) VALUES (#{postid},#{userid},#{content},now());
+	</insert>
 	
+	<update id="updatePost">
+	UPDATE POST SET STATUS ='2'
+	WHERE id = #{postid}
+	</update>
 	
 
 </mapper>
