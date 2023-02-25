@@ -13,12 +13,12 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Component("postdto")
 public class PostDTO {
-	private int id,userid;
+	private long id,userid;
 	private String title,content,category;
 	private Date createdAt;
 	private String status;
 	
 	private String name; //username
-	
+	private String comment;//comment의 content
 
 }
