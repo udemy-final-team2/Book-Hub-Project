@@ -32,15 +32,11 @@ public class DocsController {
 
     // 문서 작성
     @PostMapping("/docs/write")
-    public String writeDocument(DocsDTO dto, MultipartFile file) throws IOException {
+    public String writeDocument(@ModelAttribute DocsDTO dto,
+                                MultipartFile file) throws IOException {
         String s3Key = s3Service.upload(file);
-        DocsDTO saveDoc = DocsDTO.builder()
-                .folderId(dto.getFolderId())
-                .title(dto.getTitle())
-                .memo(dto.getMemo())
-                .s3Key(s3Key)
-                .build();
-        docsService.writeDocument(saveDoc);
+        dto.setS3Key(s3Key);
+        docsService.writeDocument(dto);
         return "redirect:/docs/write";
     }
 
@@ -56,8 +52,9 @@ public class DocsController {
     }
 
     // 문서 단일 삭제
-    @PostMapping("/docs/delete/{documentId}")
-    public String deleteDocument(HttpSession session, @PathVariable Long documentId) {
+    @GetMapping("/docs/delete")
+    public String deleteDocument(HttpSession session, @RequestParam Long documentId) {
+        log.info(String.valueOf(documentId));
         Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
         docsService.deleteDocument(userId, documentId);
         return "redirect:/folder/list";

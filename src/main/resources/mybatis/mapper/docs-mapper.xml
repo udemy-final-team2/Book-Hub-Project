@@ -11,22 +11,22 @@
     </insert>
 
     <!-- 문서 단건 조회 -->
-    <select id="readDocument" resultType="docsdto" parameterType="int">
+    <select id="readDocument" resultType="docsdto" parameterType="Long">
         SELECT title, memo, save_at
         FROM document d
-                 JOIN folder f ON f.id = d.folder_id
-                 JOIN user u ON u.id = f.user_id
+        JOIN folder f ON f.id = d.folder_id
+        JOIN user u ON u.id = f.user_id
         WHERE u.id = #{userId} AND d.id = #{documentId};
     </select>
 
     <!-- 문서 단일 삭제 -->
-    <delete id="deleteDocument" parameterType="int">
+    <delete id="deleteDocument" parameterType="Long">
         DELETE FROM document
         WHERE id = (
             SELECT d.id
             FROM document d
-                     JOIN folder f ON f.id = d.folder_id
-                     JOIN user u ON u.id = f.user_id
+            JOIN folder f ON f.id = d.folder_id
+            JOIN user u ON u.id = f.user_id
             WHERE u.id = #{userId} AND d.id = #{documentId}
         );
     </delete>

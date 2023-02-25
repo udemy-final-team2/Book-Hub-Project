@@ -5,10 +5,7 @@ import com.example.BookHub.User.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -34,8 +31,8 @@ public class FolderController {
     }
 
     // 폴더 삭제
-    @PostMapping("/folder/delete/{folderId}")
-    public String deleteFolder(HttpSession session, @PathVariable Long folderId) {
+    @PostMapping("/folder/delete")
+    public String deleteFolder(HttpSession session, @RequestParam Long folderId) {
         Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
         folderService.deleteFolder(userId, folderId);
         return "redirect:/folder/list";
@@ -59,11 +56,11 @@ public class FolderController {
     }
 
     // 폴더 속 문서 목록 조회
-    @GetMapping("/folder/{folderId}")
-    public String getDocumentList(HttpSession session, @PathVariable Long folderId, Model model) {
+    @ResponseBody
+    @GetMapping("/folderlist")
+    public List<DocsDTO> getDocumentList(HttpSession session, @RequestParam Long folderId, Model model) {
         Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
         List<DocsDTO> documentList = folderService.readDocumentList(userId, folderId);
-        model.addAttribute("documentList", documentList);
-        return "docs";
+        return documentList;
     }
 }
