@@ -7,11 +7,6 @@ server:
             init-parameters:
                 development: true
 spring:
-    datasource:
-        driver-class-name: org.mariadb.jdbc.Driver
-        password: 1234
-        url: jdbc:mariadb://localhost:3306/BookHub
-        username: root
     mvc:
         view:
             prefix: /WEB-INF/views/
@@ -20,3 +15,4 @@ spring:
         include:
             - oauth
             - aws
+            - rds
