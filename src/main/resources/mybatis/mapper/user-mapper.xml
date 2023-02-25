@@ -28,20 +28,20 @@
 		/* 일반 로그인 */ 
 		SELECT	
 			*		
-			FROM USER
+			FROM user
 		WHERE email = #{email}
 	</select>
 	
 	<select id="userinfo" resultType="userdto">
 		/* 회원 정보 조회 */ 
 		SELECT * 
-			FROM USER
+			FROM user
 		WHERE id = #{id}
 	</select>
 
 	<update id="updateuser">
 		/* 회원 정보 수정 */ 
-		UPDATE USER SET
+		UPDATE user SET
 		<if test="!name.equals('') and name != null">
 			NAME = #{name},
 		</if>
