@@ -47,7 +47,7 @@ public class UserController {
 			view = "redirect:/usermanage";
 			log.info("관리자페이지이동");
 		}else {
-			view = "home";
+			view = "redirect:/folder/list";
 		}
 		return view;
 	}

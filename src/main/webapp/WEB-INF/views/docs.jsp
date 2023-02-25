@@ -1,7 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Collections" %>
 <%@ page import="com.example.BookHub.Docs.DocsDTO" %>
+<%@ page import="static com.example.BookHub.Util.SessionConst.LOGIN_USER" %>
+<%@ page import="com.example.BookHub.Folder.FolderDTO" %>
+<%@ page import="com.example.BookHub.User.UserDTO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,6 +16,7 @@
     <link href="/css/index.css" rel="stylesheet" type="text/css">
     <link href="/css/docs.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/js/docs.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
 <body>
 <div class="App">
@@ -34,13 +37,13 @@
             <div class="dropdown">
                 <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                    김지운
+                    <%= ((UserDTO) session.getAttribute(LOGIN_USER)).getName()%>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">내 정보</a></li>
-                    <li><a class="dropdown-item" href="#">내 문서</a></li>
-                    <li><a class="dropdown-item" href="#">고객센터</a></li>
-                    <li><a class="dropdown-item" href="#">로그아웃</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage">내 정보</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/folder/list">내 문서</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/postlist">고객센터</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
                 </ul>
             </div>
         </div>
@@ -48,39 +51,45 @@
     <div class="grid">
         <div class="sidebar">
             <ul class="folder-list">
-                <%
-                    List<String[]> folders = new ArrayList<>();
-                    folders.add(new String[]{"folder_open", "제목 없음"});
-                    folders.add(new String[]{"folder", "탕짜면을 먹고나서 용사로 환생했습니다."});
-                    folders.add(new String[]{"folder", "제목없음 (1)"});
-                    for (String[] folder : folders) {
-                %>
-                <li class="folder-name">
-                    <span class="material-symbols-outlined"><%= folder[0] %></span>
-                    <p class="folder-title"><%= folder[1] %>
-                    </p>
-                    <p>
-                        <span class="material-symbols-outlined edit-btn" onclick="editFolderTitle(this)">edit</span>
-                        <span class="material-symbols-outlined">delete</span>
-                    </p>
+                <c:if test="${folderList != null}">
+                    <c:forEach var="folder" items="${folderList}">
+                        <li class="folder-name">
+                            <input type="hidden" id="folderId" name="folderId" value="${folder.id}">
+                            <span class="material-symbols-outlined">folder</span>
+                            <p class="folder-title" id="folderTitle">
+                                    ${folder.name}
+                            </p>
+                            <p>
+                                <span class="material-symbols-outlined folder-edit-btn" onclick="editFolderTitle(this)">edit</span>
+                                <span class="material-symbols-outlined folder-del-btn">delete</span>
+                            </p>
+                        </li>
+                    </c:forEach>
+                </c:if>
+                <li class="new-folder">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        새 폴더
+                    </button>
+                    <%--<span class="material-symbols-outlined">add</span>
+                    <p class="new-folder-button">새 폴더</p>--%>
                 </li>
-                <% } %>
-                <li class="new-folder"><span class="material-symbols-outlined">add</span>
-                    <p class="new-folder-button">새문서</p></li>
             </ul>
         </div>
         <div class="main">
-            <h2 class="folder-header"><span id="icon"
-                                            class="material-symbols-outlined"><%= folders.get(0)[0] %></span><%= folders.get(0)[1]%>
+            <h2 class="folder-header">
+                <span id="icon" class="material-symbols-outlined">folder_open</span>
+                <input type="hidden" id="folder-hidden">
             </h2>
             <div class="menuBar">
                 <h5 class="menuBar-header">최근문서</h5>
                 <ul class="menuBar-menu">
                     <li>
-                        <button class="add-btn">새 문서</button>
+                        <button class="add-btn" id="writeform">새 문서</button>
                     </li>
                     <li>
-                        <a href="/docs/view"><button class="comp-btn">비교하기</button></a>
+                        <a href="/docs/view">
+                            <button class="comp-btn">비교하기</button>
+                        </a>
                     </li>
                     <li>
                         <button id="delete-button" class="del-btn" onclick="openDeleteModal()">삭제</button>
@@ -90,7 +99,7 @@
                     <div class="modal-content">
                         <p>선택한 문서를 삭제하시겠습니까?</p>
                         <div>
-                            <button class="btn btn-danger" onclick="deleteSelectedDocuments()">삭제</button>
+                            <button class="btn btn-danger" id="delete-btn">삭제</button>
                             <button class="btn btn-secondary" onclick="closeDeleteModal()">취소</button>
                         </div>
                     </div>
@@ -109,85 +118,116 @@
                     </tr>
                     </thead>
                     <tbody id="docsList">
-                    <%
-                        int pageSize = 10;
-                        int currentPage = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
-                        List<DocsDTO> docs = (List<DocsDTO>) request.getAttribute("documentList");
-                        int startIndex = 0;
-                        int endIndex = 0;
-                        if (docs != null) {
-                            startIndex = (currentPage - 1) * pageSize;
-                            endIndex = Math.min(startIndex + pageSize, docs.size());
-                        }
-                    %>
-                    <% for (int i = startIndex; i < endIndex; i++) {%>
-                    <tr>
-                        <td style="text-align: center" class="checkbox"><input type="checkbox" class="document-checkbox" data-document-id="<%= docs.get(i).getId() %>"></td>
-                        <td style="text-align: center"><%= i + 1 %>
-                        </td>
-                        <td><%= docs.get(i).getTitle() %>
-                        </td>
-                        <td><%= docs.get(i).getSaveAt() %>
-                        </td>
-                        <td><a href="#" id="memo" onclick="openModal(`<%= docs.get(i).getMemo() %>`)"><%= docs.get(i).getMemo() %>
-                        </a>
-                            <div id="modal">
-                                <div id="modal-window">
-                                    <div>
-                                        <p id="modal-content"></p>
-                                    </div>
-                                    <div>
-                                        <button id="close-btn" class="btn btn-outline-secondary" onclick="closeModal()">
-                                            닫기
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <% } %>
+                    <c:forEach items="${documentList}" var="document">
+                        <tr>
+                            <td>
+                                    ${document.title}
+                            </td>
+                            <td>
+                                    ${document.saveAt}
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
-
-                <%--페이지네이션--%>
-                <div class="paging">
-                    <ul class="pagination">
-                        <% if (currentPage > 1) { %>
-                        <li class="page-item"><a class="page-link" href="<%= "?page=" + (currentPage - 1) %>">
-                            <span aria-hidden="true">&laquo;</span></a></li>
-                        <% } else { %>
-                        <li class="page-item disabled"><a class="page-link"><span aria-hidden="true">&laquo;</span></a>
-                        </li>
-                        <% } %>
-
-                        <% int startPage = Math.max(currentPage - 2, 1);
-                            int endPage = Math.min(currentPage + 2, (int) Math.ceil(docs.size() / (double) pageSize));
-                            for (int i = startPage; i <= endPage; i++) { %>
-                        <% if (i == currentPage) { %>
-                        <li class="page-item active"><a class="page-link"><%= i %>
-                        </a></li>
-                        <% } else { %>
-                        <li class="page-item"><a class="page-link" href="<%= "?page=" + i %>"><%= i %>
-                        </a></li>
-                        <% } %>
-                        <% } %>
-
-                        <% if (currentPage < Math.ceil(docs.size() / (double) pageSize)) { %>
-                        <li class="page-item"><a class="page-link" href="<%= "?page=" + (currentPage + 1) %>">
-                            <span aria-hidden="true">&raquo;</span></a></li>
-                        <% } else { %>
-                        <li class="page-item disabled"><a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                                <% } %>
-                    </ul>
-                </div>
-
             </div>
         </div>
     </div>
-
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">폴더 추가하기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <label>
+                폴더명: <input type="text" name="folder-name">
+            </label>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" id="folder-create-btn">폴더 생성</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const fetchFolderContents = (folderId) => {
+        $.ajax({
+            url: `/folderlist`,
+            method: 'GET',
+            data: { folderId },
+            success: function (data) {
+                $('#docsList').html('');
+                for (let i = 0; i < data.length; i++) {
+                    $('#docsList').append(
+                        "<tr><td style='text-align: center' class='checkbox'><input type='checkbox' id='check' class='document-checkbox' value=" +
+                        data[i].id + "></td><td>"
+                        + data[i].id + "</td><td>"
+                        + data[i].title + "</td><td>" +
+                        data[i].saveAt + "</td><td>" +
+                        data[i].memo + "</td></tr>");
+                }
+            },
+            error: function (request, status, error) {
+                alert("code:" + request.status + "\n"
+                    + "message:" + request.responseText + "\n"
+                    + "error:" + error);
+            }
+        });
+    };
+
+    $(document).ready(function () {
+        $('#folder-create-btn').click(function () {
+            let folderName = $('input[name=folder-name]').val();
+            $.ajax({
+                url: '/folder/create',
+                type: 'POST',
+                data: {name: folderName},
+                success: function (data) {
+                    console.log('폴더 생성 요청이 성공했습니다.');
+                },
+                error: function (xhr, status, error) {
+                    console.log('폴더 생성 요청이 실패했습니다.');
+                }
+            });
+            this.style.display = "none";
+            location.reload();
+        });
+
+
+        $('p.folder-title').on('click', function () {
+            const folderId = $(this).siblings('input#folderId').val();
+            fetchFolderContents(folderId);
+        });
+
+        $('#delete-btn').on('click', function () {
+            let documentId = $('input[type="checkbox"]:checked').val();
+            $.ajax({
+                url: `/docs/delete`,
+                data: {documentId: documentId},
+                method: 'GET',
+                success: function () {
+                    document.getElementById("delete-modal").style.display = "none";
+                },
+                error: function (request, status, error) {
+                    alert("code:" + request.status + "\n"
+                        + "message:" + request.responseText + "\n"
+                        + "error:" + error);
+                }
+            });
+        });
+
+        $('#writeform').on('click', function () {
+            window.location.href = '/docs/write';
+        });
+
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
