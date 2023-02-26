@@ -3,8 +3,8 @@ package com.example.BookHub.Post;
 import static com.example.BookHub.Util.SessionConst.LOGIN_USER;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
+import com.example.BookHub.User.UserDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.BookHub.User.UserDTO;
 import lombok.RequiredArgsConstructor;
 
 @Controller("postcontroller")
@@ -43,7 +42,7 @@ public class PostController {
 	@GetMapping("/post/{id}")
 	public ModelAndView selectpost(HttpSession session, @PathVariable Long id) {
 		// 문의 - 상세글
-		String role = ((UserDTO) session.getAttribute(LOGIN_USER)).getRole();
+		String role = String.valueOf(((UserDTO) session.getAttribute(LOGIN_USER)).getRole());
 		PostDTO postdto= postService.selectpost(id);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("postdto", postdto);
