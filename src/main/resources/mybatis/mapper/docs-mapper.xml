@@ -12,7 +12,7 @@
 
     <!-- 문서 단건 조회 -->
     <select id="readDocument" resultType="docsdto" parameterType="Long">
-        SELECT title, memo, save_at
+        SELECT title, memo, save_at, s3_key
         FROM document d
         JOIN folder f ON f.id = d.folder_id
         JOIN user u ON u.id = f.user_id

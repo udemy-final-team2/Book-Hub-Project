@@ -48,7 +48,7 @@ public class DocsController {
         Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
         DocsDTO document = docsService.readDocument(userId, documentId);
         model.addAttribute("document", document);
-        return "document";
+        return "docsdetail";
     }
 
     // 문서 단일 삭제
