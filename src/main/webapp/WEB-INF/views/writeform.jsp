@@ -121,7 +121,7 @@
   function cancelWrite() {
     if (confirm("작성중인 내용이 초기화됩니다. 진행하시겠습니까?")) {
       tinymce.activeEditor.setContent('');
-      location.href = '/document/list';
+      location.href = '/folder/list';
     }
   }
 

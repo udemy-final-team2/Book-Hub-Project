@@ -21,13 +21,13 @@ public class DocsService {
     }
 
     // 문서 단건 조회
-    public DocsDTO readDocument(Long userId, Long id) {
-        return repository.readDocument(userId, id);
+    public DocsDTO readDocument(Long userId, Long documentId) {
+        return repository.readDocument(userId, documentId);
     }
 
     // 문서 단일 삭제
-    public void deleteDocument(Long userId, Long id) {
-        repository.deleteDocument(userId, id);
+    public void deleteDocument(Long userId, Long documentId) {
+        repository.deleteDocument(userId, documentId);
     }
 
 }
