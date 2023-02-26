@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.BookHub.Security.Token.TokenRepository">
+    <select id="findAllValidTokenByUser" resultMap="tokenResultMap">
+        SELECT *
+        FROM token
+        WHERE user_id = #{id}
+            AND expired = false
+           OR revoked = false
+    </select>
+
+    <select id="findByToken">
+        SELECT *
+        FROM token t
+        WHERE t.token = #{token}
+          AND expired = false;
+    </select>
+
+    <insert id="save" parameterType="com.example.BookHub.Security.Token.TokenDTO">
+        INSERT INTO token
+            (user_id, token, token_type, revoked, expired)
+        VALUES (#{userId}, #{token}, #{tokenType}, #{revoked}, #{expired})
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        INSERT INTO token(user_id, token, token_type, revoked, expired)
+        VALUES
+        <foreach collection="list" item="token" separator=",">
+            (#{token.userId}, #{token.token}, #{token.tokenType}, #{token.revoked}, #{token.expired})
+        </foreach>
+    </insert>
+
+    <resultMap id="tokenResultMap" type="com.example.BookHub.Security.Token.TokenDTO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="token" property="token"/>
+        <result column="token_type" property="tokenType"/>
+        <result column="expired" property="expired"/>
+        <result column="revoked" property="revoked"/>
+    </resultMap>
+
+    <select id="findById" resultMap="tokenResultMap">
+        SELECT id, user_id, token, token_type, expired, revoked
+        FROM token
+        WHERE id = #{id}
+    </select>
+</mapper>
