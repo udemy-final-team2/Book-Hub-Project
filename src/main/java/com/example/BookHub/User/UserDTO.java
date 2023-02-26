@@ -1,42 +1,57 @@
 package com.example.BookHub.User;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-@Getter
-@Setter
-@ToString
+import java.util.Collection;
+import java.util.List;
+
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Component("userdto")
-public class UserDTO {
+public class UserDTO implements UserDetails {
 
     private Long id;
+
     private String name;
     private String email;
     private String password;
-    private String role;
+    private Role role;
     private String socialName;
-    
-    private String keyword;
-   
-    @Builder
-    public UserDTO(String name, String email, String role, String socialName) {
-        this.name = name;
-        this.email = email;
-        this.role = role;
-        this.socialName = socialName;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
-    
-    public UserDTO update(String name){
-        this.name = name;
-        return this;
+
+    @Override
+    public String getUsername() {
+        return email;
     }
-    
-    //일반로그인
-    public UserDTO(String email, String password) {
-        this.email = email;
-        this.password = password;
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }
