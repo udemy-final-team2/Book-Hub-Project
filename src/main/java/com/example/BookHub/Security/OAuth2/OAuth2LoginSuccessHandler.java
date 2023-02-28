@@ -1,6 +1,7 @@
 package com.example.BookHub.Security.OAuth2;
 
 import com.example.BookHub.Security.Auth.AuthenticationResponse;
+import com.example.BookHub.Security.Auth.AuthenticationService;
 import com.example.BookHub.Security.JwtService;
 import com.example.BookHub.User.Role;
 import com.example.BookHub.User.UserDTO;
@@ -43,7 +44,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             String accessToken = jwtService.generateToken(user);
             AuthenticationResponse.builder().token(accessToken).build();
             try {
-                response.sendRedirect("/docs");
+                response.sendRedirect("/document");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

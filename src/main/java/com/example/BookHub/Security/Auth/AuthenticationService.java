@@ -33,7 +33,7 @@ public class AuthenticationService {
          .build();
         repository.insertUser(user);
         var jwtToken = jwtService.generateToken(user);
-        saveUserToken(user.getId(), jwtToken);
+        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
          .token(jwtToken)
          .build();
@@ -49,14 +49,14 @@ public class AuthenticationService {
          .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(user.getId(), jwtToken);
+        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
          .token(jwtToken)
          .build();
     }
-    public void saveUserToken(Long key, String jwtToken) {
+    public void saveUserToken(UserDTO user, String jwtToken) {
         var token = TokenDTO.builder()
-         .userId(key)
+         .userId(user.getId())
          .token(jwtToken)
          .tokenType(TokenType.BEARER)
          .expired(false)

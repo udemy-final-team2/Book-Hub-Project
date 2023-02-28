@@ -10,50 +10,31 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    private final JwtAuthenticationFilter jwtAuthFilter;
-    private final AuthenticationProvider authenticationProvider;
-    private final LogoutService logoutService;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
 
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
          .cors().disable()
-         .httpBasic().disable()
-         .oauth2Login()
-         .loginPage("/signin")
-         .userInfoEndpoint()
-         .userService(customOAuth2UserService)
-         .and().successHandler(oAuth2LoginSuccessHandler)
-         .defaultSuccessUrl("/docs").permitAll();
+         .httpBasic().disable();
 
         http.authorizeHttpRequests()
-         .antMatchers("/docs/**", "/mypage/**").authenticated()
-         .antMatchers("/admin").hasRole("ADMIN")
+         .antMatchers("/document/**", "/mypage/**").hasRole("USER")
+         .antMatchers("/admin/**").hasRole("ADMIN")
          .anyRequest().permitAll()
          .and()
-         .sessionManagement()
-         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-         .and()
-         .authenticationProvider(authenticationProvider)
-         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-         .logout()
-         .logoutUrl("api/v1/auth/logout")
-         .addLogoutHandler(logoutService)
-         .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
+         .oauth2Login()
+         .userInfoEndpoint()
+         .userService(customOAuth2UserService)
+         .and().
+         defaultSuccessUrl("/document");
         return http.build();
     }
 }
