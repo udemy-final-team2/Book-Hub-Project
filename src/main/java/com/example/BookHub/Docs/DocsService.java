@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,13 +19,13 @@ public class DocsService {
     }
 
     // 문서 단건 조회
-    public DocsDTO readDocument(Long userId, Long documentId) {
-        return repository.readDocument(userId, documentId);
+    public DocsDTO readDocument(Long id) {
+        return repository.readDocument(id);
     }
 
     // 문서 단일 삭제
-    public void deleteDocument(Long userId, Long documentId) {
-        repository.deleteDocument(userId, documentId);
+    public void deleteDocument(Long id) {
+        repository.deleteDocument(id);
     }
 
 }
