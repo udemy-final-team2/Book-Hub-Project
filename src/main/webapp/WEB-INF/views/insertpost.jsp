@@ -13,7 +13,6 @@
 <link href="/css/index.css" rel="stylesheet" type="text/css">
 <link href="/css/docs.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-    
 <style type="text/css">
 .insertform {
 	display: flex;
@@ -67,7 +66,7 @@
 	            <div class="dropdown">
 	                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
 	                        aria-expanded="false">
-	                ${postdto.name}
+	               <%= ((UserDTO) session.getAttribute(LOGIN_USER)).getName()%>
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
@@ -112,7 +111,7 @@
 						</select>
 	                    </div>
 	                    <div class="col-sm-6">
-	                        <input type="text" id="title" class="form-control" name="title" >
+	                        <input type="text" id="title" class="form-control" name="title" maxlength="20">
 	                    </div>
 	                </div>
 	                <div class="row mb-3">

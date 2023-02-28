@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="static com.example.BookHub.Util.SessionConst.LOGIN_USER" %>
+<%@ page import="com.example.BookHub.User.UserDTO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +62,7 @@
 	            <div class="dropdown">
 	                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
 	                        aria-expanded="false">
-	                ${postdto.name}
+	               <%= ((UserDTO) session.getAttribute(LOGIN_USER)).getName()%>
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
@@ -73,7 +75,18 @@
 	    </div>
 	    <div class="grid">
 	        <div class="sidebar">
-	            <ul class="folder-list">
+	           <c:if test="${role eq 'ADMIN'}">
+            <ul class="folder-list">
+                <li class="folder-name">
+                    <span class="side" onclick="location.href='/usermanage'">유저 관리</span>
+                </li>
+                <li class="folder-name">
+                    <span class="side" onclick="location.href='/postlist'">문의 관리</span>
+                </li>
+            </ul>
+            </c:if>
+            <c:if test="${role eq 'USER'}">
+            	<ul class="folder-list">
 	                <li class="folder-name">
 	                    <span class="side" onclick="location.href='/mypage'">내 정보</span>
 	                </li>
@@ -87,6 +100,7 @@
 	                    <span class="side">자주묻는질문</span>
 	                </li>
 	            </ul>
+            </c:if>
 	        </div>
 <!-- 	      </div> -->
 	    <div class="main">
@@ -114,7 +128,7 @@
 	                        작성자 , 날짜
 	                    </label>
 	                    <div class="col-sm-4">
-	                        <input type="text" id="writer" class="form-control"  value="${postdto.name}" readonly="readonly">
+	                        <input type="text" id="writer" class="form-control"  value="${name}" readonly="readonly">
 	                    </div>
 	                    <div class="col-sm-4">
 	                        <input type="text" id="date"  class="form-control" value="${postdto.createdAt}" readonly="readonly">
@@ -138,7 +152,7 @@
 								<input type="hidden" name="postid" value="${postdto.id}">
 							</div>
 						</c:when>
-						<c:when test="${ empty postdto.comment && role == '관리자' }">
+						<c:when test="${ empty postdto.comment && role == 'ADMIN' }">
 							<label for="comment" class="col-sm-4 col-form-label">
 								댓글
 							</label>

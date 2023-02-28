@@ -33,12 +33,15 @@ public interface UserRepository extends UserDetailsService {
 	/*회원정보 삭제*/
 	int deleteUser(Long id);
 
-	/*회원리스트 조회- 페이징, 검색어 - 수정중*/
+	/*회원리스트 조회 */
 	List<UserDTO> selectUserKeywordList(Map<String, Object> map);
 	
-	/*회원리스트 조회 -페이징*/
+	/*회원리스트 조회 */
 	List<UserDTO> selectUserList(int limit);
 	
 	/*회원수 조회 -페이징 */
 	int totalUser();
+	
+	/*회원수 조회 -페이징 */
+	int keywordtotalUser(String keyword);
 }
