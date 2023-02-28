@@ -6,17 +6,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>북허브 - postlist</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-    <link href="css/index.css" rel="stylesheet" type="text/css">
-    <link href="css/docs.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>북허브</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
+<link href="css/index.css" rel="stylesheet" type="text/css">
+<link href="css/docs.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <style type="text/css">
 	.side {
 	    font-size: 20px;
@@ -41,6 +42,20 @@
 		color: black;
 	}
 </style>
+<script type="text/javaScript">
+	$(document).ready(function(){
+		$("#search").keyup(function(event) {
+			if (event.which === 13) {
+				search();
+			}
+		});
+		function search() {
+			let keyword = $('#search').val();
+			console.log(keyword);
+			window.location.href = '/postlist?keyword=' + keyword;
+		};
+	});
+</script>
 </head>
 <body>
 <div class="App">
@@ -52,7 +67,7 @@
         </div>
         <div class="search">
             <div>
-                <input type="text" id="search" class="searchin" name="keyword" placeholder="검색">
+                <input type="text" id="search" class="searchin" name="keyword" placeholder="게시글 제목 검색">
                 <button class="button" id="search()" style="display:none">검색</button>
             </div>
         </div>
@@ -70,6 +85,7 @@
     </div>
     <div class="grid">
         <div class="sidebar">
+            <c:if test="${role eq 'ADMIN'}">
             <ul class="folder-list">
                 <li class="folder-name">
                     <span class="side" onclick="location.href='/usermanage'">유저 관리</span>
@@ -78,6 +94,23 @@
                     <span class="side" onclick="location.href='/postlist'">문의 관리</span>
                 </li>
             </ul>
+            </c:if>
+            <c:if test="${role eq 'USER'}">
+            	<ul class="folder-list">
+	                <li class="folder-name">
+	                    <span class="side" onclick="location.href='/mypage'">내 정보</span>
+	                </li>
+	                <li class="folder-name">
+	                    <span class="side" onclick="location.href='/postlist'">내 문의</span>
+	                </li>
+	                <li class="folder-name">
+	                    <span class="side" onclick="location.href='/post/insert'">문의글작성</span>
+	                </li>
+	                <li class="folder-name">
+	                    <span class="side">자주묻는질문</span>
+	                </li>
+	            </ul>
+            </c:if>
         </div>
         <div class="main">
             <h2 class="folder-header"><span>문의 관리</span>
@@ -138,5 +171,8 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 </body>
 </html>
