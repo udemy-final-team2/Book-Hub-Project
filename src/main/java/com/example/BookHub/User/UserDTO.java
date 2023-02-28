@@ -1,5 +1,6 @@
 package com.example.BookHub.User;
 
+import com.example.BookHub.Security.OAuth2.SocialType;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +23,7 @@ public class UserDTO implements UserDetails {
     private String email;
     private String password;
     private Role role;
-    private String socialName;
+    private SocialType socialType;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

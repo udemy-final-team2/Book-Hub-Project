@@ -26,6 +26,48 @@ public class UserController {
 
 	private final UserService userservice;
 
+	@PostMapping("/login")
+	public String login(String email, String password, HttpSession session) {
+		// 일반로그인
+		UserDTO dto = userservice.loginUser(email);
+		String view = "";
+
+		if (dto == null) {
+			log.info("가입되지않음");
+			view = "signin";
+		}
+
+		if (dto != null && email.equals(dto.getEmail())) {
+			if (password.equals(dto.getPassword())) {
+				session.setAttribute(LOGIN_USER, dto);
+			}
+		}
+
+		if(dto != null && dto.getRole().equals(Role.ADMIN)) {
+			view = "redirect:/usermanage";
+			log.info("관리자페이지이동");
+		}else {
+			view = "redirect:/folder/list";
+		}
+		return view;
+	}
+
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		// 희진_ 로그아웃 테스트용 jsp에도 버튼 추가
+		if(session.getAttribute(LOGIN_USER) != null){
+			session.invalidate();	// 세션값 삭제
+		}
+		return "home";
+	}
+
+	@PostMapping("/signupuser")
+	public String insertUser(@ModelAttribute UserDTO dto) {
+		UserDTO insertedUser = userservice.insertUser(dto);
+		return "signin";
+	}
+
 	@GetMapping("/mypage")
 	public ModelAndView myPage(HttpSession session, UserDTO userDTO) {
 		//마이페이지 내정보 불러오기
