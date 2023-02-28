@@ -27,8 +27,13 @@ public class FolderService {
     }
 
     // 폴더 삭제
-    void deleteFolder(Long userId, Long folderId){
-        repository.deleteFolder(userId, folderId);
+    void deleteFolder(Long folderId){
+        repository.deleteFolder(folderId);
+    }
+
+    // 폴더 삭제
+    void deleteDocumentList(Long folderId){
+        repository.deleteDocumentList(folderId);
     }
 
     // 폴더 생성
@@ -37,7 +42,7 @@ public class FolderService {
     }
 
     // 폴더 속 문서 목록 조회
-    List<DocsDTO> readDocumentList(Long userId, Long folderId) {
-        return repository.readDocumentList(userId, folderId);
+    List<DocsDTO> readDocumentList(Long folderId) {
+        return repository.readDocumentList(folderId);
     }
 }

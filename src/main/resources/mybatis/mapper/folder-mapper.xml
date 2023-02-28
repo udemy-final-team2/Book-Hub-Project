@@ -12,13 +12,7 @@
 
     <!-- 폴더 삭제 -->
     <delete id="deleteFolder" parameterType="Long">
-        DELETE FROM folder
-        WHERE id = (
-            SELECT f.id
-            FROM folder f
-            JOIN user u on u.id = f.user_id
-            where u.id = #{userId} and f.id = #{folderId}
-        )
+        DELETE FROM folder WHERE id = #{folderId}
     </delete>
 
     <!-- 폴더 이름 수정 -->
@@ -50,11 +44,6 @@
     <!-- 폴더 하위 문서 모두 삭제 -->
     <delete id="deleteDocumentList" parameterType="Long">
         DELETE FROM document
-        WHERE folder_id = (
-            SELECT f.id
-            FROM folder f
-            JOIN user u on f.user_id = u.id
-            where f.id = #{folderId}
-        )
+        WHERE folder_id = #{folderId}
     </delete>
 </mapper>
