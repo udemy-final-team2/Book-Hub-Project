@@ -3,90 +3,87 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.BookHub.User.UserRepository">
+	<resultMap id="userResultMap" type="com.example.BookHub.User.UserDTO">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="role" property="role" javaType="com.example.BookHub.User.Role" jdbcType="VARCHAR" />
+		<result column="social_name" property="socialName" />
+	</resultMap>
 
-    <!--소셜 로그인 유저 데이터 저장-->
-    <insert id="insertUserBySocial" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user (name, email, role, social_name)
-        VALUES (#{name}, #{email}, #{role}, #{socialName})
-    </insert>
-
-    <!--소셜 로그인 유저 데이터 저장-->
-    <select id="findUserByEmailAndSocialName" resultType="userdto">
+    <select id="findBySocialTypeAndEmail" resultMap="userResultMap">
         SELECT *
         FROM user
-        WHERE email = #{email} AND social_name=#{socialName}
+        WHERE email = #{email} AND social_name=#{socialType}
     </select>
-    
-	<insert id="insertuser" parameterType="userdto">
-		/* 회원 가입 */ 
-		INSERT 
-			INTO user 
-		( email, password, name, role, socialName ) values ( #{email}, #{password}, #{name}, #{role}, #{socialName})
+
+	<insert id="insertUser" parameterType="com.example.BookHub.User.UserDTO">
+		<selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO user (name, email, password, role, social_type)
+		VALUES (#{name}, #{email}, #{password}, #{role}, #{socialType})
 	</insert>
 
-	<select id="loginuser" resultType="userdto">
-		/* 일반 로그인 */ 
-		SELECT	
-			*		
-			FROM user
+	<select id="loginUser" resultType="userdto">
+		SELECT
+			*
+		FROM user
 		WHERE email = #{email}
 	</select>
-	
-	<select id="userinfo" resultType="userdto">
-		/* 회원 정보 조회 */ 
+
+	<select id="findByEmail" resultMap="userResultMap">
+		SELECT * FROM user WHERE email = #{email}
+	</select>
+
+	<select id="userinfo" resultMap="userResultMap">
 		SELECT * 
 			FROM user
 		WHERE id = #{id}
 	</select>
 
-	<update id="updateuser">
-		/* 회원 정보 수정 */ 
+	<update id="updateUser">
 		UPDATE user SET
 		<if test="!name.equals('') and name != null">
-			NAME = #{name},
+			name = #{name},
 		</if>
 		<if test="!password.equals('') and password != null">
-			PASSWORD = #{password}
+			password = #{password}
 		</if>
-		WHERE ID = #{id}
+		WHERE id = #{id}
 	</update>
 	
-	<delete id="deleteuser">
+	<delete id="deleteUser">
 		/*회원 정보 삭제*/
 		DELETE 
-			FROM USER
-		WHERE ID = #{id}
+			FROM user
+		WHERE id = #{id}
 	</delete>
 	
-	<select id="selectUserList" parameterType="int" resultType="userdto">
+	<select id="selectUserList" parameterType="int" resultMap="userResultMap">
 		/*회원 리스트 조회*/
 		SELECT *
-			FROM USER
-		ORDER BY ID DESC
+			FROM user
+		ORDER BY id DESC
 		LIMIT #{limit},10
 	</select>
 
 	<select id="totalUser" resultType="int">
 		/*회원 리스트 총갯수*/
 		SELECT COUNT(*)
-			FROM USER
+			FROM user
 	</select>
-	
-	<select id="selectUserkeywordList" parameterType="HashMap"  resultType="userdto">
+
+	<select id="selectUserKeywordList" parameterType="HashMap"  resultType="userdto">
 		/*회원 리스트 조회 */
 		SELECT *
-			FROM USER
+		FROM USER
 		<if test="!keyword.equals('') and keyword != null">
 			WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%')
 		</if>
 		ORDER BY ID DESC
 		LIMIT #{limit},10
 	</select>
-
-
-	
-	
-	
-	
 
 </mapper>

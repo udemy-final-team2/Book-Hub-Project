@@ -29,7 +29,7 @@ public class UserController {
 	@PostMapping("/login")
 	public String login(String email, String password, HttpSession session) {
 		// 일반로그인
-		UserDTO dto = userservice.loginuser(email);
+		UserDTO dto = userservice.loginUser(email);
 		String view = "";
 
 		if (dto == null) {
@@ -43,7 +43,7 @@ public class UserController {
 			}
 		}
 
-		if(dto != null && dto.getRole().equals("관리자")) {
+		if(dto != null && dto.getRole().equals(Role.ADMIN)) {
 			view = "redirect:/usermanage";
 			log.info("관리자페이지이동");
 		}else {
@@ -63,15 +63,13 @@ public class UserController {
 	}
 
 	@PostMapping("/signupuser")
-	public String insertuser(@ModelAttribute UserDTO dto) {
-		//일반사용자 가입
-		int result = userservice.insertuser(dto);
+	public String insertUser(@ModelAttribute UserDTO dto) {
+		UserDTO insertedUser = userservice.insertUser(dto);
 		return "signin";
 	}
 
-
 	@GetMapping("/mypage")
-	public ModelAndView mypage(HttpSession session, UserDTO userdto) {
+	public ModelAndView myPage(HttpSession session, UserDTO userDTO) {
 		//마이페이지 내정보 불러오기
 		Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
 		UserDTO dto = userservice.userinfo(userId);
@@ -83,9 +81,9 @@ public class UserController {
 	}
 
 	@PostMapping("/user/updateuser")
-	public String updateuser(@ModelAttribute UserDTO dto) {
+	public String updateUser(@ModelAttribute UserDTO dto) {
 		// 일반사용자 내정보 업데이트
-		int result = userservice.updateuser(dto);
+		int result = userservice.updateUser(dto);
 		if (result == 1) {
 			log.info("내정보 변경완료");
 		}
@@ -93,9 +91,9 @@ public class UserController {
 	}
 
 	@GetMapping("/user/withdraw/{id}")
-	public String deleteuser(HttpSession session, @PathVariable Long id) {
+	public String deleteUser(HttpSession session, @PathVariable Long id) {
 		// 일반사용자 회원탈퇴
-		int result = userservice.deleteuser(id);
+		int result = userservice.deleteUser(id);
 		if (result == 1) {
 			session.invalidate();
 			log.info("회원삭제 완료");
@@ -104,33 +102,33 @@ public class UserController {
 	}
 	
 	// 관리자페이지 이동
-    @GetMapping("/usermanage")
-    public ModelAndView usermanage(@RequestParam(value="page", required=false, defaultValue="1")int page, UserDTO UserDTO, HttpSession session, @RequestParam(value="keyword", defaultValue="gmail",required=false) String keyword) {
-    		//admin정보 
-    		Long id = ((UserDTO)session.getAttribute(LOGIN_USER)).getId();
-    		log.info(LOGIN_USER);
-    		UserDTO dto = userservice.userinfo(id);
-    		//유저리스트 조회 + 페이징
-    		int totalUser = userservice.totalUser();
-    		int limit = (page-1)*10;
-    		List<UserDTO> userList = null;
-    		
-    		if(keyword == null) {
-    			userList = userservice.selectUserList(limit);
-    		}else {
-    			Map<String, Object> map = new HashMap();
-    			map.put("keyword", keyword);
-    			map.put("limit", 1);
-    			userList = userservice.selectUserList(map);
-    		}
-    		
-    		ModelAndView mv = new ModelAndView();
-    		mv.addObject("userList",userList);
-    		mv.addObject("totalUser",totalUser);
-    		mv.addObject("dto",dto);
-    		mv.setViewName("usermanage");
-    		log.info("유저정보조회");
-    		
-        return mv;
-    }
+	@GetMapping("/usermanage")
+	public ModelAndView userManage(@RequestParam(value="page", required=false, defaultValue="1")int page, UserDTO UserDTO, HttpSession session, @RequestParam(value="keyword", defaultValue="gmail",required=false) String keyword) {
+		//admin정보
+		Long id = ((com.example.BookHub.User.UserDTO)session.getAttribute(LOGIN_USER)).getId();
+		log.info(LOGIN_USER);
+		com.example.BookHub.User.UserDTO dto = userservice.userinfo(id);
+		//유저리스트 조회 + 페이징
+		int totalUser = userservice.totalUser();
+		int limit = (page-1)*10;
+		List<com.example.BookHub.User.UserDTO> userList = null;
+
+		if(keyword == null) {
+			userList = userservice.selectUserList(limit);
+		}else {
+			Map<String, Object> map = new HashMap();
+			map.put("keyword", keyword);
+			map.put("limit", 1);
+			userList = userservice.selectUserList((Integer) map.get("limit"));
+		}
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("userList", userList);
+		mv.addObject("totalUser",totalUser);
+		mv.addObject("dto",dto);
+		mv.setViewName("usermanage");
+		log.info("유저정보조회");
+
+		return mv;
+	}
 }

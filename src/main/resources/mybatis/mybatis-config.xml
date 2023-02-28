@@ -11,5 +11,6 @@
         <typeAlias type="com.example.BookHub.Docs.DocsDTO" alias="docsdto"/>
         <typeAlias type="com.example.BookHub.Folder.FolderDTO" alias="folderdto"/>
         <typeAlias type="com.example.BookHub.Post.PostDTO" alias="postdto"/>
+        <typeAlias type="com.example.BookHub.Security.Token.TokenDTO" alias="tokendto"/>
     </typeAliases>
 </configuration>
