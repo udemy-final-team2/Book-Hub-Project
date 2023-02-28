@@ -1,12 +1,8 @@
 package com.example.BookHub.S3;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.Optional;
 import java.util.UUID;
@@ -83,6 +78,15 @@ public class S3Service {
         } else {
             log.warn("File " + fileName + " does not exist in S3 bucket " + bucket);
         }
+    }
+
+    // 문서 비교
+    public String readDocument(String key) {
+        S3Object s3Object = s3.getObject(bucket, key);
+        return new BufferedReader(
+                new InputStreamReader(s3Object.getObjectContent(), UTF_8))
+                .lines()
+                .collect(Collectors.joining("\n"));
     }
 
     // 문서 비교
