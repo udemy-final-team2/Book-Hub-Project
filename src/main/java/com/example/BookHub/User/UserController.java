@@ -42,7 +42,6 @@ public class UserController {
 				session.setAttribute(LOGIN_USER, dto);
 			}
 		}
-
 		if(dto != null && dto.getRole().equals(Role.ADMIN)) {
 			view = "redirect:/usermanage";
 			log.info("관리자페이지이동");
@@ -52,18 +51,17 @@ public class UserController {
 		return view;
 	}
 
-
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
-		// 희진_ 로그아웃 테스트용 jsp에도 버튼 추가
 		if(session.getAttribute(LOGIN_USER) != null){
 			session.invalidate();	// 세션값 삭제
 		}
-		return "home";
+		return "redirect:/home";
 	}
 
 	@PostMapping("/signupuser")
 	public String insertUser(@ModelAttribute UserDTO dto) {
+		//회원가입
 		UserDTO insertedUser = userservice.insertUser(dto);
 		return "signin";
 	}
@@ -94,40 +92,34 @@ public class UserController {
 	public String deleteUser(HttpSession session, @PathVariable Long id) {
 		// 일반사용자 회원탈퇴
 		int result = userservice.deleteUser(id);
-		if (result == 1) {
-			session.invalidate();
-			log.info("회원삭제 완료");
-		}
-		return "home";
+		return "redirect:/usermanage";
 	}
 	
-	// 관리자페이지 이동
 	@GetMapping("/usermanage")
-	public ModelAndView userManage(@RequestParam(value="page", required=false, defaultValue="1")int page, UserDTO UserDTO, HttpSession session, @RequestParam(value="keyword", defaultValue="gmail",required=false) String keyword) {
-		//admin정보
-		Long id = ((com.example.BookHub.User.UserDTO)session.getAttribute(LOGIN_USER)).getId();
-		log.info(LOGIN_USER);
-		com.example.BookHub.User.UserDTO dto = userservice.userinfo(id);
-		//유저리스트 조회 + 페이징
-		int totalUser = userservice.totalUser();
+	public ModelAndView userManage(@RequestParam(value="page", required=false, defaultValue="1")int page, UserDTO UserDTO, HttpSession session, @RequestParam(value="keyword", required=false) String keyword) {
+		// 관리자페이지 - 유저관리
+		int totalUser = 0;
 		int limit = (page-1)*10;
-		List<com.example.BookHub.User.UserDTO> userList = null;
+		List<UserDTO> userList = null;
+
+		Long id = ((UserDTO)session.getAttribute(LOGIN_USER)).getId();
+		UserDTO dto = userservice.userinfo(id);
 
 		if(keyword == null) {
+			totalUser = userservice.totalUser();
 			userList = userservice.selectUserList(limit);
 		}else {
-			Map<String, Object> map = new HashMap();
+			totalUser = userservice.totalUser(keyword);
+			Map<String, Object> map = new HashMap<>();
 			map.put("keyword", keyword);
-			map.put("limit", 1);
-			userList = userservice.selectUserList((Integer) map.get("limit"));
+			map.put("limit", limit);
+			userList = userservice.selectUserList(map);
 		}
-
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("userList", userList);
 		mv.addObject("totalUser",totalUser);
 		mv.addObject("dto",dto);
 		mv.setViewName("usermanage");
-		log.info("유저정보조회");
 
 		return mv;
 	}

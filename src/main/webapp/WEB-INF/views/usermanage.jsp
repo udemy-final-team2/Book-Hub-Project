@@ -13,24 +13,22 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
 <link href="css/index.css" rel="stylesheet" type="text/css">
 <link href="css/docs.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script type="text/javaScript">
-//      $(document).ready(function(){
-//      function search(){
-//     	 //테스트중입니다
-//     	alert("클릭");
-//     	alert(Document.querySelector("#search").value);
-//      	let keyword = Document.querySelector("#search").value;
-//      	let page = 1;
-//      	$.ajax({
-//      		type:"GET",
-//      		url:"/usermanage",
-//      		data:{"page": page , "keyword": keyword},
-//      		sucess: function(data){
-//      			console.log("data :"+ data)
-//      		}
-//      	});
-//       }
-//      }) 
+	$(document).ready(function() {
+		$("#search").keyup(function(event) {
+			if (event.which === 13) {
+				search();
+			}
+		});
+		function search() {
+			alert("클릭");
+			let keyword = $('#search').val();
+			console.log(keyword);
+			window.location.href = '/usermanage?keyword=' + keyword;
+		}
+		;
+	});
 </script>
 <style type="text/css">
 .side {
@@ -68,7 +66,7 @@
         </div>
         <div class="search">
             <div>
-                <input type="text" id="search" class="searchin" name="keyword" placeholder="유저 검색">
+                <input type="text" id="search" class="searchin" name="keyword" placeholder="email로 유저검색">
                 <button class="button" onclick="search()" style="display:none">검색</button>
             </div>
         </div>
@@ -111,7 +109,7 @@
                         <th scope="col">이메일</th>
                         <th scope="col">이름</th>
                         <th scope="col">소셜계정</th>
-                        <th scope="col">구분</th>
+                        <th scope="col">관리</th>
                     </tr>
                     </thead>
                     <tbody> 
@@ -127,7 +125,7 @@
 							<td>${userList.id}</td>
 							<td>${userList.email}</td>
 							<td>${userList.name}</td>
-							<td>${userList.socialName}</td>
+							<td>${userList.socialType}</td>
 							<td><button class="btn btn-outline-dark"><a href="/user/withdraw/${userList.id}" id="withdraw">탈퇴</a></button></td>
 						</tr>
                     </c:forEach>

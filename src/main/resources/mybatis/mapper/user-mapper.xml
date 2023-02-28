@@ -9,7 +9,7 @@
 		<result column="email" property="email" />
 		<result column="password" property="password" />
 		<result column="role" property="role" javaType="com.example.BookHub.User.Role" jdbcType="VARCHAR" />
-		<result column="social_name" property="socialName" />
+		<result column="social_type" property="socialType" />
 	</resultMap>
 
     <select id="findBySocialTypeAndEmail" resultMap="userResultMap">
@@ -27,6 +27,7 @@
 	</insert>
 
 	<select id="loginUser" resultType="userdto">
+		/*로그인*/
 		SELECT
 			*
 		FROM user
@@ -38,12 +39,14 @@
 	</select>
 
 	<select id="userinfo" resultMap="userResultMap">
+		/*마이페이지*/
 		SELECT * 
 			FROM user
 		WHERE id = #{id}
 	</select>
 
 	<update id="updateUser">
+		/*회원 정보 업데이트*/
 		UPDATE user SET
 		<if test="!name.equals('') and name != null">
 			name = #{name},
@@ -55,7 +58,7 @@
 	</update>
 	
 	<delete id="deleteUser">
-		/*회원 정보 삭제*/
+		/*회원 탈퇴*/
 		DELETE 
 			FROM user
 		WHERE id = #{id}
@@ -74,9 +77,16 @@
 		SELECT COUNT(*)
 			FROM user
 	</select>
+	
+	<select id="keywordtotalUser" resultType="int">
+		/*회원 리스트 총갯수*/
+		SELECT COUNT(*)
+			FROM user
+		WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%')
+	</select>
 
 	<select id="selectUserKeywordList" parameterType="HashMap"  resultType="userdto">
-		/*회원 리스트 조회 */
+		/*회원 리스트 조회 - 검색어*/
 		SELECT *
 		FROM USER
 		<if test="!keyword.equals('') and keyword != null">
