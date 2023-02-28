@@ -3,6 +3,7 @@ package com.example.BookHub.Folder;
 import com.example.BookHub.Docs.DocsDTO;
 import com.example.BookHub.User.UserDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 import static com.example.BookHub.Util.SessionConst.LOGIN_USER;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class FolderController {
 
@@ -31,11 +33,11 @@ public class FolderController {
     }
 
     // 폴더 삭제
+    @ResponseBody
     @PostMapping("/folder/delete")
-    public String deleteFolder(HttpSession session, @RequestParam Long folderId) {
-        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
-        folderService.deleteFolder(userId, folderId);
-        return "redirect:/folder/list";
+    public void deleteFolder(@RequestParam Long folderId) {
+        folderService.deleteDocumentList(folderId);
+        folderService.deleteFolder(folderId);
     }
 
     // 폴더 이름 수정
@@ -52,15 +54,13 @@ public class FolderController {
         Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
         List<FolderDTO> folderList = folderService.readFolderList(userId);
         model.addAttribute("folderList", folderList);
-        return "docs";
+        return "document";
     }
 
     // 폴더 속 문서 목록 조회
     @ResponseBody
     @GetMapping("/folderlist")
-    public List<DocsDTO> getDocumentList(HttpSession session, @RequestParam Long folderId, Model model) {
-        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
-        List<DocsDTO> documentList = folderService.readDocumentList(userId, folderId);
-        return documentList;
+    public List<DocsDTO> getDocumentList(@RequestParam Long folderId) {
+        return folderService.readDocumentList(folderId);
     }
 }

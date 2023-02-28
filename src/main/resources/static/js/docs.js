@@ -67,6 +67,13 @@ function closeDeleteModal() {
     document.getElementById("delete-modal").style.display="none";
 }
 
+function openCreateModal() {
+    document.getElementById("create-modal").style.display="block";
+}
+function closeCreateModal() {
+    document.getElementById("create-modal").style.display="none";
+}
+
 
 function deleteSelectedDocuments() {
     const checkboxes = document.querySelectorAll('.document-checkbox');

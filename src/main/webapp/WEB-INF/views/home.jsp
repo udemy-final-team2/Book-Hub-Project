@@ -40,7 +40,7 @@
             </div>
             
             <button class="button">
-                <a class="link" href="/docs">무료체험</a>
+                <a class="link" href="/folder/list">무료체험</a>
             </button>
         </div>
     </div>

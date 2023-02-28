@@ -6,7 +6,7 @@
 <head>
   <meta charset='utf-8'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>북허브 - 문서 작성</title>
+  <title>북허브 - 문서 수정</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -20,7 +20,11 @@
   <div class="Appbar">
     <div class="right">
       <div class="brandName">
-        <a href="/" class="link"><img class="brandlogo" src="/img/logo.png" alt="로고"/><span class="logoName">북 허브</span></a>
+        <a href="/" class="link"><img class="brandlogo" src="/img/logo.png" alt="로고"/>
+          <span class="logoName">
+            ${document.title}
+          </span>
+        </a>
       </div>
     </div>
     <div class="buttonContainer">
@@ -47,7 +51,9 @@
   </div>
 
   <div class="editorContainer">
-    <textarea id="editor"></textarea>
+    <textarea id="editor">
+        ${htmlContent}
+    </textarea>
   </div>
 
   <div id="myModal" class="modal">
@@ -148,4 +154,3 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
-
