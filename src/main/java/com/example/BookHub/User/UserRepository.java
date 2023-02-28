@@ -18,7 +18,11 @@ public interface UserRepository extends UserDetailsService {
     /*소셜 로그인 가입 여부 확인*/
 	Optional<UserDTO> findBySocialTypeAndEmail(SocialType socialType, String email);
 
+	/*회원가입, 소셜로그인 최초 로그인*/
 	UserDTO insertUser(UserDTO userDTO);
+
+	/*일반 로그인 */
+	UserDTO loginUser(String email);
 
 	/*마이페이지*/
 	UserDTO userinfo(Long id);

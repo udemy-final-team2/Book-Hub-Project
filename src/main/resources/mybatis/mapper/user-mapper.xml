@@ -12,13 +12,6 @@
 		<result column="social_name" property="socialName" />
 	</resultMap>
 
-    <!--소셜 로그인 유저 데이터 저장-->
-    <insert id="insertUserBySocial" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO user (name, email, role, social_name)
-        VALUES (#{name}, #{email}, #{role}, #{socialName})
-    </insert>
-
-    <!--소셜 로그인 유저 데이터 저장-->
     <select id="findBySocialTypeAndEmail" resultMap="userResultMap">
         SELECT *
         FROM user
@@ -26,26 +19,31 @@
     </select>
 
 	<insert id="insertUser" parameterType="com.example.BookHub.User.UserDTO">
-		INSERT INTO user (name, email, password, role, social_name)
-		VALUES (#{name}, #{email}, #{password}, #{role}, #{socialName})
-		<selectKey resultType="UserDTO" keyProperty="id" order="AFTER">
-			SELECT * FROM user WHERE id = LAST_INSERT_ID()
+		<selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+			SELECT LAST_INSERT_ID()
 		</selectKey>
+		INSERT INTO user (name, email, password, role, social_type)
+		VALUES (#{name}, #{email}, #{password}, #{role}, #{socialType})
 	</insert>
+
+	<select id="loginUser" resultType="userdto">
+		SELECT
+			*
+		FROM user
+		WHERE email = #{email}
+	</select>
 
 	<select id="findByEmail" resultMap="userResultMap">
 		SELECT * FROM user WHERE email = #{email}
 	</select>
 
 	<select id="userinfo" resultMap="userResultMap">
-		/* 회원 정보 조회 */ 
 		SELECT * 
 			FROM user
 		WHERE id = #{id}
 	</select>
 
 	<update id="updateUser">
-		/* 회원 정보 수정 */ 
 		UPDATE user SET
 		<if test="!name.equals('') and name != null">
 			name = #{name},
@@ -75,6 +73,17 @@
 		/*회원 리스트 총갯수*/
 		SELECT COUNT(*)
 			FROM user
+	</select>
+
+	<select id="selectUserKeywordList" parameterType="HashMap"  resultType="userdto">
+		/*회원 리스트 조회 */
+		SELECT *
+		FROM USER
+		<if test="!keyword.equals('') and keyword != null">
+			WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%')
+		</if>
+		ORDER BY ID DESC
+		LIMIT #{limit},10
 	</select>
 
 </mapper>
