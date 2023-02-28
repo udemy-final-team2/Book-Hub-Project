@@ -11,39 +11,6 @@
 <link href="/css/index.css" rel="stylesheet" type="text/css">
 <link href="/css/docs.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-<script type="text/javascript">
-        function validateForm() {
-            let email = document.querySelector('#email').value;
-            let emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-            let mailError = document.querySelector('#mailError');
-            let password = document.querySelector('#password').value;
-            let pwError = document.querySelector('#pwError');
-            let button = document.querySelector('#button');
-            let emailButton = document.querySelector('#emailButton');
-            if (emailRegex.test(email) && email !== "" && password !== "") {
-                mailError.textContent = "";
-                pwError.textContent = "";
-                button.disabled = false;
-            } else {
-                if (email === "") {
-                    mailError.textContent = "이메일을 입력하세요.";
-                } else if (!emailRegex.test(email)) {
-                    mailError.textContent = "잘못된 형식입니다.";
-                } else {
-                    mailError.textContent = "";
-                    emailButton.disabled = false;
-                }
-                if (password === "") {
-                    pwError.textContent = "비밀번호를 입력하세요.";
-                } else {
-                    pwError.textContent = "";
-                }
-                button.disabled = true;
-            }
-        }
-
-        }
-</script>
 <style type="text/css">
     	.formContainer {
     	    display: flex;
