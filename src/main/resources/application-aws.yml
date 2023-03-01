@@ -1,0 +1,17 @@
+cloud:
+  aws:
+    credentials:
+      access-key: ENC(3+Ud7HwCe9tQjiFFBKAp2C7uLJV5wKCAkzb/KJOMEBI=)
+      secret-key: ENC(8uqWS0T62utx2FiGKgMP4wm6VLVpFpfQdJUxQCEV5zCt98v5tWM+tEWjWwcL7Ll8KEBE8WrfmaI=)
+    region:
+      static: ap-southeast-2
+    s3:
+      bucket: ENC(XjVpkVEGxZ62aYPfO4qIK0aMuPKvFTnA)
+    stack:
+      auto: false
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 30MB
