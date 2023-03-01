@@ -3,27 +3,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.BookHub.User.UserRepository">
-	<resultMap id="userResultMap" type="com.example.BookHub.User.UserDTO">
-		<id column="id" property="id" />
-		<result column="name" property="name" />
-		<result column="email" property="email" />
-		<result column="password" property="password" />
-		<result column="role" property="role" javaType="com.example.BookHub.User.Role" jdbcType="VARCHAR" />
-		<result column="social_type" property="socialType" />
-	</resultMap>
-
-    <select id="findBySocialTypeAndEmail" resultMap="userResultMap">
+    <select id="findBySocialId" resultType="userdto">
         SELECT *
         FROM user
-        WHERE email = #{email} AND social_name=#{socialType}
+        WHERE social_id = #{socialId}
     </select>
 
-	<insert id="insertUser" parameterType="com.example.BookHub.User.UserDTO">
-		<selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+	<insert id="insertUser" parameterType="userdto">
+		INSERT INTO user (name, email, password, role, social_type, social_id)
+		VALUES (#{name}, #{email}, #{password}, #{role}, #{socialType}, #{socialId})
+		<selectKey keyProperty="id" resultType="Long">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO user (name, email, password, role, social_type)
-		VALUES (#{name}, #{email}, #{password}, #{role}, #{socialType})
 	</insert>
 
 	<select id="loginUser" resultType="userdto">
@@ -34,12 +25,11 @@
 		WHERE email = #{email}
 	</select>
 
-	<select id="findByEmail" resultMap="userResultMap">
+	<select id="findByEmail" resultType="userdto">
 		SELECT * FROM user WHERE email = #{email}
 	</select>
 
-	<select id="userinfo" resultMap="userResultMap">
-		/*마이페이지*/
+	<select id="userinfo" resultType="userdto">
 		SELECT * 
 			FROM user
 		WHERE id = #{id}
@@ -64,7 +54,7 @@
 		WHERE id = #{id}
 	</delete>
 	
-	<select id="selectUserList" parameterType="int" resultMap="userResultMap">
+	<select id="selectUserList" parameterType="int" resultType="userdto">
 		/*회원 리스트 조회*/
 		SELECT *
 			FROM user
@@ -94,6 +84,32 @@
 		</if>
 		ORDER BY ID DESC
 		LIMIT #{limit},10
+	</select>
+
+	<select id="countByMale" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE gender = 'male'
+	</select>
+	<select id="countByFemale" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE gender = 'female'
+	</select>
+	<select id="countByGoogle" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE social_type = 'GOOGLE'
+	</select>
+	<select id="countByNaver" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE social_type = 'NAVER'
+	</select>
+	<select id="countByKakao" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE social_type = 'KAKAO'
 	</select>
 
 </mapper>
