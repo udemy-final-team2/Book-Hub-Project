@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="static com.example.BookHub.Util.SessionConst.LOGIN_USER" %>
 <%@ page import="com.example.BookHub.User.UserDTO" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,7 @@
 		margin: auto;
 		box-shadow: rgb(99 99 99/ 20%) 0px 2px 8px 0px;
 	}
-	
+
 	.side {
 		font-size: 20px;
 		width: 95%;
@@ -35,14 +36,14 @@
 		border: 0px;
 		margin: 1px auto 20px 1px;
 	}
-	
+
 	.table>:not(caption)>*>* {
 		padding: 0.5rem 2.5rem;
 		background-color: var(- -bs-table-bg);
 		border-bottom-width: var(- -bs-border-width);
 		box-shadow: inset 0 0 0 9999px var(- -bs-table-accent-bg);
 	}
-	
+
 	.comment {
 		resize: none;
 		margin: 10px 0px 0px 0px;
@@ -62,11 +63,18 @@
 	            <div class="dropdown">
 	                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
 	                        aria-expanded="false">
-	               <%= ((UserDTO) session.getAttribute(LOGIN_USER)).getName()%>
+						<% Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+							String userName = null;
+							if (auth != null && !auth.getName().equals("anonymousUser")) {
+								userName = auth.getName();
+							} else if (session != null){
+								userName = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
+							}%>
+						<%= userName %>
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
-	                    <li><a class="dropdown-item" href="/doc">내 문서</a></li>
+	                    <li><a class="dropdown-item" href="/folder/list">내 문서</a></li>
 	                    <li><a class="dropdown-item" href="/postlist">내 문의</a></li>
 	                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 	                </ul>
@@ -144,7 +152,7 @@
 	                <c:choose>
 						<c:when test="${not empty postdto.comment}">
 							<label for="comment" class="col-sm-4 col-form-label">
-								댓글 
+								댓글
 							</label>
 							<div class="col-sm-8">
 								<textarea class="form-control comment" rows="10" cols="55" readonly><c:out value="${postdto.comment}" /></textarea>
@@ -171,5 +179,8 @@
 	        </div>
    		</div>
    </div>
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+					integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+					crossorigin="anonymous"></script>
 </body>
 </html>

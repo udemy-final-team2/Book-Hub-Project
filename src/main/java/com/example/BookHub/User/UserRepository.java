@@ -16,10 +16,10 @@ public interface UserRepository extends UserDetailsService {
 	UserDTO loadUserByUsername(String userEmail);
 
     /*소셜 로그인 가입 여부 확인*/
-	Optional<UserDTO> findBySocialTypeAndEmail(SocialType socialType, String email);
+	UserDTO findBySocialId(String socialId);
 
-	/*회원가입, 소셜로그인 최초 로그인*/
-	UserDTO insertUser(UserDTO userDTO);
+	/*회원가입*/
+	Long insertUser(UserDTO userDTO);
 
 	/*일반 로그인 */
 	UserDTO loginUser(String email);
@@ -41,7 +41,12 @@ public interface UserRepository extends UserDetailsService {
 	
 	/*회원수 조회 -페이징 */
 	int totalUser();
-	
+	/*차트용*/
+	Long countByMale();
+	Long countByFemale();
+	Long countByGoogle();
+	Long countByNaver();
+	Long countByKakao();
 	/*회원수 조회 -페이징 */
 	int keywordtotalUser(String keyword);
 }

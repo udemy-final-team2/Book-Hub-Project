@@ -49,7 +49,7 @@
         <a href="/" class="logoName">북 허브</a>
     </div>
     <div class="formContainer">
-        <form action="${pageContext.request.contextPath}/login" method="post">
+        <form action="${pageContext.request.contextPath}/loginuser" method="post">
             <div class="row mb-3">
                 <h4 class="header">로그인</h4>
                 <hr/>

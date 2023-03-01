@@ -24,6 +24,7 @@ public class UserDTO implements UserDetails {
     private String password;
     private Role role;
     private SocialType socialType;
+    private String socialId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

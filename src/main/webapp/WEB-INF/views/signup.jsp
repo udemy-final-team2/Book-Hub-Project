@@ -53,8 +53,8 @@
     </div>
     <div class="main">
         <div class="formContainer">
-            <form>
-                <div class="row mb-3">
+            <form action="signupuser" method="post">
+            <div class="row mb-3">
                     <h4 class="header">회원가입</h4>
                     <hr/>
                     <label for="email" class="col-sm-4 col-form-label">
@@ -88,6 +88,9 @@
                 <button id="button" class="btn btn-primary" disabled>
                     회원가입
                 </button>
+                <input type="submit" id="button" class="btn btn-primary">
+                <input type="hidden" name="role" value="사용자">
+                <input type="hidden" name="socialName" value="일반">
             </form>
             <div class="redirect">
                 <div class="returnText"><a href="/" class="link"><p>로그인 화면으로</p><span class="material-symbols-outlined">west</span></a></p>

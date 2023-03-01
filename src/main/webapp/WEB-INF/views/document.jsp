@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="static com.example.BookHub.Util.SessionConst.LOGIN_USER" %>
 <%@ page import="com.example.BookHub.User.UserDTO" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -34,7 +36,14 @@
       <div class="dropdown">
         <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-          <%= ((UserDTO) session.getAttribute(LOGIN_USER)).getName()%>
+          <% Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String userName = null;
+            if (auth != null && !auth.getName().equals("anonymousUser")) {
+              userName = auth.getName();
+            } else if (session != null){
+              userName = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
+            }%>
+          <%= userName %>
         </button>
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage">내 정보</a></li>

@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.example.BookHub.User.UserDTO" %>
 <%@ page import="static com.example.BookHub.Util.SessionConst.LOGIN_USER" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,7 +68,14 @@
 	            <div class="dropdown">
 	                <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
 	                        aria-expanded="false">
-	               <%= ((UserDTO) session.getAttribute(LOGIN_USER)).getName()%>
+						<% Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+							String userName = null;
+							if (auth != null && !auth.getName().equals("anonymousUser")) {
+								userName = auth.getName();
+							} else if (session != null){
+								userName = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
+							}%>
+						<%= userName %>
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
@@ -129,5 +138,8 @@
 	        </div>
    		</div>
    </div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+			crossorigin="anonymous"></script>
 </body>
 </html>

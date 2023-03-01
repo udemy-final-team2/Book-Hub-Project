@@ -23,18 +23,20 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
          .cors().disable()
-         .httpBasic().disable();
-
-        http.authorizeHttpRequests()
-         .antMatchers("/document/**", "/mypage/**").hasRole("USER")
-         .antMatchers("/admin/**").hasRole("ADMIN")
+         .httpBasic().disable()
+         .formLogin().loginPage("/signin")
+         .and()
+         .authorizeRequests()
          .anyRequest().permitAll()
+         .and()
+         .logout().logoutUrl("/logout")
+         .logoutSuccessUrl("/")
          .and()
          .oauth2Login()
          .userInfoEndpoint()
          .userService(customOAuth2UserService)
-         .and().
-         defaultSuccessUrl("/document");
+         .and()
+         .defaultSuccessUrl("/folder/list");
         return http.build();
     }
 }

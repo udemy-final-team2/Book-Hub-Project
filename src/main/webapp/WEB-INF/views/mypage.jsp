@@ -58,7 +58,7 @@
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
-	                    <li><a class="dropdown-item" href="/folderList">내 문서</a></li>
+	                    <li><a class="dropdown-item" href="/folder/list">내 문서</a></li>
 	                    <li><a class="dropdown-item" href="/postlist">내 문의</a></li>
 	                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 	                    
@@ -84,7 +84,6 @@
 	                </li>
 	            </ul>
 	        </div>
-<!-- 	      </div> -->
 	    <div class="main">
 	        <div class="formContainer">
 	       		 <form action="updateuser" method="post" id="mypageform">
@@ -106,7 +105,7 @@
 	                    <div class="col-sm-8">
 	                        <input type="password" id="password"  class="form-control"
 	                               placeholder="변경할 패스워드 입력"  name="password" oninput='validateForm()'>
-	                        <span id="pwError" style="color: red;">${pwError}</span>
+	                        <span class="pwError" style="color: red;">${pwError}</span>
 	                    </div>
 	                    </div>
 	                    <div class="row mb-3">
@@ -116,7 +115,7 @@
 	                    <div class="col-sm-8">
 	                        <input type="password" id="passwordnew"  class="form-control"
 	                               placeholder="변경할 패스워드 재입력 "  name="passwordnew" oninput='validateForm()'>
-	                        <span id="pwError" style="color: red;">${pwError}</span>
+	                        <span class="pwError" style="color: red;">${pwError}</span>
 	                    </div>
 	                </div>
 	                <div class="row mb-3">
@@ -135,5 +134,8 @@
 	        </div>
    		</div>
    </div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+			crossorigin="anonymous"></script>
 </body>
 </html>
