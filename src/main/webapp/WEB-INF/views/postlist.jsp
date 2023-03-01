@@ -8,16 +8,13 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>북허브</title>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-<link href="css/index.css" rel="stylesheet" type="text/css">
-<link href="css/docs.css" rel="stylesheet" type="text/css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<link href="/css/index.css" rel="stylesheet" type="text/css">
+<link href="/css/docs.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 .side {
 	    font-size: 20px;
@@ -106,9 +103,19 @@
                         aria-expanded="false">
                     ${name}
                 </button>
+                <c:if test="${role eq 'ADMIN'}">
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
                 </ul>
+                </c:if>
+                <c:if test="${role eq 'USER'}">
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
+                    <li><a class="dropdown-item" href="/folder/list">내 문서</a></li>
+                    <li><a class="dropdown-item" href="/postlist">내 문의</a></li>
+                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+                </ul>
+                </c:if>
             </div>
         </div>
     </div>

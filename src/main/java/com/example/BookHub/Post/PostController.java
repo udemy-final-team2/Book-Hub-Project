@@ -130,4 +130,10 @@ public class PostController {
 		postService.insertComment(commentdto);
 		return "redirect:/postlist";
 	}
+	
+	@GetMapping("/post/qna")
+	public String postqna() {
+		//문의글작성 페이지이동
+		return "postqna";
+	}
 }

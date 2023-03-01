@@ -109,12 +109,12 @@ margin-top: 10px;
 							<hr>
 							<br> 
 							<label for="text" class="header">
-								<h1>Q. 제 문서를 복구하고 싶습니다.</h1>
+								<h2>Q. 제 문서를 복구하고 싶습니다.</h1>
 							</label>
 						</div>
 						<div class="row mb-3">
 							<label for="content" class="header">
-								<h2>A.기본적으로 삭제한 문서는 복구가 불가능 합니다.</h2>
+								<h2>A.기본적으로 삭제된 문서는 복구가 불가능 합니다.</h2>
 							</label>
 						</div>
 					</div>
@@ -122,7 +122,7 @@ margin-top: 10px;
 						<div class="row mb-3">
 							<h4 class="header"></h4>
 							<label for="text" class="header">
-								<h1>Q. 회원탈퇴는 어떻게 하나요?</h1>
+								<h2>Q. 회원탈퇴는 어떻게 하나요?</h1>
 							</label>
 						</div>
 						<div class="row mb-3">
@@ -135,7 +135,7 @@ margin-top: 10px;
 						<div class="row mb-3">
 							<h4 class="header"></h4>
 							<label for="text" class="header">
-								<h1>Q. 비밀번호를 잃어버렸습니다.</h1>
+								<h2>Q. 비밀번호를 잃어버렸습니다.</h1>
 							</label>
 						</div>
 						<div class="row mb-3">

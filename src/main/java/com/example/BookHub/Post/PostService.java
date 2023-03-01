@@ -45,6 +45,7 @@ public class PostService {
 	public List<PostDTO> userpostList(Map<String, Object> map) {
 		return postRepository.userpostList(map);
 	}
+	
 	public List<PostDTO> userpostkeywordList(Map<String, Object> map) {
 		return postRepository.userpostkeywordList(map);
 	}

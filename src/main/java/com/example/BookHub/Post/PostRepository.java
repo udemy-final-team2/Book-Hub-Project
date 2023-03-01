@@ -14,7 +14,7 @@ public interface PostRepository {
 
 	List<PostDTO> postLimitList(int limit);
 	
-	List<PostDTO> userpostList(Map<String, Object> map);
+	List<PostDTO> userpostList(Map<String, Object> map); 
 	
 	List<PostDTO> userpostkeywordList(Map<String, Object> map);
 
