@@ -132,3 +132,11 @@ body{
     margin-bottom: 20px;
 
 }
+
+.editorContainer {
+    display: flex;
+    flex-direction: row;
+}
+#spellCheckResult {
+    width: 30%;
+}
