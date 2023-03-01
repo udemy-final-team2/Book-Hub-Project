@@ -162,11 +162,11 @@
 							</div>
 						</c:when>
 						<c:when test="${ empty postdto.comment && role == 'ADMIN' }">
-								<form action="/post/comment" method="post">
 							<label for="comment" class="col-sm-4 col-form-label">
 								댓글
 							</label>
 							<div class="col-sm-8">
+								<form action="/post/comment" method="post">
 									<textarea class="form-control comment" rows="10" cols="55"
 										name="content" maxlength="5000"></textarea>
 									<input type="hidden" name="userid" value="${postdto.userid}">
