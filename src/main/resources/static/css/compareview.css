@@ -1,0 +1,126 @@
+
+.documentContainer{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto;
+}
+
+.highlight_green {
+    background-color: #e6ffec;
+    display: block; 
+}
+
+.highlight_pink {
+    background-color: #ffebea;
+    display: block; 
+}
+.Appbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 1440px;
+    height: 65px;
+    font-size: 100%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.right {
+    width: 15%;
+    margin-left: 5px;
+}
+
+.brandName {
+    font-weight: bold;
+    font-size: 22px;
+    padding-top: 6px;
+}
+
+.brandlogo {
+    width: 50px;
+    margin-right: 10px;
+}
+
+.menu:hover {
+    color: #fb9e25;
+    font-weight: bold;
+    text-shadow: 2px 4px 2px gray;
+}
+.left {
+    display: flex;
+    width: 10%;
+    justify-content: right;
+    padding-right: 10px;
+}
+
+.dropdown {
+    margin-top: 10px;
+}
+.brandName{
+    padding-left: 5px;
+    margin-right: 20px;
+    font-weight: bold;
+    font-size: 22px;
+    padding-top: 6px;
+}
+.menuName {
+    padding-right: 15px;
+    padding-top: 18px;
+}
+.brandlogo {
+    width: 50px;
+    margin-right: 8px;
+}
+.left {
+    display: flex;
+    width: 50%;
+    padding-left: 460px;
+}
+
+
+.button {
+    height: 26px;
+    margin-top: 16px;
+    box-shadow:inset 0px 1px 0px 0px #fce2c1;
+    background: #ffc477 linear-gradient(to bottom, #ffc477 5%, #fb9e25 100%);
+    border-radius:3px;
+    border:1px solid #eeb44f;
+    cursor:pointer;
+    text-shadow:0px 1px 0px #cc9f52;
+}
+.button:hover {
+    background: #fb9e25 linear-gradient(to bottom, #fb9e25 5%, #ffc477 100%);
+}
+.button:active {
+    position:relative;
+    top:1px;
+}
+.menu:hover {
+    color: #fb9e25;
+    font-weight: bold;
+    text-shadow: 2px 4px 2px gray;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    width: 1440px;
+}
+
+#documentBeforeChange{
+    width: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}
+#documentAfterChange{
+    width: 50%;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}

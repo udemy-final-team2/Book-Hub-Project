@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.BookHub.Docs.DocsRepository">
+
+    <!-- 문서 작성 -->
+    <insert id="writeDocument" useGeneratedKeys="true" keyProperty="id" parameterType="docsdto">
+        INSERT INTO document (folder_id, title, memo, s3_key, save_at)
+        VALUES (#{folderId}, #{title}, #{memo}, #{s3Key}, NOW())
+    </insert>
+
+    <!-- 문서 단건 조회 -->
+    <select id="readDocument" resultType="docsdto" parameterType="Long">
+        SELECT title, memo, save_at, s3_key
+        FROM document
+        WHERE id = #{documentId};
+    </select>
+
+    <!-- 문서 단일 삭제 -->
+    <delete id="deleteDocument" parameterType="Long">
+        DELETE FROM document WHERE id = #{id}
+    </delete>
+
+</mapper>

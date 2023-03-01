@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.BookHub.Post.PostRepository">
+
+	<select id="postList" resultType="postdto" parameterType="HashMap" >
+		/*문의리스트 조회 */
+		select id,
+		user_id, title, category, content,
+		(
+		case status
+		when 1 then '처리중'
+		when 2 then '처리완료'
+		end
+		) as status
+		,
+		(select name from user u where u.id = p.user_id) name
+		from post p
+			where title like concat('%', #{keyword} ,'%')
+		order by id desc
+		limit #{limit},10
+	</select>
+	
+	<select id="totalPost" resultType="int">
+		/*문의리스트 총갯수*/
+		select count(*)
+			from post
+	</select>
+
+	<select id="totalKeywordPost" parameterType="String" resultType="int">
+		/*문의리스트 총갯수*/
+		select count(*)
+			from post
+			where title like concat('%', #{keyword} ,'%')
+	</select>
+		
+	<select id="selectpost" resultType="postdto">
+		/*고객문의 상세*/
+		select 
+		id, user_id, title, category, content, created_at, status,
+		(select name from user u where u.id = p.user_id) name,
+		(select content from comment c where c.post_id = p.id ) comment
+		from post p
+		where id = #{id}
+	</select>
+	
+	<insert id="insertMyPost" parameterType="postdto">
+		/*내문의 작성*/
+			INSERT INTO POST (user_id, title, category, content,created_at,status)
+			VALUES (#{userid}, #{title},#{category},#{content},now(),1)
+	</insert>
+	
+	<insert id="insertComment">
+		/*코멘트 작성 */
+		insert into comment (post_id ,user_id,content,created_at) values (#{postid},#{userid},#{content},now());
+	</insert>
+	
+	<update id="updatePost">
+		/*코멘트 작성시 게시글 상태업데이트 */
+		update post set status ='2'
+		where id = #{postid}
+	</update>
+	
+	<select id="userpostList" parameterType="HashMap" resultType="postdto">
+		/*문의리스트 조회 - 유저*/
+		select id,
+		user_id, title, category, content,
+		(
+		case status
+		when 1 then '처리중'
+		when 2 then '처리완료'
+		end
+		) as status,
+		(select name from user u where u.id = p.user_id) name
+		from post p
+		where user_id =#{id}
+			and title like concat('%', #{keyword} ,'%')
+		order by id desc
+		limit #{limit},10
+	</select>
+	<select id="postLimitList" parameterType="HashMap" resultType="postdto">
+		/*문의리스트 조회 - 키워드 x */
+		select id,
+		user_id, title, category, content,
+		(
+		case status
+		when 1 then '처리중'
+		when 2 then '처리완료'
+		end
+		) as status,
+		(select name from user u where u.id = p.user_id) name
+		from post p
+		order by id desc
+		limit #{limit},10
+	</select>
+	
+
+</mapper>

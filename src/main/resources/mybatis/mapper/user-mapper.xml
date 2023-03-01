@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.BookHub.User.UserRepository">
+    <select id="findBySocialId" resultType="userdto">
+        SELECT *
+        FROM user
+        WHERE social_id = #{socialId}
+    </select>
+
+	<insert id="insertUser" parameterType="userdto">
+		INSERT INTO user (name, email, password, role, social_type, social_id)
+		VALUES (#{name}, #{email}, #{password}, #{role}, #{socialType}, #{socialId})
+		<selectKey keyProperty="id" resultType="Long">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<select id="loginUser" resultType="userdto">
+		/*로그인*/
+		SELECT
+			*
+		FROM user
+		WHERE email = #{email}
+	</select>
+
+	<select id="findByEmail" resultType="userdto">
+		SELECT * FROM user WHERE email = #{email}
+	</select>
+
+	<select id="userinfo" resultType="userdto">
+		SELECT * 
+			FROM user
+		WHERE id = #{id}
+	</select>
+
+	<update id="updateUser">
+		/*회원 정보 업데이트*/
+		UPDATE user SET
+		<if test="!name.equals('') and name != null">
+			name = #{name},
+		</if>
+		<if test="!password.equals('') and password != null">
+			password = #{password}
+		</if>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteUser">
+		/*회원 탈퇴*/
+		DELETE 
+			FROM user
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectUserList" parameterType="int" resultType="userdto">
+		/*회원 리스트 조회*/
+		SELECT *
+			FROM user
+		ORDER BY id DESC
+		LIMIT #{limit},10
+	</select>
+
+	<select id="totalUser" resultType="int">
+		/*회원 리스트 총갯수*/
+		SELECT COUNT(*)
+			FROM user
+	</select>
+	
+	<select id="keywordtotalUser" resultType="int">
+		/*회원 리스트 총갯수*/
+		SELECT COUNT(*)
+			FROM user
+		WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%')
+	</select>
+
+	<select id="selectUserKeywordList" parameterType="HashMap"  resultType="userdto">
+		/*회원 리스트 조회 - 검색어*/
+		SELECT *
+		FROM USER
+		<if test="!keyword.equals('') and keyword != null">
+			WHERE EMAIL LIKE CONCAT('%', #{keyword} ,'%')
+		</if>
+		ORDER BY ID DESC
+		LIMIT #{limit},10
+	</select>
+
+	<select id="countByMale" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE gender = 'male'
+	</select>
+	<select id="countByFemale" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE gender = 'female'
+	</select>
+	<select id="countByGoogle" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE social_type = 'GOOGLE'
+	</select>
+	<select id="countByNaver" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE social_type = 'NAVER'
+	</select>
+	<select id="countByKakao" resultType="java.lang.Long">
+		SELECT COUNT(*)
+		FROM user
+		WHERE social_type = 'KAKAO'
+	</select>
+
+</mapper>
