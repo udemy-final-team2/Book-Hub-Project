@@ -1,9 +1,12 @@
 package com.example.BookHub.Folder;
 
 import com.example.BookHub.Docs.DocsDTO;
+import com.example.BookHub.Security.OAuth2.CustomOAuth2UserService;
 import com.example.BookHub.User.UserDTO;
+import com.example.BookHub.User.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +22,26 @@ import static com.example.BookHub.Util.SessionConst.LOGIN_USER;
 public class FolderController {
 
     private final FolderService folderService;
+    private final UserService userService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     // 폴더 생성
     @PostMapping("/folder/create")
-    public String createFolder(HttpSession session, @RequestParam String name) {
-        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+    public String createFolder(HttpSession session, Authentication authentication, @RequestParam String name) {
+
+        UserDTO userDto;
+        Long userId;
+        if (authentication != null) {
+            String socialId = customOAuth2UserService.getUserId(authentication);
+            userDto = userService.findBySocialId(socialId);
+            userId = userDto.getId();
+        } else {
+            userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+        }
         FolderDTO dto = FolderDTO.builder()
-                .userId(userId)
-                .name(name)
-                .build();
+         .userId(userId)
+         .name(name)
+         .build();
         folderService.createFolder(dto);
         return "redirect:/folder/list";
     }
@@ -42,16 +56,32 @@ public class FolderController {
 
     // 폴더 이름 수정
     @PostMapping("/folder/update/{folderId}")
-    public String updateFolderName(HttpSession session, @PathVariable Long folderId, String name) {
-        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+    public String updateFolderName(HttpSession session, Authentication authentication, @PathVariable Long folderId, String name) {
+        UserDTO userDto;
+        Long userId;
+        if (authentication != null) {
+            String socialId = customOAuth2UserService.getUserId(authentication);
+            userDto = userService.findBySocialId(socialId);
+            userId = userDto.getId();
+        } else {
+            userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+        }
         folderService.updateFolderName(userId, folderId, name);
         return "redirect:/folder/list";
     }
 
     // 폴더 목록 조회
     @GetMapping("/folder/list")
-    public String readFolderList(HttpSession session, Model model) {
-        Long userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+    public String readFolderList(HttpSession session, Authentication authentication, Model model) {
+        UserDTO userDto;
+        Long userId;
+        if (authentication != null) {
+            String socialId = customOAuth2UserService.getUserId(authentication);
+            userDto = userService.findBySocialId(socialId);
+            userId = userDto.getId();
+        } else {
+            userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+        };
         List<FolderDTO> folderList = folderService.readFolderList(userId);
         model.addAttribute("folderList", folderList);
         return "document";
