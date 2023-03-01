@@ -5,10 +5,7 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-# properties
-application-*.properties
-application-*.yml
-application.yml
+
 ### Eclipse ###
 .metadata
 bin/
@@ -23,8 +20,6 @@ local.properties
 .recommenders
 
 # User-specific stuff
-.jar
-gradle/wrapper/**
 .idea/**
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -63,7 +58,6 @@ gradle/wrapper/**
  .idea/modules
  *.iml
  *.ipr
-gradlew
 gradlew.bat
 settings.gradle
 # CMake
