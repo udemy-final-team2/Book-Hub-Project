@@ -69,7 +69,7 @@
 								userName = auth.getName();
 							} else if (session != null){
 								userName = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
-							}%>
+							} %>
 						<%= userName %>
 	                </button>
 	                <ul class="dropdown-menu">
@@ -105,7 +105,7 @@
 	                    <span class="side" onclick="location.href='/post/insert'">문의글작성</span>
 	                </li>
 	                <li class="folder-name">
-	                    <span class="side">자주묻는질문</span>
+	                    <span class="side" onclick="location.href='/post/qna'">자주묻는질문</span>
 	                </li>
 	            </ul>
             </c:if>
@@ -136,7 +136,7 @@
 	                        작성자 , 날짜
 	                    </label>
 	                    <div class="col-sm-4">
-	                        <input type="text" id="writer" class="form-control"  value="${name}" readonly="readonly">
+	                        <input type="text" id="writer" class="form-control"  value="${postdto.name}" readonly="readonly">
 	                    </div>
 	                    <div class="col-sm-4">
 	                        <input type="text" id="date"  class="form-control" value="${postdto.createdAt}" readonly="readonly">

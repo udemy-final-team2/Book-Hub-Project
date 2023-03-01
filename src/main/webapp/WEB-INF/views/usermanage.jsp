@@ -54,6 +54,35 @@
 	text-decoration: none;
 	color: black;
 }
+
+#page-line{
+	text-decoration: none;
+	color: black;
+	margin: 3px;
+}
+
+.btn-outline {
+   --bs-btn-color: #212529;
+   --bs-btn-border-color: #212529;
+   --bs-btn-hover-color: #fff;
+
+   --bs-btn-hover-border-color: #212529;
+   --bs-btn-focus-shadow-rgb: 33,37,41;
+   --bs-btn-active-color: #fff;
+   --bs-btn-active-bg: #212529;
+   --bs-btn-active-border-color: #212529;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+   --bs-btn-disabled-color: #212529;
+   --bs-btn-disabled-bg: transparent;
+   --bs-btn-disabled-border-color: #212529;
+   --bs-gradient: none;
+   }
+   
+   .page-position{
+   display: flex;
+   justify-content: center;
+   
+   }
 </style>
 </head>
 <body>
@@ -133,7 +162,8 @@
                     </c:choose>
                     </tbody>
                 </table>
-               </form>
+               	</form>
+                <div class="page-position">
 				<%
 				int totalcount = (Integer) request.getAttribute("totalUser");
 							int totalpage = 0;
@@ -144,11 +174,12 @@
 							}
 							for (int i = 1; i <= totalpage; i++) {
 				%>
-				<a href="usermanage?page=<%=i%>"><%=i%>페이지</a>
+				<a href="usermanage?page=<%=i%>" id="page-line" class="btn btn-outline"><%=i%></a>
 				<%
 				}
 				%>
 				</div>
+			</div>
         </div>
     </div>
 </div>

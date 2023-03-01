@@ -79,7 +79,7 @@
 	                    <span class="side" onclick="location.href='/post/insert'">문의글작성</span>
 	                </li>
 	                <li class="folder-name">
-	                    <span class="side">자주묻는질문</span>
+	                    <span class="side" onclick="location.href='/post/qna'">자주묻는질문</span>
 	                    
 	                </li>
 	            </ul>

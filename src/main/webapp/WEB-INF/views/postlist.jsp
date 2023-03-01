@@ -19,7 +19,7 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <style type="text/css">
-	.side {
+.side {
 	    font-size: 20px;
 	    width: 95%;
 	    height: 49px;
@@ -40,7 +40,36 @@
 	#title{
 		text-decoration: none;
 		color: black;
+		
 	}
+	#page-line{
+		text-decoration: none;
+		color: black;
+		margin: 3px;
+	}
+	
+	.btn-outline {
+    --bs-btn-color: #212529;
+    --bs-btn-border-color: #212529;
+    --bs-btn-hover-color: #fff;
+
+    --bs-btn-hover-border-color: #212529;
+    --bs-btn-focus-shadow-rgb: 33,37,41;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #212529;
+    --bs-btn-active-border-color: #212529;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #212529;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #212529;
+    --bs-gradient: none;
+    }
+    
+    .page-position{
+    display: flex;
+    justify-content: center;
+    
+    }
 </style>
 <script type="text/javaScript">
 	$(document).ready(function(){
@@ -107,7 +136,7 @@
 	                    <span class="side" onclick="location.href='/post/insert'">문의글작성</span>
 	                </li>
 	                <li class="folder-name">
-	                    <span class="side">자주묻는질문</span>
+	                    <span class="side" onclick="location.href='/post/qna'">자주묻는질문</span>
 	                </li>
 	            </ul>
             </c:if>
@@ -153,6 +182,7 @@
 					</tbody>
                 </table>
                 </form>
+                <div class="page-position">
                 <%
 				int totalcount = (Integer) request.getAttribute("totalPost");
 							int totalpage = 0;
@@ -163,10 +193,11 @@
 							}
 							for (int i = 1; i <= totalpage; i++) {
 				%>
-				<a href="postlist?page=<%=i%>"><%=i%>페이지</a>
+				<a href="postlist?page=<%=i%>" id="page-line" class="btn btn-outline" ><%=i%></a>
 				<%
 				}
 				%>
+				</div>
 			</div>
         </div>
     </div>

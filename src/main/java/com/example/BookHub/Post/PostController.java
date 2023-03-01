@@ -2,17 +2,11 @@ package com.example.BookHub.Post;
 
 import static com.example.BookHub.Util.SessionConst.LOGIN_USER;
 
-import java.io.Console;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-
-import com.example.BookHub.Security.OAuth2.CustomOAuth2UserService;
-import com.example.BookHub.User.UserRepository;
-import com.example.BookHub.User.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,28 +22,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PostController {
 	private final PostService postService;
-	private final CustomOAuth2UserService customOAuth2UserService;
-	private final UserService userService;
 
 	@GetMapping("/postlist")
 	public ModelAndView postlist(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			HttpSession session, Authentication authentication, @RequestParam(value = "keyword", required = false) String keyword) {
+			HttpSession session, @RequestParam(value = "keyword", required = false) String keyword) {
 		// 문의 - 게시글리스트
-		UserDTO userDto;
-		Long userId;
-		String name;
-		String role;
-		if (authentication != null) {
-			String socialId = customOAuth2UserService.getUserId(authentication);
-			userDto = userService.findBySocialId(socialId);
-			userId = userDto.getId();
-			role = String.valueOf(userDto.getRole());
-			name = userDto.getName();
-		} else {
-			userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
-			name = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
-			role = ((UserDTO) session.getAttribute(LOGIN_USER)).getRole().toString();
-		};
+		long id = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
+		String name = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
+		String role = ((UserDTO) session.getAttribute(LOGIN_USER)).getRole().toString();
 		List<PostDTO> postList = null;
 
 		int totalPost = 0;
@@ -57,22 +37,30 @@ public class PostController {
 		Map<String, Object> map = new HashMap<>();
 
 		if (keyword != null) {
+			//검색어가 있는경우
 			totalPost = postService.totalPost(keyword);
-
-			if (role.equals("ADMIN")) {
+			if (((UserDTO) session.getAttribute(LOGIN_USER)).getRole().toString().equals("ADMIN")) {
 				map.put("keyword", keyword);
 				map.put("limit", limit);
 				postList = postService.postList(map);
-
 			} else {
-				map.put("id", userId);
+				map.put("id", id);
 				map.put("limit", limit);
 				map.put("keyword", keyword);
-				postList = postService.userpostList(map);
+				postList = postService.userpostkeywordList(map);
 			}
 		} else {
+			//검색어가 없는경우
 			totalPost = postService.totalPost();
-			postList = postService.postLimitList(limit);
+			if(((UserDTO) session.getAttribute(LOGIN_USER)).getRole().toString().equals("ADMIN")) {
+				//관리자
+				postList = postService.postLimitList(limit);
+			}else {
+				//유저
+				map.put("id", id);
+				map.put("limit", limit);
+				postList = postService.userpostList(map);
+			}
 		}
 
 		ModelAndView mv = new ModelAndView();
@@ -86,13 +74,9 @@ public class PostController {
 	}
 	
 	@GetMapping("/post/{id}")
-	public ModelAndView selectpost(HttpSession session, Authentication authentication, @PathVariable Long id) {
-		String role;
-		if (authentication != null) {
-			role = String.valueOf(authentication.getAuthorities());
-		} else {
-			role = ((UserDTO) session.getAttribute(LOGIN_USER)).getRole().toString();
-		}
+	public ModelAndView selectpost(HttpSession session, @PathVariable Long id) {
+		// 문의 - 상세글
+		String role = ((UserDTO) session.getAttribute(LOGIN_USER)).getRole().toString();
 		PostDTO postdto= postService.selectpost(id);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("postdto", postdto);
@@ -121,4 +105,11 @@ public class PostController {
 		postService.insertComment(commentdto);
 		return "redirect:/postlist";
 	}
+	
+	@GetMapping("/post/qna")
+	public String postqna() {
+		//문의글작성 페이지이동
+		return "postqna";
+	}
+	
 }
