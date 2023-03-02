@@ -75,10 +75,28 @@
 		(select name from user u where u.id = p.user_id) name
 		from post p
 		where user_id =#{id}
+		order by id desc
+		limit #{limit},10
+	</select>
+	
+	<select id="userpostkeywordList" parameterType="HashMap" resultType="postdto">
+		/*문의리스트 조회 - 유저*/
+		select id,
+		user_id, title, category, content,
+		(
+		case status
+		when 1 then '처리중'
+		when 2 then '처리완료'
+		end
+		) as status,
+		(select name from user u where u.id = p.user_id) name
+		from post p
+		where user_id =#{id}
 			and title like concat('%', #{keyword} ,'%')
 		order by id desc
 		limit #{limit},10
 	</select>
+	
 	<select id="postLimitList" parameterType="HashMap" resultType="postdto">
 		/*문의리스트 조회 - 키워드 x */
 		select id,
@@ -94,6 +112,4 @@
 		order by id desc
 		limit #{limit},10
 	</select>
-	
-
 </mapper>
