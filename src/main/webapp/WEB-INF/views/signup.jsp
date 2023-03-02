@@ -88,7 +88,6 @@
                 <button id="button" class="btn btn-primary" disabled>
                     회원가입
                 </button>
-                <input type="submit" id="button" class="btn btn-primary">
                 <input type="hidden" name="role" value="USER">
             </form>
             <div class="redirect">
