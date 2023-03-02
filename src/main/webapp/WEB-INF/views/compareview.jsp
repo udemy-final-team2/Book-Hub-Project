@@ -81,12 +81,12 @@
                             console.log(deletedText);
                             console.log(el1);
                             if (el1[j].innerText.includes(deletedText)) {
-                                el1[j].style.backgroundColor = "red";
+                                el1[j].style.backgroundColor = "#FFA3CDFF";
                             }
                         }
                         for (let j = 0; j < el2.length; j++) {
                              if(el2[j].innerHTML === deletedText) {
-                                el2[j].style.backgroundColor = "red";
+                                el2[j].style.backgroundColor = "#FFA3CDFF";
                             }
                         }
                         break;
