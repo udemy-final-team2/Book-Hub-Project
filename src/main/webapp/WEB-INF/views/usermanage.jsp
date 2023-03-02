@@ -8,12 +8,13 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>북허브 - 문서</title>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
-<link href="css/index.css" rel="stylesheet" type="text/css">
-<link href="css/docs.css" rel="stylesheet" type="text/css">
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<link href="/css/index.css" rel="stylesheet" type="text/css">
+<link href="/css/docs.css" rel="stylesheet" type="text/css">
+
 <script type="text/javaScript">
 	$(document).ready(function() {
 		$("#search").keyup(function(event) {
@@ -53,7 +54,40 @@
 #withdraw {
 	text-decoration: none;
 	color: black;
+	
 }
+#with-btn{
+	padding: 0.2rem 0.2rem;
+}
+
+#page-line{
+	text-decoration: none;
+	color: black;
+	margin: 3px;
+}
+
+.btn-outline {
+   --bs-btn-color: #212529;
+   --bs-btn-border-color: #212529;
+   --bs-btn-hover-color: #fff;
+
+   --bs-btn-hover-border-color: #212529;
+   --bs-btn-focus-shadow-rgb: 33,37,41;
+   --bs-btn-active-color: #fff;
+   --bs-btn-active-bg: #212529;
+   --bs-btn-active-border-color: #212529;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+   --bs-btn-disabled-color: #212529;
+   --bs-btn-disabled-bg: transparent;
+   --bs-btn-disabled-border-color: #212529;
+   --bs-gradient: none;
+   }
+   
+   .page-position{
+   display: flex;
+   justify-content: center;
+   
+   }
 </style>
 </head>
 <body>
@@ -126,14 +160,15 @@
 							<td>${userList.email}</td>
 							<td>${userList.name}</td>
 							<td>${userList.socialType}</td>
-							<td><button class="btn btn-outline-dark"><a href="/user/withdraw/${userList.id}" id="withdraw">탈퇴</a></button></td>
+							<td><button class="btn btn-outline" id="with-btn"><a href="/user/withdraw/${userList.id}" id="withdraw">탈퇴</a></button></td>
 						</tr>
                     </c:forEach>
                     </c:otherwise>
                     </c:choose>
                     </tbody>
                 </table>
-               </form>
+               	</form>
+                <div class="page-position">
 				<%
 				int totalcount = (Integer) request.getAttribute("totalUser");
 							int totalpage = 0;
@@ -144,11 +179,12 @@
 							}
 							for (int i = 1; i <= totalpage; i++) {
 				%>
-				<a href="usermanage?page=<%=i%>"><%=i%>페이지</a>
+				<a href="usermanage?page=<%=i%>" id="page-line" class="btn btn-outline"><%=i%></a>
 				<%
 				}
 				%>
 				</div>
+			</div>
         </div>
     </div>
 </div>

@@ -27,7 +27,6 @@ public class UserService {
 	public int updateUser(UserDTO dto) {
 		return userRepository.updateUser(dto);
 	}
-	
 	public int deleteUser(Long id) {
 		return userRepository.deleteUser(id);
 	}
@@ -39,15 +38,11 @@ public class UserService {
 		return userRepository.selectUserList(limit);
 	}
 	public int totalUser() {
-		System.out.println(userRepository.totalUser());
 		return userRepository.totalUser();
 	}
-	
 	public int totalUser(String keyword) {
 		return userRepository.keywordtotalUser(keyword);
 	}
-
-
 	public Long countByMale() {
 		return userRepository.countByMale();
 	}
