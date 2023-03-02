@@ -60,6 +60,7 @@
     </div>
   </div>
 
+  <input type="hidden" value="${folderId}" id="folderId">
   <div class="editorContainer">
     <textarea id="editor"></textarea>
     <textarea id="spellCheckResult" disabled></textarea>
