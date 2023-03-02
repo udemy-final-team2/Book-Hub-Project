@@ -23,24 +23,13 @@
         </div>
         <div class="left">
             <div class="menuName">
-                <span class="menu"><a class="link" href="/guest/qna">문의하기</a></span>
+                <span class="menu"><a class="link" href="#">문의하기</a></span>
             </div>
-            <c:if test="${not empty sessionScope.get(SessionConst.LOGIN_USER)}">
             <div class="menuName">
-                <span class="menu"><a class="link" href="/mypage">마이페이지</a></span>
+                <span class="menu"><a class="link" href="/signin">로그인</a></span>
             </div>
-            </c:if>
-            <div class="menuName">
-                <c:if test="${not empty sessionScope.get(SessionConst.LOGIN_USER)}">
-                    <span class="menu"><a class="link" href="/logout">로그아웃</a></span>
-                </c:if>
-                <c:if test="${empty sessionScope.get(SessionConst.LOGIN_USER)}">
-                    <span class="menu"><a class="link" href="/signin">로그인</a></span>
-                </c:if>
-            </div>
-            
             <button class="button">
-                <a class="link" href="/folder/list">무료체험</a>
+                <a class="link" href="#">무료체험</a>
             </button>
         </div>
     </div>
