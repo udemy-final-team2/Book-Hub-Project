@@ -67,6 +67,10 @@ function closeDeleteModal() {
     document.getElementById("delete-modal").style.display="none";
 }
 
+function closeFolderDeleteModal() {
+    document.getElementById("folder-delete-modal").style.display="none";
+}
+
 function openCreateModal() {
     document.getElementById("create-modal").style.display="block";
 }
