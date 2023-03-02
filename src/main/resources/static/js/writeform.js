@@ -4,6 +4,7 @@ tinymce.init({
     width: '70%'
 });
 
+
 function printEditorContent() {
     let editorContent = tinymce.activeEditor.getContent();
 
