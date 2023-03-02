@@ -70,10 +70,12 @@
 	                        aria-expanded="false">
 						<% Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 							String userName = null;
+							Long userId=0L;
 							if (auth != null && !auth.getName().equals("anonymousUser")) {
 								userName = auth.getName();
 							} else if (session != null){
 								userName = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
+								userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
 							}%>
 						<%= userName %>
 	                </button>
@@ -106,7 +108,7 @@
 <!-- 	      </div> -->
 	    <div class="main">
 	        <div class="formContainer insertform">
-	       		 <form action="/post/insert/<%= ((UserDTO)(session.getAttribute(LOGIN_USER))).getId()%>" method="post">
+	       		 <form action="/post/insert/<%= userId%>" method="post">
 	                <div class="row mb-3">
 	                    <h4 class="header">문 의 글 작 성</h4>
 	                    <hr/>
@@ -132,7 +134,7 @@
 	                    </div>
 	                </div>
 				<input type="submit" id="button" class="btn btn-primary" value="글작성">
-				<input type="hidden" name="userid" value="<%= ((UserDTO)(session.getAttribute(LOGIN_USER))).getId()%>">
+				<input type="hidden" name="userid" value="<%= userId%>">
 				<input type="reset"  class="btn btn-primary" id ="reset" value="취소"> 
 	            </form>
 	        </div>
