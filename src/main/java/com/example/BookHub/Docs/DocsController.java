@@ -26,8 +26,9 @@ public class DocsController {
     }
 
     // 문서 작성
+    @ResponseBody
     @PostMapping("/document/write")
-    public String writeDocument(@RequestParam Long folderId,
+    public void writeDocument(@RequestParam Long folderId,
                                 @RequestParam String editorContent,
                                 @RequestParam String title,
                                 @RequestParam String memo) throws IOException {
@@ -38,8 +39,7 @@ public class DocsController {
                 .memo(memo)
                 .s3Key(s3Key)
                 .build();
-        docsService.writeDocument(dto);
-        return "redirect:/document/write";
+        docsService.writeDocument(dto);;
     }
 
     // 문서 단건 조회

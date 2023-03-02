@@ -44,6 +44,7 @@ function saveEditorContent() {
             }
         });
         modal.style.display = "none";
+        location.href="/folder/list";
     }
 
     let closeButton = document.getElementById("close-button");

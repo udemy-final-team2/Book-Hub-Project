@@ -128,6 +128,7 @@
           console.error(error);
         }
       });
+      location.href="/folder/list";
       modal.style.display = "none";
     }
 
