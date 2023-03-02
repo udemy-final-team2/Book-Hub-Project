@@ -31,7 +31,7 @@ public class FolderController {
 
         UserDTO userDto;
         Long userId;
-        if (authentication != null) {
+        if (authentication != null && !authentication.getName().equals("anonymousUser")) {
             String socialId = customOAuth2UserService.getUserId(authentication);
             userDto = userService.findBySocialId(socialId);
             userId = userDto.getId();
@@ -59,7 +59,7 @@ public class FolderController {
     public String updateFolderName(HttpSession session, Authentication authentication, @PathVariable Long folderId, String name) {
         UserDTO userDto;
         Long userId;
-        if (authentication != null) {
+        if (authentication != null && !authentication.getName().equals("anonymousUser")) {
             String socialId = customOAuth2UserService.getUserId(authentication);
             userDto = userService.findBySocialId(socialId);
             userId = userDto.getId();
@@ -75,7 +75,7 @@ public class FolderController {
     public String readFolderList(HttpSession session, Authentication authentication, Model model) {
         UserDTO userDto;
         Long userId;
-        if (authentication != null) {
+        if (authentication != null && !authentication.getName().equals("anonymousUser")) {
             String socialId = customOAuth2UserService.getUserId(authentication);
             userDto = userService.findBySocialId(socialId);
             userId = userDto.getId();

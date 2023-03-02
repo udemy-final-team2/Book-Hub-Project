@@ -50,7 +50,7 @@ public class UserController {
 				session.setAttribute(LOGIN_USER, dto);
 			}
 		}
-		if(dto != null && dto.getRole().equals(Role.ADMIN)) {
+		if(dto != null && dto.getRole().toString().equals("ADMIN")) {
 			view = "redirect:/usermanage";
 			log.info("관리자페이지이동");
 		}else {
@@ -76,7 +76,7 @@ public class UserController {
     @GetMapping("/mypage")
     public ModelAndView myPage(HttpSession session, Authentication authentication) {
         UserDTO dto;
-        if (authentication != null) {
+        if (authentication != null && !authentication.getName().equals("anonymousUser")) {
             String socialId = customOAuth2UserService.getUserId(authentication);
             dto = userservice.findBySocialId(socialId);
         } else {
