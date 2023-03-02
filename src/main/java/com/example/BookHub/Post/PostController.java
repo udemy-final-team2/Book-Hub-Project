@@ -50,8 +50,8 @@ public class PostController {
 			name = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
 			role = ((UserDTO) session.getAttribute(LOGIN_USER)).getRole().toString();
 		};
+		
 		List<PostDTO> postList = null;
-
 		int totalPost = 0;
 		int limit = (page - 1) * 10;
 		Map<String, Object> map = new HashMap<>();
@@ -68,11 +68,20 @@ public class PostController {
 				map.put("id", userId);
 				map.put("limit", limit);
 				map.put("keyword", keyword);
-				postList = postService.userpostList(map);
+				postList = postService.userpostkeywordList(map);
 			}
 		} else {
+			//검색어가 없는경우
 			totalPost = postService.totalPost();
-			postList = postService.postLimitList(limit);
+			if(role.equals("ADMIN")) {
+				//관리자
+				postList = postService.postLimitList(limit);
+			}else {
+				//유저
+				map.put("id", userId);
+				map.put("limit", limit);
+				postList = postService.userpostList(map);
+			}
 		}
 
 		ModelAndView mv = new ModelAndView();
@@ -120,5 +129,11 @@ public class PostController {
 		//코멘트 작성
 		postService.insertComment(commentdto);
 		return "redirect:/postlist";
+	}
+	
+	@GetMapping("/post/qna")
+	public String postqna() {
+		//문의글작성 페이지이동
+		return "postqna";
 	}
 }
