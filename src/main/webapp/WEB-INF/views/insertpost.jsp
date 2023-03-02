@@ -81,7 +81,7 @@
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
-	                    <li><a class="dropdown-item" href="/folderList">내 문서</a></li>
+	                    <li><a class="dropdown-item" href="/folder/list">내 문서</a></li>
 	                    <li><a class="dropdown-item" href="/postlist">내 문의</a></li>
 	                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 	                </ul>
