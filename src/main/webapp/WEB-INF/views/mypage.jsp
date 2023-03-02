@@ -85,7 +85,7 @@
 	        </div>
 	    <div class="main">
 	        <div class="formContainer">
-	       		 <form action="updateuser" method="post" id="mypageform">
+	       		 <form action="user/updateuser" method="post" id="mypageform">
 	                <div class="row mb-3">
 	                    <h4 class="header">내 정보</h4>
 	                    <hr/>

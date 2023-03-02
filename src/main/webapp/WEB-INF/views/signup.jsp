@@ -54,7 +54,7 @@
     <div class="main">
         <div class="formContainer">
             <form action="signupuser" method="post">
-            <div class="row mb-3">
+                <div class="row mb-3">
                     <h4 class="header">회원가입</h4>
                     <hr/>
                     <label for="email" class="col-sm-4 col-form-label">
@@ -62,7 +62,7 @@
                     </label>
                     <div class="col-sm-8">
                         <input type="email" id="email" value="${email}" oninput='validateForm()'
-                               class="form-control" placeholder="이메일을 입력하세요.">
+                               class="form-control" placeholder="이메일을 입력하세요." name="email">
                         <span id="mailError" style="color: red;">${mailError}</span>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     </label>
                     <div class="col-sm-8">
                         <input type="password" id="password" class="form-control"
-                               placeholder="패스워드를 입력하세요." oninput='validateForm()'>
+                               placeholder="패스워드를 입력하세요." oninput='validateForm()' name="password">
                         <span id="pwError" style="color: red;">${pwError}</span>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                         닉네임
                     </label>
                     <div class="col-sm-8">
-                        <input type="text" id="inputNickname" class="form-control" placeholder="닉네임을 입력하세요."></input>
+                        <input type="text" id="inputNickname" class="form-control" name="name" placeholder="닉네임을 입력하세요."></input>
                     </div>
                 </div>
                 <p><a href="/signin">이미 계정이 있으신가요?</a></p>
@@ -89,14 +89,13 @@
                     회원가입
                 </button>
                 <input type="submit" id="button" class="btn btn-primary">
-                <input type="hidden" name="role" value="사용자">
-                <input type="hidden" name="socialName" value="일반">
+                <input type="hidden" name="role" value="USER">
             </form>
             <div class="redirect">
                 <div class="returnText"><a href="/" class="link"><p>로그인 화면으로</p><span class="material-symbols-outlined">west</span></a></p>
+                </div>
             </div>
         </div>
-    </div>
 </body>
 </html>
 `

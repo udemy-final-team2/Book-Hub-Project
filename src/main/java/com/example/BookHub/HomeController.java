@@ -12,27 +12,12 @@ import javax.servlet.http.HttpSession;
 public class HomeController {
 
     @GetMapping("/")
-    public String Home(HttpSession httpSession, Authentication authentication) {
-        if (httpSession != null || (authentication != null && !authentication.getName().equals("anoymousUser"))) {
-            return "redirect:/folder/list";
-        }
-        return "home";
-    }
+    public String Home() {return "home";}
 
     @GetMapping("/signin")
-    public String signIn(HttpSession httpSession, Authentication authentication) {
-        if (httpSession != null || (authentication != null && !authentication.getName().equals("anoymousUser"))) {
-            return "redirect:/folder/list";
-        }
-        return "signin";
-    }
+    public String signIn() {return "signin";}
 
     @GetMapping("/signup")
-    public String signUp(HttpSession httpSession, Authentication authentication) {
-        if (httpSession != null || (authentication != null && !authentication.getName().equals("anoymousUser"))) {
-            return "redirect:/folder/list";
-        }
-        return "signup";
-    }
+    public String signUp() {return "signup";}
 
 }
