@@ -10,9 +10,6 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-bootWar.enabled = false
-war.enabled = true
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
