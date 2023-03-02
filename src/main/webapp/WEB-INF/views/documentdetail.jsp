@@ -59,6 +59,7 @@
     </div>
   </div>
 
+  <input type="hidden" value="${document.folderId}" id="folderId">
   <div class="editorContainer">
     <textarea id="editor">
         ${htmlContent}
@@ -109,21 +110,25 @@
     saveButton.onclick = function() {
       let title = document.getElementById("modal-title").value;
       let memo = document.getElementById("modal-memo").value;
+      let folderId = document.getElementById("folderId").value;
       $.ajax({
         type: "POST",
-        url: "/save",
+        url: "/document/write",
         data: {
+          folderId: folderId,
           editorContent: editorContent,
           title: title,
           memo: memo
         },
         success: function(response) {
           console.log(response);
+          window.location.href = '/folder/list';
         },
         error: function(xhr, status, error) {
           console.error(error);
         }
       });
+      location.href="/folder/list";
       modal.style.display = "none";
     }
 

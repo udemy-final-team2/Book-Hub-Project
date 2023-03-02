@@ -34,14 +34,14 @@
             <div class="dropdown">
                 <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                    <%
-                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                    if (auth != null && auth.isAuthenticated()) {
-                        auth.getName();
-                    } else {
-                        ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
-                    }
-                    %>
+                    <% Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                        String userName = null;
+                        if (auth != null && !auth.getName().equals("anonymousUser")) {
+                            userName = auth.getName();
+                        } else if (session != null){
+                            userName = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
+                        }%>
+                    <%= userName %>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="${pageContext.request.contextPath}/mypage">내 정보</a></li>
@@ -81,12 +81,12 @@
                             console.log(deletedText);
                             console.log(el1);
                             if (el1[j].innerText.includes(deletedText)) {
-                                el1[j].style.backgroundColor = "red";
+                                el1[j].style.backgroundColor = "#FFA3CDFF";
                             }
                         }
                         for (let j = 0; j < el2.length; j++) {
                              if(el2[j].innerHTML === deletedText) {
-                                el2[j].style.backgroundColor = "red";
+                                el2[j].style.backgroundColor = "#FFA3CDFF";
                             }
                         }
                         break;

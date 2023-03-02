@@ -66,7 +66,7 @@
                   ${folder.name}
               </p>
               <p>
-                <span class="material-symbols-outlined folder-edit-btn" onclick="editFolderTitle(this)">edit</span>
+                <span class="material-symbols-outlined folder-edit-btn">edit</span>
                 <span class="material-symbols-outlined folder-del-btn">delete</span>
               </p>
               <div id="folder-delete-modal" class="modal">
@@ -253,7 +253,8 @@
     });
 
     $('#write-form').on('click', function () {
-      window.location.href = '/document/write';
+      let folderId = $('input[id="folder-hidden"]').val();
+      window.location.href = '/document/write?folderId=' + folderId;
     });
 
     $('#docsList').on('change', '.document-checkbox', function() {

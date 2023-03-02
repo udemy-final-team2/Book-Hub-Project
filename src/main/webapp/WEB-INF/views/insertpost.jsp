@@ -70,16 +70,18 @@
 	                        aria-expanded="false">
 						<% Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 							String userName = null;
+							Long userId=0L;
 							if (auth != null && !auth.getName().equals("anonymousUser")) {
 								userName = auth.getName();
 							} else if (session != null){
 								userName = ((UserDTO) session.getAttribute(LOGIN_USER)).getName();
+								userId = ((UserDTO) session.getAttribute(LOGIN_USER)).getId();
 							}%>
 						<%= userName %>
 	                </button>
 	                <ul class="dropdown-menu">
 	                    <li><a class="dropdown-item" href="/mypage">내 정보</a></li>
-	                    <li><a class="dropdown-item" href="/folderList">내 문서</a></li>
+	                    <li><a class="dropdown-item" href="/folder/list">내 문서</a></li>
 	                    <li><a class="dropdown-item" href="/postlist">내 문의</a></li>
 	                    <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
 	                </ul>
@@ -99,14 +101,14 @@
 	                    <span class="side" onclick="location.href='/post/insert'">문의글작성</span>
 	                </li>
 	                <li class="folder-name">
-	                    <span class="side">자주묻는질문</span>
+	                    <span class="side" onclick="location.href='/post/qna'">자주묻는질문</span>
 	                </li>
 	            </ul>
 	        </div>
 <!-- 	      </div> -->
 	    <div class="main">
 	        <div class="formContainer insertform">
-	       		 <form action="/post/insert/<%= ((UserDTO)(session.getAttribute(LOGIN_USER))).getId()%>" method="post">
+	       		 <form action="/post/insert/<%= userId%>" method="post">
 	                <div class="row mb-3">
 	                    <h4 class="header">문 의 글 작 성</h4>
 	                    <hr/>
@@ -132,14 +134,14 @@
 	                    </div>
 	                </div>
 				<input type="submit" id="button" class="btn btn-primary" value="글작성">
-				<input type="hidden" name="userid" value="<%= ((UserDTO)(session.getAttribute(LOGIN_USER))).getId()%>">
+				<input type="hidden" name="userid" value="<%= userId%>">
 				<input type="reset"  class="btn btn-primary" id ="reset" value="취소"> 
 	            </form>
 	        </div>
    		</div>
    </div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-			crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
 </body>
 </html>

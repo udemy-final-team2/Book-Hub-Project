@@ -20,18 +20,26 @@ public class DocsController {
 
     // 문서 작성폼
     @GetMapping("/document/write")
-    public String writeDocument() {
+    public String writeDocument(@RequestParam Long folderId, Model model) {
+        model.addAttribute("folderId", folderId);
         return "writeform";
     }
 
     // 문서 작성
+    @ResponseBody
     @PostMapping("/document/write")
-    public String writeDocument(@ModelAttribute DocsDTO dto,
-                                MultipartFile file) throws IOException {
-        String s3Key = s3Service.upload(file);
-        dto.setS3Key(s3Key);
-        docsService.writeDocument(dto);
-        return "redirect:/document/write";
+    public void writeDocument(@RequestParam Long folderId,
+                                @RequestParam String editorContent,
+                                @RequestParam String title,
+                                @RequestParam String memo) throws IOException {
+        String s3Key = s3Service.upload(editorContent, title);
+        DocsDTO dto = DocsDTO.builder()
+                .folderId(folderId)
+                .title(title)
+                .memo(memo)
+                .s3Key(s3Key)
+                .build();
+        docsService.writeDocument(dto);;
     }
 
     // 문서 단건 조회
