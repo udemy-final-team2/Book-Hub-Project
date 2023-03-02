@@ -28,34 +28,23 @@ public class S3Service {
 
     private final AmazonS3 s3;
 
-    public String upload(MultipartFile multipartFile) throws IOException {
-        File uploadFile = convert(multipartFile)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 변환 실패"));
-        return upload(uploadFile);
-    }
+    public String upload(String editorContent, String fileName) throws IOException {
+        // HTML 파일로 저장
+        File htmlFile = new File(fileName + ".html");
+        FileWriter writer = new FileWriter(htmlFile);
+        writer.write(editorContent);
+        writer.close();
 
-    public String upload(File uploadFile) {
-        //removeNewFile(uploadFile);
-        return putS3(uploadFile, uploadFile.getName());
-    }
+        // S3에 업로드
+        String s3FileName = putS3(htmlFile, htmlFile.getName());
 
-    private void removeNewFile(File targetFile) {
-        if (targetFile.delete()) {
+        // HTML 파일 삭제
+        if (htmlFile.delete()) {
             log.info("파일을 S3에 정상적으로 업로드하고, 로컬에 복사된 파일은 삭제되었습니다.");
         } else {
-            log.info("로컬에 복사된 파일을 삭제하지 못했습니다.");
+            log.error("로컬에 복사된 파일을 삭제하지 못했습니다.");
         }
-    }
-
-    private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(file.getOriginalFilename());
-        if(convertFile.createNewFile()) {
-            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
-                fos.write(file.getBytes());
-            }
-            return Optional.of(convertFile);
-        }
-        return Optional.empty();
+        return s3FileName;
     }
 
     // S3로 파일 업로드
@@ -66,21 +55,21 @@ public class S3Service {
     }
 
     // S3로 파일 업로드를 위한 파일명 난수화(UUID)
-    public String createFileName(String fileName){
+    private String createFileName(String fileName){
         String timeStamp = String.valueOf(System.currentTimeMillis());
         return timeStamp + "_" + UUID.randomUUID() + "_" + fileName;
     }
 
     // S3에서 파일 삭제
-    public void removeS3File(String fileName) {
-        if (s3.doesObjectExist(bucket, fileName)) {
-            s3.deleteObject(new DeleteObjectRequest(bucket, fileName));
+    public void removeS3File(String key) {
+        if (s3.doesObjectExist(bucket, key)) {
+            s3.deleteObject(new DeleteObjectRequest(bucket, key));
         } else {
-            log.warn("File " + fileName + " does not exist in S3 bucket " + bucket);
+            log.warn(key + "에 해당하는 문서가 다음 버킷에 존재하지 않습니다.");
         }
     }
 
-    // 문서 비교
+    // 문서 조회
     public String readDocument(String key) {
         S3Object s3Object = s3.getObject(bucket, key);
         return new BufferedReader(

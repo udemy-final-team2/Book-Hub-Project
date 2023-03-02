@@ -26,10 +26,12 @@ function saveEditorContent() {
     saveButton.onclick = function() {
         let title = document.getElementById("modal-title").value;
         let memo = document.getElementById("modal-memo").value;
+        let folderId = document.getElementById("folderId").value;
         $.ajax({
             type: "POST",
-            url: "/save",
+            url: "/document/write",
             data: {
+                folderId: folderId,
                 editorContent: editorContent,
                 title: title,
                 memo: memo
